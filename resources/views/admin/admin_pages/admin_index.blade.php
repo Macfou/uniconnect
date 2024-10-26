@@ -11,12 +11,12 @@
                   </svg>
                 </div>
                 <div class="p-4 text-right">
-                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Todays Event</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">$53k</h4>
+                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Events</p>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">108</h4>
                 </div>
                 <div class="border-t border-blue-gray-50 p-4">
                   <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                    <strong class="text-green-500">+55%</strong>&nbsp;than last week
+                    <strong class="text-green-500">+4 </strong>&nbsp;than last week
                   </p>
                 </div>
               </div>
@@ -27,7 +27,7 @@
                   </svg>
                 </div>
                 <div class="p-4 text-right">
-                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Today's attendee</p>
+                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Users</p>
                   <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">2,300</h4>
                 </div>
                 <div class="border-t border-blue-gray-50 p-4">
@@ -43,7 +43,7 @@
                   </svg>
                 </div>
                 <div class="p-4 text-right">
-                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Available slots</p>
+                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Attendance</p>
                   <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">3,462</h4>
                 </div>
                 <div class="border-t border-blue-gray-50 p-4">
@@ -59,8 +59,8 @@
                   </svg>
                 </div>
                 <div class="p-4 text-right">
-                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Sales</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">$103,430</h4>
+                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Event Success rate</p>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">89%</h4>
                 </div>
                 <div class="border-t border-blue-gray-50 p-4">
                   <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">

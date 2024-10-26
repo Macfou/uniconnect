@@ -24,6 +24,8 @@ class ListingController extends Controller
         $today = Carbon::today();
 
         /////////////try
+
+        
         
         
         //////////////////////

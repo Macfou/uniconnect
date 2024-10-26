@@ -79,21 +79,26 @@
                         </div>
                         <div class="w-full md:w-1/2 px-10">
                             <div class="mb-10">
-                                <h1 class="font-bold uppercase text-2xl mb-5">{{$event->tags}}<br>{{$event->venue}}</h1>
-                                <p class="text-sm">{{$event->description}}</p>
+                                <h1 class="font-bold uppercase text-2xl mb-5">{{$event->tags}}</h1>
+                                <h2 class=" text-xl mb-5">Here at <strong>{{$event->venue}}</strong></h2>
+                                
                             </div>
                             <div>
-                                <div class="inline-block align-bottom mr-5">
-                                    <span class="text-lg leading-none align-baseline">Will be starting at</span>
-                                    <span class="font-bold text-xl leading-none align-baseline">{{$event->event_time}}</span>
-                                </div>
-        
+                                @if(!$event->eventTimings || $event->eventTimings->isEmpty() || !$event->eventTimings->last()->time_end)
+                                    <!-- Show the "Will be starting at" message only if the event has not ended -->
+                                    <div class="inline-block align-bottom mr-5">
+                                        <span class="text-lg leading-none align-baseline">Will be starting at</span>
+                                        <span class="font-bold text-xl leading-none align-baseline">{{$event->event_time}}</span>
+                                    </div>
+                                @endif
+                            
                                 <div id="eventContainer">
                                     <!-- Loop through the event timings for the current listing -->
                                     @if($event->eventTimings)
                                         @foreach($event->eventTimings as $eventTime)
                                             <div class="event">
-                                                <p class="font-medium">{{ $eventTime->time_start }} - {{ $eventTime->time_end }}</p>
+                                                <p> Started: <strong>{{ $eventTime->time_start }}</strong></p>
+                                                <p> Ended: <strong>{{ $eventTime->time_end }}</strong></p>
                                                 <p>Duration: <strong>{{ gmdate('H:i:s', $eventTime->event_duration) }} </strong></p>
                                             </div>
                                         @endforeach
@@ -102,6 +107,8 @@
                                     @endif
                                 </div>
                             </div>
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -198,12 +205,6 @@
         });
 
         ///////
-
-  
-
-        
-
-     
 
     </script>
     

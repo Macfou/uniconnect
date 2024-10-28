@@ -228,6 +228,10 @@ Route::post('/event/save', [StartEventController::class, 'saveEvent']);
 
 Route::get('/listings/{id}/times', [StartEventController::class, 'showTimes'])->name('listings.showTimes');
 
+// aboutus
+
+Route::get('/about', [PagesController::class, 'aboutUs']);
+
 
 
 

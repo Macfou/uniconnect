@@ -23,6 +23,11 @@ namespace App\Http\Controllers;
     public function editaccount () {
         return view ('users.editaccount');
     }
+
+    // about us 
+    public function aboutUs() {
+        return view ('pages.about');
+    }
     
     
 }

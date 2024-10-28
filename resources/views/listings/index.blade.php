@@ -1,5 +1,32 @@
 <x-layout>
-
+    <style>
+        /* Scanning line animation */
+        @keyframes scanningMove {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+    
+        /* Pulse effect for the square border */
+        .relative .border-4 {
+            animation: pulse-border 1.5s infinite;
+        }
+    
+        @keyframes pulse-border {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
     
 
     <section class="pt-24">
@@ -123,8 +150,24 @@
             <div class="px-4 py-2">
                 <h3 class="text-xl font-bold mb-4">Scan QR Code</h3>
                 <hr class="border-black px-4">
-                <!-- Video element to display the camera stream -->
-                <video id="cameraStream" width="100%" height="300" autoplay></video>
+                
+                <div class="relative w-full h-[300px]">
+                    <!-- Video element to display the camera stream -->
+                    <video id="cameraStream" class="w-full h-full object-cover" autoplay playsinline></video>
+                    
+                    <!-- Overlay with square to guide QR positioning -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div class="border-4 border-green-500 rounded-md w-1/2 h-1/2 relative">
+                            <!-- Scanning line that moves up and down -->
+                            <div id="scanningLine" class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Div to display the scanned QR code result -->
+                <p id="qrResult" class="mt-4 text-lg font-bold text-green-600"></p>
+                <!-- Warning message -->
+                <p id="qrWarning" class="mt-4 text-lg font-bold text-red-600 hidden">Cannot scan the QR code. Please try again.</p>
             </div>
             <div class="px-4 py-2 flex justify-end">
                 <button id="closeModal" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
@@ -134,6 +177,9 @@
         </div>
     </div>
 </div>
+                
+         
+
                         
                         <!-- Modal -->
                      
@@ -242,27 +288,47 @@
         });
 
         /////// qr scan
-
-        
-       
-    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
         const openModalButton = document.getElementById('openModal');
         const closeModalButton = document.getElementById('closeModal');
         const qrModal = document.getElementById('qrModal');
         const videoElement = document.getElementById('cameraStream');
+        const qrResultElement = document.getElementById('qrResult');
+        const qrWarningElement = document.getElementById('qrWarning');
+        const scanningLine = document.getElementById('scanningLine');
+        let scanning = false;
+        let stream = null;
+        let timeoutId = null;
 
         openModalButton.addEventListener('click', function () {
             qrModal.classList.remove('hidden');
             qrModal.classList.add('flex');
 
+            // Start scanning line animation
+            scanningLineAnimation();
+
             // Access the user's camera
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function (stream) {
-                        videoElement.srcObject = stream;
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                    .then(function (videoStream) {
+                        videoElement.srcObject = videoStream;
+                        stream = videoStream;
+                        
+                        // Start scanning the QR code
+                        scanning = true;
+                        scanQRCode();
+
+                        // Set a timeout to show the warning message after 10 seconds
+                        timeoutId = setTimeout(() => {
+                            if (scanning) {
+                                qrWarningElement.classList.remove('hidden');
+                            }
+                        }, 10000);  // 10 seconds
                     })
                     .catch(function (error) {
                         console.error('Error accessing camera:', error);
+                        qrWarningElement.textContent = 'Error accessing camera. Please check permissions.';
+                        qrWarningElement.classList.remove('hidden');
                     });
             } else {
                 alert('Camera access is not supported by your browser.');
@@ -274,19 +340,50 @@
             qrModal.classList.add('hidden');
 
             // Stop the camera stream
-            const stream = videoElement.srcObject;
             if (stream) {
                 const tracks = stream.getTracks();
                 tracks.forEach(track => track.stop());
             }
             videoElement.srcObject = null;
+            scanning = false;
+            qrResultElement.textContent = '';
+            qrWarningElement.classList.add('hidden');  // Hide warning when closed
+            clearTimeout(timeoutId);  // Clear the timeout when modal is closed
         });
+
+        // Function to scan the QR code
+        function scanQRCode() {
+            if (!scanning) return;
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+
+            context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+
+            if (qrCode) {
+                qrResultElement.textContent = `QR Code Data: ${qrCode.data}`;
+                qrWarningElement.classList.add('hidden');  // Hide warning if successful
+                scanning = false;  // Stop scanning after detecting a QR code
+                clearTimeout(timeoutId);  // Clear the timeout when QR code is scanned
+            } else {
+                requestAnimationFrame(scanQRCode);  // Continue scanning
+            }
+        }
+
+        // Scanning line animation
+        function scanningLineAnimation() {
+            scanningLine.style.animation = 'scanningMove 2s infinite linear';
+        }
     });
 
-
-
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
     </x-layout>
     
     @include('partials._footer')

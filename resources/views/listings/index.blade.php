@@ -58,8 +58,8 @@
                     </div>
                 </x-card>
                 @empty
-                <div class="p-4 text-center w-full">
-                    No upcoming events.
+                <div class="p-4 text-center text-lg font-bold pb-80">
+                    No Upcoming events.
                 </div>
                 @endforelse
             </div>
@@ -77,43 +77,80 @@
                                 <img src="{{$event->image ? asset('storage/' . $event->image) : asset('/images/no-image.png')}}" class="w-full relative z-10 rounded" alt="">
                             </div>
                         </div>
-                        <div class="w-full md:w-1/2 px-10">
-                            <div class="mb-10">
-                                <h1 class="font-bold uppercase text-2xl mb-5">{{$event->tags}}</h1>
-                                <h2 class=" text-xl mb-5">Here at <strong>{{$event->venue}}</strong></h2>
-                                
-                            </div>
-                            <div>
-                                @if(!$event->eventTimings || $event->eventTimings->isEmpty() || !$event->eventTimings->last()->time_end)
-                                    <!-- Show the "Will be starting at" message only if the event has not ended -->
-                                    <div class="inline-block align-bottom mr-5">
-                                        <span class="text-lg leading-none align-baseline">Will be starting at</span>
-                                        <span class="font-bold text-xl leading-none align-baseline">{{$event->event_time}}</span>
-                                    </div>
-                                @endif
-                            
-                                <div id="eventContainer">
-                                    <!-- Loop through the event timings for the current listing -->
-                                    @if($event->eventTimings)
-                                        @foreach($event->eventTimings as $eventTime)
-                                            <div class="event">
-                                                <p> Started: <strong>{{ $eventTime->time_start }}</strong></p>
-                                                <p> Ended: <strong>{{ $eventTime->time_end }}</strong></p>
-                                                <p>Duration: <strong>{{ gmdate('H:i:s', $eventTime->event_duration) }} </strong></p>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <p>No timing information available for this event.</p>
-                                    @endif
-                                </div>
-                            </div>
+                        
+
+<div class="w-full md:w-1/2 px-10">
+    <div class="mb-10">
+        <h1 class="font-bold uppercase text-2xl mb-5">{{$event->tags}}</h1>
+        <h2 class="text-xl mb-5">Here at <strong>{{$event->venue}}</strong></h2>
+
+        <!-- Button to trigger modal -->
+        <button type="button" id="openModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Submit Attendance
+        </button>
+  
+
+<div class="pt-4">
+    @if(!$event->eventTimings || $event->eventTimings->isEmpty() || !$event->eventTimings->last()->time_end)
+        <!-- Show the "Will be starting at" message only if the event has not ended -->
+        <div class="inline-block align-bottom mr-5">
+            <span class="text-lg  leading-none align-baseline">Will be starting at</span>
+            <span class="font-bold text-xl leading-none align-baseline">{{$event->event_time}}</span>
+        </div>
+    @endif
+
+    <div id="eventContainer">
+        <!-- Loop through the event timings for the current listing -->
+        @if($event->eventTimings)
+            @foreach($event->eventTimings as $eventTime)
+                <div class="event">
+                    <p> Started: <strong>{{ $eventTime->time_start }}</strong></p>
+                    <p> Ended: <strong>{{ $eventTime->time_end }}</strong></p>
+                    <p>Duration: <strong>{{ gmdate('H:i:s', $eventTime->event_duration) }} </strong></p>
+                </div>
+            @endforeach
+        @else
+            <p>No timing information available for this event.</p>
+        @endif
+    </div>
+</div>
+</div>
+</div>
+<!-- Modal (initially hidden) -->
+<div id="qrModal" class="fixed z-10 inset-0 flex items-center justify-center p-4 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full">
+            <div class="px-4 py-2">
+                <h3 class="text-xl font-bold mb-4">Scan QR Code</h3>
+                <hr class="border-black px-4">
+                <!-- Video element to display the camera stream -->
+                <video id="cameraStream" width="100%" height="300" autoplay></video>
+            </div>
+            <div class="px-4 py-2 flex justify-end">
+                <button id="closeModal" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+                        
+                        <!-- Modal -->
+                     
+
+                        
+
+                        <!------------modalend------------->
+
+                        
+                          
                             
                             
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="p-4 text-center text-lg font-bold">
+                <div class="p-4 text-center text-lg font-bold pb-80">
                     No events today.
                 </div>
             @endforelse
@@ -204,7 +241,49 @@
           previousSection.classList.remove('hidden');
         });
 
-        ///////
+        /////// qr scan
+
+        
+       
+    document.addEventListener('DOMContentLoaded', function () {
+        const openModalButton = document.getElementById('openModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const qrModal = document.getElementById('qrModal');
+        const videoElement = document.getElementById('cameraStream');
+
+        openModalButton.addEventListener('click', function () {
+            qrModal.classList.remove('hidden');
+            qrModal.classList.add('flex');
+
+            // Access the user's camera
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (stream) {
+                        videoElement.srcObject = stream;
+                    })
+                    .catch(function (error) {
+                        console.error('Error accessing camera:', error);
+                    });
+            } else {
+                alert('Camera access is not supported by your browser.');
+            }
+        });
+
+        closeModalButton.addEventListener('click', function () {
+            qrModal.classList.remove('flex');
+            qrModal.classList.add('hidden');
+
+            // Stop the camera stream
+            const stream = videoElement.srcObject;
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+            videoElement.srcObject = null;
+        });
+    });
+
+
 
     </script>
     

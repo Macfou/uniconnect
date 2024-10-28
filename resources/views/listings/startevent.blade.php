@@ -23,8 +23,30 @@
 
             <!-- Flex container to align left and right divs -->
             <div class="flex mt-6 space-x-4">
-                <img alt="QR Code" class="rounded-t" src="{{ $listing->qr_code ? asset($listing->qr_code) : asset('/images/no-image.png') }}">
+                <img id="qrCodeImage" alt="QR Code" class="rounded-t cursor-pointer" src="{{ $listing->qr_code ? asset($listing->qr_code) : asset('/images/no-image.png') }}" />
 
+                <!-- Modal (hidden by default) -->
+                <div id="qrModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                    <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold mb-4">QR Code</h3>
+                            <!-- Display QR Code inside modal, make it larger -->
+                            <img id="qrImageInModal" alt="QR Code" class="rounded w-80 h-80 mx-auto" src="{{ $listing->qr_code ? asset($listing->qr_code) : asset('/images/no-image.png') }}">
+                        </div>
+                        <div class="text-center mt-4">
+
+                             <!-- Print Button -->
+                             <button id="printQrCode" class="bg-laravel hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+                                Save QR Code
+                            </button>
+                            <!-- Close Button -->
+                            <button id="closeModal" class="bg-blue-700 hover:bg-laravel text-white font-bold py-2 px-6 rounded mr-2">
+                                Close
+                            </button>
+                           
+                        </div>
+                    </div>
+                </div>
                 <!-- Right side (60% width with form) -->
                 <div class="w-3/5">
                     <form id="eventForm" method="post" onsubmit="startEvent(event)">
@@ -61,6 +83,45 @@
                     
                     
                 </div>
+            </div>
+
+            <!-- attendance table---------->
+
+            <div class="md:col-span-3 bg-white  shadow-xl p-4 space-y-2 p-3 rounded-lg mt-6 ">
+            <div class="p-6 overflow-x-scroll px-0 pt-0 pb-2">
+                <table class="w-full min-w-[640px] table-auto">
+                  <thead>
+                    <p class="pl-4 text-lg"><strong>{{$listing->tags}}</strong> Attende's</p>
+                    <hr class="border-black px-4">
+                    <tr>
+                      <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
+                        <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Name</p>
+                      </th>
+                      <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
+                        <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Oganization</p>
+                      </th>
+                      <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
+                        <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Year Level</p>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <tr>
+                      <td class="py-3 px-5 border-b border-blue-gray-50">
+                        <div class="flex items-center gap-4">
+                          <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">Juan Dela Cruz</p>
+                        </div>
+                      </td>
+                      <td class="py-3 px-5 border-b border-blue-gray-50">
+                        <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600 font-bold">CCIS</p>
+                      </td>
+                      <td class="py-3 px-5 border-b border-blue-gray-50">                   
+                            <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">4th-year</p>
+                      </td>
+                    </tr>                   
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             
@@ -173,8 +234,36 @@
     });
 }
 
+// modal for qr
 
+document.addEventListener('DOMContentLoaded', function () {
+        const qrCodeImage = document.getElementById('qrCodeImage');
+        const qrModal = document.getElementById('qrModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const printButton = document.getElementById('printQrCode');
+        const qrImageInModal = document.getElementById('qrImageInModal');
 
+        // Open modal when the QR code image is clicked
+        qrCodeImage.addEventListener('click', function () {
+            qrModal.classList.remove('hidden');
+            qrModal.classList.add('flex');
+        });
+
+        // Close modal when the close button is clicked
+        closeModalButton.addEventListener('click', function () {
+            qrModal.classList.remove('flex');
+            qrModal.classList.add('hidden');
+        });
+
+        // Save the QR code image when the print button is clicked
+        printButton.addEventListener('click', function () {
+            const qrImageSrc = qrImageInModal.src;
+            const link = document.createElement('a');
+            link.href = qrImageSrc;
+            link.download = 'qr_code.png'; // The name of the file to be downloaded
+            link.click(); // Trigger the download
+        });
+    });
         </script>
         
 </x-layout>

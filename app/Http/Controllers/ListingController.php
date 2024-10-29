@@ -112,7 +112,8 @@ class ListingController extends Controller
         $listing = Listing::create($formFields);  // Now $listing contains the saved event
     
         // Generate the QR Code with event details
-        $qrCodeData = 'Event: ' . $listing->title . ', Venue: ' . $listing->venue . ', Date: ' . $listing->event_date;
+        $qrCodeData = "🔊 Title: " . $listing->tags . "\n📍 Venue: " . $listing->venue;
+
         $qrCode = QrCode::create($qrCodeData);
         $writer = new PngWriter();
     

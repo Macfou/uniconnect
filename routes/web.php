@@ -13,6 +13,7 @@ use App\Http\Controllers\OfficerController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\MyEventsController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StartEventController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\EventScheduleController;
@@ -231,6 +232,17 @@ Route::get('/listings/{id}/times', [StartEventController::class, 'showTimes'])->
 // aboutus
 
 Route::get('/about', [PagesController::class, 'aboutUs']);
+
+
+//attendance
+Route::post('/submit-attendance', [AttendanceController::class, 'store']);
+
+
+
+
+
+
+
 
 
 

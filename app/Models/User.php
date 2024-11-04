@@ -65,6 +65,8 @@ class User extends Authenticatable
     
         return $exists; // Make sure to return the $exists value
     }
+
+    
     
     
     

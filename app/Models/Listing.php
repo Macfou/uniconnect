@@ -42,6 +42,10 @@ class Listing extends Model
     return $this->hasMany(EventTiming::class, 'listing_id');
 }
 
+public function attendees()
+{
+    return $this->hasMany(EventAttendee::class, 'event_id');
+}
     
     
     

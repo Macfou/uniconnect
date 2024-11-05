@@ -166,6 +166,8 @@
 
                 <!-- Div to display the scanned QR code result -->
                 <p id="qrResult" class="mt-4 text-lg font-bold text-green-600"></p>
+
+                <button id="submitAttendance" class="btn hidden">Submit Attendance</button>
                 <!-- Warning message -->
                 <p id="qrWarning" class="mt-4 text-lg font-bold text-red-600 hidden">Cannot scan the QR code. Please try again.</p>
             </div>
@@ -287,7 +289,7 @@
           previousSection.classList.remove('hidden');
         });
 
-        /////// qr scan
+        /////// qr scannerrrrrrrr
         document.addEventListener('DOMContentLoaded', function () {
     const openModalButton = document.getElementById('openModal');
     const closeModalButton = document.getElementById('closeModal');
@@ -296,16 +298,16 @@
     const qrResultElement = document.getElementById('qrResult');
     const qrWarningElement = document.getElementById('qrWarning');
     const scanningLine = document.getElementById('scanningLine');
+    const submitAttendanceButton = document.getElementById('submitAttendance');
     let scanning = false;
     let stream = null;
     let timeoutId = null;
+    let scannedEventId = null; // Store the scanned event ID
 
+    // Open the QR Scanner Modal
     openModalButton.addEventListener('click', function () {
         qrModal.classList.remove('hidden');
-        qrModal.classList.add('flex');
-
-        // Start scanning line animation
-        scanningLineAnimation();
+        scanningLineAnimation(); // Start scanning line animation
 
         // Access the user's camera
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -313,17 +315,11 @@
                 .then(function (videoStream) {
                     videoElement.srcObject = videoStream;
                     stream = videoStream;
-
-                    // Start scanning the QR code
                     scanning = true;
-                    scanQRCode();
-
-                    // Set a timeout to show the warning message after 10 seconds
+                    scanQRCode(); // Start scanning
                     timeoutId = setTimeout(() => {
-                        if (scanning) {
-                            qrWarningElement.classList.remove('hidden');
-                        }
-                    }, 10000);  // 10 seconds
+                        if (scanning) qrWarningElement.classList.remove('hidden'); // Show warning if QR not found
+                    }, 10000); // 10 seconds
                 })
                 .catch(function (error) {
                     console.error('Error accessing camera:', error);
@@ -335,20 +331,18 @@
         }
     });
 
+    // Close the QR Scanner Modal
     closeModalButton.addEventListener('click', function () {
-        qrModal.classList.remove('flex');
         qrModal.classList.add('hidden');
-
-        // Stop the camera stream
         if (stream) {
-            const tracks = stream.getTracks();
-            tracks.forEach(track => track.stop());
+            stream.getTracks().forEach(track => track.stop());
         }
         videoElement.srcObject = null;
         scanning = false;
         qrResultElement.textContent = '';
-        qrWarningElement.classList.add('hidden');  // Hide warning when closed
-        clearTimeout(timeoutId);  // Clear the timeout when modal is closed
+        qrWarningElement.classList.add('hidden');
+        submitAttendanceButton.classList.add('hidden'); // Hide the submit button when modal closes
+        clearTimeout(timeoutId);
     });
 
     // Function to scan the QR code
@@ -362,19 +356,23 @@
         const context = canvas.getContext('2d');
         canvas.width = videoElement.videoWidth;
         canvas.height = videoElement.videoHeight;
-
         context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
         const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
 
         if (qrCode) {
-            qrResultElement.textContent = `Event Info: ${qrCode.data}`;
+            // Store the event ID from the scanned QR code
+            scannedEventId = qrCode.data;
+            qrResultElement.innerHTML = `Event Info: ${scannedEventId}<br>User Name: {{ ucfirst(auth()->user()->fname) }}`;
             qrWarningElement.classList.add('hidden');  // Hide warning if successful
+
+            // Show the submit button once a QR code is scanned
+            submitAttendanceButton.classList.remove('hidden');
             scanning = false;  // Stop scanning after detecting a QR code
-            clearTimeout(timeoutId);  // Clear the timeout when QR code is scanned
+            clearTimeout(timeoutId);
         } else {
-            requestAnimationFrame(scanQRCode);  // Continue scanning
+            requestAnimationFrame(scanQRCode);  // Continue scanning if no QR code detected
         }
     }
 
@@ -382,8 +380,55 @@
     function scanningLineAnimation() {
         scanningLine.style.animation = 'scanningMove 2s infinite linear';
     }
+
+    // Submit attendance button action
+    submitAttendanceButton.addEventListener('click', function () {
+    console.log('Button clicked!'); // Log button click
+    console.log('Scanned Event ID:', scannedEventId); // Log scanned event ID
+    console.log('User ID:', "{{ auth()->user()->id }}"); // Log user ID
+
+    if (scannedEventId) {
+        fetch('/submit-attendance', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                event_id: scannedEventId, // Use 'event_id' instead of 'listing_id'
+                user_id: "{{ auth()->user()->id }}"
+            })
+        })
+        .then(response => {
+            // Check if the response is OK (status code in the range 200-299)
+            if (!response.ok) {
+                return response.json().then(err => { throw err; }); // Parse error response
+            }
+            return response.json(); // Return the successful response
+        })
+        .then(data => {
+            console.log('Response data:', data); // Log the response data
+            if (data.success) {
+                alert('Attendance submitted successfully!');
+                submitAttendanceButton.classList.add('hidden'); // Hide the button after submission
+            } else {
+                alert('Failed to submit attendance: ' + JSON.stringify(data.error)); // Show detailed error
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error); // Log the error
+            alert('There was an error submitting attendance: ' + (error.message || 'Please try again.')); // Display error message
+        });
+    } else {
+        alert('No event scanned.'); // Alert if no event was scanned
+    }
 });
 
+
+});
+    
+
+    </script>
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>

@@ -2,9 +2,7 @@
     <div class="max-w-[720px] mx-auto">
       
         <div class="block mb-4 mx-auto border-b border-slate-300 pb-2 max-w-[360px]">
-            <a target='_blank' href='https://www.material-tailwind.com/docs/html/table' class='block w-full px-4 py-2 text-center text-slate-700 transition-all '>
-                    More components on <b>Material Tailwind</b>.
-                </a>
+           
         </div>
     
         <div class="relative flex flex-col w-full h-full text-slate-700 bg-white mx-w-lg shadow-md rounded-xl bg-clip-border">

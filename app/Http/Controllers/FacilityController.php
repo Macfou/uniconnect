@@ -4,90 +4,87 @@ namespace App\Http\Controllers;
 
 use App\Models\Facility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; // Import Storage facade
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class FacilityController extends Controller
 {
-    // Store a new facility
-
-    // Display a list of facilities
+    // Display all facilities
     public function index()
     {
-        $facilities = Facility::all();
+        $facilities = Facility::all(); // Fetch all facilities from the database
         return view('admin.admin_pages.facility', compact('facilities'));
     }
     
 
-// Show the edit form for a specific facility
-public function edit($id)
-{
-    $facility = Facility::findOrFail($id); // Find facility by ID
-    return view('admin.admin_pages.facility.edit', compact('facility')); // Pass facility to your edit view
-}
-
+    // Store a new facility
     public function store(Request $request)
     {
-        // Validate incoming request
-        $request->validate([
-            'facilityName' => 'required|string|max:255',
-            'facilityImage' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'facilityCapacity' => 'required|integer|max:10000',
+        // Validate the form inputs
+        $validatedData = $request->validate([
+            'facility_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'sitting_capacity' => 'required|integer',
         ]);
 
-        // Handle file upload
-        $path = $request->file('facilityImage')->store('facilities', 'public');
+        // Handle the image upload if present
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('facility_images', 'public');
+            $validatedData['image'] = $imagePath;
+        }
 
-        // Create new facility
-        Facility::create([
-            'facilityName' => $request->facilityName,
-            'facilityImage' => $path,
-            'facilityCapacity' => $request->facilityCapacity,
-        ]);
+        // Save the facility to the database
+        Facility::create($validatedData);
 
-        return redirect()->route('facilities.index')->with('success', 'Facility added successfully!');
+        return redirect()->back()->with('success', 'Facility added successfully!');
     }
 
-    // Update an existing facility
     public function update(Request $request, $id)
     {
         $facility = Facility::findOrFail($id);
 
-        // Validate incoming request
         $request->validate([
-            'facilityName' => 'required|string|max:255',
-            'facilityImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'facilityCapacity' => 'required|integer|max:10000',
+            'facility_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'sitting_capacity' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Update facility details
-        $facility->facilityName = $request->facilityName;
-        $facility->facilityCapacity = $request->facilityCapacity;
+        // Update facility fields
+        $facility->facility_name = $request->facility_name;
+        $facility->description = $request->description;
+        $facility->sitting_capacity = $request->sitting_capacity;
 
-        // Handle file upload if a new image is provided
-        if ($request->hasFile('facilityImage')) {
-            // Delete old image if necessary
-            Storage::disk('public')->delete($facility->facilityImage);
-
-            $path = $request->file('facilityImage')->store('facilities', 'public');
-            $facility->facilityImage = $path;
+        // Handle image upload if present
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('facility_images', 'public');
+            $facility->image = $imagePath;
         }
 
         $facility->save();
 
-        return redirect()->route('facilities.index')->with('success', 'Facility updated successfully!');
+        return redirect()->back()->with('success', 'Organization updated successfully!');
     }
+    
+    
+    
 
-    // Destroy a facility
+    // Delete a facility
     public function destroy($id)
     {
         $facility = Facility::findOrFail($id);
-
-        // Delete the facility image from storage
-        Storage::disk('public')->delete($facility->facilityImage);
-
-        // Delete the facility record
+        
+        if ($facility->image) {
+            Storage::disk('public')->delete($facility->image);
+        }
+    
         $facility->delete();
-
-        return redirect()->route('facilities.index')->with('success', 'Facility deleted successfully!');
+    
+        return redirect()->back()->with('success', 'Facility deleted successfully.');
     }
+
+   
+    
 }
+

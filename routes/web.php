@@ -4,18 +4,28 @@
 use  App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GsoController;
+use App\Http\Controllers\UfmoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OfficerController;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\GsoLoginController;
+use App\Http\Controllers\GsoPagesController;
 use App\Http\Controllers\MyEventsController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UfmoPagesController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StartEventController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
 
 
@@ -69,6 +79,8 @@ Route::get('/listings/manage_previous', [ListingController::class, 'manageprevio
 //show listing
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
+
+
 //show register
 Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 
@@ -91,6 +103,9 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 //index
 Route::get('/admin/admin_pages/admin_index', [AdminController::class, 'admin_index']);
+
+//events
+Route::get('/admin/admin_pages/events', [AdminController::class, 'events']);
 
 //profile
 Route::get('/admin/admin_users/admin_profile', [AdminController::class, 'admin_profile']);
@@ -140,25 +155,22 @@ Route::get('/admin/admin_pages/organization/', [OrganizationController::class, '
 Route::post('/admin/admin_pages/organization/store', [OrganizationController::class, 'store'])->name('admin.admin_pages.organization.store');
 Route::post('/admin/admin_pages/organization', [OrganizationController::class, 'store'])->name('admin.admin_pages.organization.store');
 
-//store facility
+
 
 
 //update organizations
 Route::put('/admin/admin_pages/organizations/{id}', [OrganizationController::class, 'update'])->name('admin.admin_pages.organization.update');
 
-//update facility
 
 
-Route::prefix('admin')->group(function () {
-    Route::resource('facilities', FacilityController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+
+
 
 
 //delete organization
 // Route for deleting an organization
 Route::delete('/admin/admin_pages/organization/{id}', [OrganizationController::class, 'destroy'])->name('admin.admin_pages.organization.destroy');
 
-// Route for deleting facility
 
 
 ///// -----------add user------------------////
@@ -234,8 +246,98 @@ Route::get('/listings/{id}/times', [StartEventController::class, 'showTimes'])->
 Route::get('/about', [PagesController::class, 'aboutUs']);
 
 
-//attendance
-Route::post('/submit-attendance', [AttendanceController::class, 'store']);
+
+
+//displaying the events in the admin
+Route::get('/admin/admin_pages/events', [AdminController::class, 'showEvents'])->name('admin.events');
+
+//scan
+Route::post('/search-student', [StartEventController::class, 'searchStudent']);
+
+
+
+// certificate
+
+
+
+Route::get('/certificates/create', [CertificateController::class, 'create'])->name('certificates.create');
+Route::post('/certificates/store', [CertificateController::class, 'store'])->name('certificates.store');
+
+
+Route::get('/certificates/{id}', [CertificateController::class, 'show'])->name('certificates.show');
+
+// dashboard
+
+Route::get('/admin/admin_pages/admin_index', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+//facility adding
+Route::get('/admin/admin_pages/facility', [FacilityController::class, 'index'])->name('admin.admin_pages.facility.index');
+Route::put('/admin/admin_pages/facility/{id}', [FacilityController::class, 'update'])->name('admin.admin_pages.facility.update');
+Route::post('/admin/admin_pages/facility/store', [FacilityController::class, 'store'])->name('admin.admin_pages.facility.store');
+Route::put('/admin/admin_pages/facility/{id}', [FacilityController::class, 'update'])->name('admin.admin_pages.facility.update');
+Route::delete('/admin/admin_pages/facility/{id}', [FacilityController::class, 'destroy'])->name('admin.admin_pages.facility.destroy');
+
+//submit
+Route::post('/submit-attendance', [AttendanceController::class, 'submitAttendance']);
+
+
+
+
+Route::get('/listings/{listing}/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance.show');
+
+
+//trry
+
+Route::get('/pages/tryview', [PagesController::class, 'showTryView'])->name('tryview');
+
+//event attended
+Route::get('/pages/eventattended', [PagesController::class, 'eventattended'])->name('pages.eventattended');
+
+Route::get('/pages/eventattended', [EventattendedController::class, 'showEventsAttended'])->name('pages.eventattended');
+
+//feedback
+Route::post('/feedback', [EventattendedController::class, 'submitFeedback'])->name('feedback.submit');
+
+//portal
+Route::get('admin/admin_users/portal', [PortalController::class, 'portal'])->name('admin.admin_users.portal');
+Route::get('admin/admin_users/gsologin', [PortalController::class, 'gso'])->name('admin.admin_users.gsologin');
+Route::get('admin.admin_users.ufmoLogin', [PortalController::class, 'ufmo'])->name('admin.admin_users.ufmologin');
+
+//gso
+Route::get('admin/admin_users/gsouser', [PagesController::class, 'gsouser'])->name('admin.admin_users.gsouser');
+Route::get('admin/admin_users/ufmouser', [PagesController::class, 'ufmouser'])->name('admin.admin_users.ufmouser');
+
+
+    Route::get('/admin/admin_users/gsouser', [GsoController::class, 'index'])->name('admin.admin_users.gsouser');
+    Route::post('admin/admin_users/gsouser', [GsoController::class, 'store'])->name('admin.admin_users.gsouser.store');
+    Route::put('/admin/admin_users/gsouser/{id}', [GsoController::class, 'update'])->name('admin.admin_users.gsouser.update');
+    Route::delete('/admin/admin_users/gsouser/{id}', [GsoController::class, 'destroy'])->name('admin.admin_users.gsouser.destroy');
+
+    Route::get('/admin/admin_users/ufmouser', [UfmoController::class, 'index'])->name('admin.admin_users.ufmouser');
+    Route::post('admin/admin_users/ufmouser', [UfmoController::class, 'store'])->name('admin.admin_users.ufmouser.store');
+    Route::put('/admin/admin_users/ufmouser/{id}', [UfmoController::class, 'update'])->name('admin.admin_users.ufmouser.update');
+    Route::delete('/admin/admin_users/ufmouser/{id}', [UfmoController::class, 'destroy'])->name('admin.admin_users.ufmouser.destroy');
+
+//gso route
+Route::get('/gso/gso_pages/gso_dashboard', [GsoPagesController::class, 'gsodashboard'])->name('gso.gso_pages.gso_dashboard');
+Route::get('/gso/gso_pages/gso_category', [GsoPagesController::class, 'gsocategory'])->name('gso.gso_pages.gso_category');
+Route::get('/gso/gso_pages/gso_inventory', [GsoPagesController::class, 'gsoinventory'])->name('gso.gso_pages.gso_inventory');
+Route::get('/gso/gso_pages/gso_borrowed', [GsoPagesController::class, 'gsoborrowed'])->name('gso.gso_pages.gso_borrowed');
+Route::get('/gso/gso_pages/gso_pending', [GsoPagesController::class, 'gsopending'])->name('gso.gso_pages.gso_pending');
+Route::get('/gso/gso_pages/gso_approved', [GsoPagesController::class, 'gsoapproved'])->name('gso.gso_pages.gso_approved');
+Route::get('/gso/gso_pages/gso_cancelled', [GsoPagesController::class, 'gsocancelled'])->name('gso.gso_pages.gso_cancelled');
+
+//ufmo route
+
+Route::get('/ufmo/ufmo_pages/ufmo_dashboard', [UfmoPagesController::class,'ufmodashboard'])->name('ufmo.ufmo_pages.ufmo_dashboard');
+Route::get('/ufmo/ufmo_pages/ufmo_pending', [UfmoPagesController::class,'ufmopending'])->name('ufmo.ufmo_pages.ufmo_pending');
+Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class,'ufmoapproved'])->name('ufmo.ufmo_pages.ufmo_approved');
+Route::get('/ufmo/ufmo_pages/ufmo_cancelled', [UfmoPagesController::class,'ufmocancelled'])->name('ufmo.ufmo_pages.ufmo_cancelled');
+Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoPagesController::class, 'ufmocalendar'])->name('ufmo.ufmo_pages.ufmo_calendar');
+
+
+
+
 
 
 

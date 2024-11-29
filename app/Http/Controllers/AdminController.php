@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Listing;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +30,9 @@ public function facility() {
     return view('admin.admin_pages.facility');
 }
 
+public function events() {
+    return view('admin.admin_pages.events');
+}
 //adduser
 
     public function showRegistrationForm()
@@ -120,4 +125,21 @@ public function facility() {
         }
         return response()->json(['success' => false], 404);
     }
+
+    //events
+    public function showEvents()
+{
+    $events = Listing::join('users', 'listings.user_id', '=', 'users.id')
+        ->select('listings.tags', 'users.fname as author', 'users.org as organization')
+        ->get();
+
+    return view('admin.admin_pages.events', compact('events'));
+}
+
+//modal viewing
+
+
+
+
+
 }

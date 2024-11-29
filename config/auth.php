@@ -44,6 +44,11 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+
+        'gso' => [ // Add this for the GSO guard
+            'driver' => 'session',
+            'provider' => 'gsos',
+        ],
     ],
 
     /*
@@ -72,6 +77,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
+
+        'gsos' => [ // Add this for GSO authentication
+        'driver' => 'eloquent',
+        'model' => App\Models\Gso::class,
+    ],
+
     ],
 
         // 'users' => [
@@ -106,6 +117,8 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+
     ],
 
     /*

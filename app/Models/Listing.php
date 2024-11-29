@@ -47,6 +47,6 @@ public function attendees()
     return $this->hasMany(EventAttendee::class, 'event_id');
 }
     
-    
+
     
 }

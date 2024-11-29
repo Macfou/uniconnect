@@ -12,13 +12,10 @@
                 </div>
                 <div class="p-4 text-right">
                   <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Events</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">108</h4>
-                </div>
-                <div class="border-t border-blue-gray-50 p-4">
-                  <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                    <strong class="text-green-500">+4 </strong>&nbsp;than last week
-                  </p>
-                </div>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $eventCount }}</h4>
+              </div>
+              
+                
               </div>
               <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                 <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-pink-600 to-pink-400 text-white shadow-pink-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
@@ -28,13 +25,9 @@
                 </div>
                 <div class="p-4 text-right">
                   <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Users</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">2,300</h4>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $userCount }}</h4>
                 </div>
-                <div class="border-t border-blue-gray-50 p-4">
-                  <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                    <strong class="text-green-500">+3%</strong>&nbsp;than last month
-                  </p>
-                </div>
+                
               </div>
               <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                 <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-green-600 to-green-400 text-white shadow-green-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
@@ -43,14 +36,10 @@
                   </svg>
                 </div>
                 <div class="p-4 text-right">
-                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Attendance</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">3,462</h4>
+                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Admin User</p>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $adminuserCount }}</h4>
                 </div>
-                <div class="border-t border-blue-gray-50 p-4">
-                  <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                    <strong class="text-red-500">-2%</strong>&nbsp;than yesterday
-                  </p>
-                </div>
+                
               </div>
               <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
                 <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-orange-600 to-orange-400 text-white shadow-orange-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
@@ -62,11 +51,7 @@
                   <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Event Success rate</p>
                   <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">89%</h4>
                 </div>
-                <div class="border-t border-blue-gray-50 p-4">
-                  <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                    <strong class="text-green-500">+5%</strong>&nbsp;than yesterday
-                  </p>
-                </div>
+               
               </div>
             </div>
             
@@ -135,4 +120,98 @@
             </div>
           </div>
     </section>
+
+    <div class="flex items-center justify-center py-8 px-4">
+      <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
+      
+                  <div class="w-11/12 lg:w-2/3">
+                      <div class="flex flex-col justify-between h-full">
+                          <div>
+                              <div class="lg:flex w-full justify-between">
+                                  <h3 class="text-gray-600 dark:text-gray-400 leading-5 text-base md:text-xl font-bold">Event Rate</h3>
+                                  <div class="flex items-center justify-between lg:justify-start mt-2 md:mt-4 lg:mt-0">
+                                      
+                                      <div class="lg:ml-14">
+                                          <div class="bg-gray-100 dark:bg-gray-700 ease-in duration-150 hover:bg-gray-200 pb-2 pt-1 px-3 rounded-sm">
+                                              <select aria-label="select year"  class="text-xs text-gray-600 dark:text-gray-400 bg-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 rounded">
+                                                  <option class="leading-1">Year</option>
+                                                  <option class="leading-1">2021</option>
+                                                  <option class="leading-1">2022</option>
+                                                  <option class="leading-1">2023</option>
+                                                  <option class="leading-1">2024</option>
+                                                  <option class="leading-1">2025</option>
+                                                  <option class="leading-1">2026</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="flex items-end mt-6">
+                                  <h3 class="text-indigo-500 leading-5 text-lg md:text-2xl">120 events</h3>
+                                  <div class="flex items-center md:ml-4 ml-1 text-green-700">
+                                      <p class="text-green-700 text-xs md:text-base">94%</p>
+                                      <svg role="img" class="text-green-700" aria-label="increase. upward arrow icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                          <path d="M6 2.5V9.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"></path>
+                                          <path d="M8 4.5L6 2.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"></path>
+                                          <path d="M4 4.5L6 2.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"></path>
+                                      </svg>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="mt-6">
+                              <canvas id="myChart" width="1025" height="400" role="img" aria-label="line graph to show selling overview in terms of months and numbers" ></canvas>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <script>
+              const chart = new Chart(document.getElementById("myChart"), {
+                type: "line",
+                data: {
+                  labels: [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "Aug",
+                    "Sep",
+                    "Nov",
+                    "Dec"
+                  ],
+                  datasets: [
+                    {
+                      label: "16 Mar 2018",
+                      borderColor: "#4A5568",
+                      data: [1500, 1300, 1600, 1300, 1200, 1200, 1000, 1400, 1500, 14000, 600, 1200],
+                      fill: false,
+                      pointBackgroundColor: "#4A5568",
+                      borderWidth: "3",
+                      pointBorderWidth: "4",
+                      pointHoverRadius: "6",
+                      pointHoverBorderWidth: "8",
+                      pointHoverBorderColor: "rgb(74,85,104,0.2)"
+                    }
+                  ]
+                },
+                options: {
+                  legend: {
+                    position: false
+                  },
+                  scales: {
+                    yAxes: [
+                      {
+                        gridLines: {
+                          display: false
+                        },
+                        display: false
+                      }
+                    ]
+                  }
+                }
+              });
+              </script>
 </x-admin-layout>

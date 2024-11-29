@@ -271,95 +271,25 @@
 }
   </style>
   
-   <div class="carousel">
+  <div class="carousel">
 
     <div class="list">
 
-      <div class="item" style="background-image: url('{{ asset('images/umak_oval.jpg') }}');">
-
-            <div class="content">
-                
-                <div class="name">Oval</div>
-                <div class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis culpa similique consequuntur, reprehenderit dicta repudiandae.</div>
-                <div class="btn">
-                    
+        <div class="facility-container">
+            @foreach ($facilities as $facility)
+                <div class="item" style="background-image: url('{{ $facility->image ? asset('storage/' . $facility->image) : asset('images/default_facility.jpg') }}');">
+                    <div class="content">
+                        <div class="name">{{ $facility->facility_name }}</div>
+                        <div class="des">{{ $facility->description }}</div>
+                        <div class="btn">
+                            <!-- Add buttons if needed -->
+                        </div>
+                    </div>
                 </div>
-            </div>
+     
+            @endforeach
         </div>
-
-        <div class="item" style="background-image: url('{{ asset('images/umak_theater.jpg') }}');">
-            
-            <div class="content">
-                
-                <div class="name"> Mini Theater</div>
-                <div class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis culpa similique consequuntur, reprehenderit dicta repudiandae.</div>
-                <div class="btn">
-                    
-                </div>
-            </div>
-
-        </div>
-
-        <div class="item" style="background-image: url('{{ asset('images/umak_basketball.jpg') }}');">
-
-            <div class="content">
-                
-                <div class="name">Basketball Court</div>
-                <div class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis culpa similique consequuntur, reprehenderit dicta repudiandae.</div>
-                <div class="btn">
-                    
-                </div>
-            </div>
-
-        </div>
-
-        
-
-        <div class="item" style="background-image: url('{{ asset('images/umak_grandtheater.jpg') }}');">
-            
-            <div class="content">
-                
-                <div class="name">Grand Theater</div>
-                <div class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis culpa similique consequuntur, reprehenderit dicta repudiandae.</div>
-                <div class="btn">
-                   
-                </div>
-            </div>
-
-        </div>
-
-        <div class="item" style="background-image: url('{{ asset('images/umak_basketball.jpg') }}');">
-            
-            <div class="content">
-                
-                <div class="name">Volleyball Court</div>
-                <div class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis culpa similique consequuntur, reprehenderit dicta repudiandae.</div>
-                <div class="btn">
-                    
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="item" style="background-image: url('{{ asset('images/umakadmin.jpg') }}');">
-            
-            <div class="content">
-                
-                <div class="name">Admin</div>
-                <div class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officiis culpa similique consequuntur, reprehenderit dicta repudiandae.</div>
-                <div class="btn">
-                   
-                </div>
-            </div>
-
-        </div>
-
-       
-
-        
-
-        
+  
     </div>
 
     <!--next prev button-->

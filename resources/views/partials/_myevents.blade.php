@@ -1,4 +1,12 @@
-<section class="pt-20">
+<button
+  id="toggleSidebar"
+  class="fixed top-4 left-4 z-50 p-2 bg-white text-laravel rounded-md shadow-lg md:hidden"
+  aria-label="Toggle Sidebar">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+</button>
+<section id="sidebar" class="hidden fixed inset-0 pt-20 z-40 bg-white shadow-lg md:block md:static md:w-64">
    
 <div class="max-w-2xl mx-auto fixed   left-0 p-4 bg-white rounded shadow-lg">
 
@@ -45,6 +53,10 @@
 						
 					</a>
 				</li>
+
+				{{---Certificate----------}}
+
+				
 				<li>
 					<a href="#"
 						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
@@ -58,38 +70,23 @@
 						
 					</a>
 				</li>
-				<li>
-					<a href="#"
-						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
-						<svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-							fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-							<path
-								d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z">
-							</path>
-							<path
-								d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z">
-							</path>
-						</svg>
-						<span class="flex-1 ml-3 whitespace-nowrap text-laravel font-bold">Feedbacks</span>
-						<span class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">3</span>
-					</a>
-				</li>
-				<li>
-					<a href="#"
-						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
-						<svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M6 2a1 1 0 011 1v1h10V3a1 1 0 112 0v1h2a1 1 0 011 1v16a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1h2V3a1 1 0 011-1zm-1 6h14V6H5v2zm0 2v10h14V10H5z" clip-rule="evenodd"></path>
-                        </svg>
-                        
-						<span class="flex-1 ml-3 whitespace-nowrap text-laravel font-bold">Events Calendar</span>
-					</a>
-				</li>
+				
+				
 				
 			</ul>
 		</div>
 	</aside>
 
 	
-    <script src="https://unpkg.com/flowbite@1.3.4/dist/flowbite.js"></script>
+    <script >
+	
+  const toggleSidebar = document.getElementById('toggleSidebar');
+  const sidebar = document.getElementById('sidebar');
+
+  toggleSidebar.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
+	</script>
 </div>
 </section>

@@ -1,33 +1,4 @@
 <x-layout>
-    <style>
-        /* Scanning line animation */
-        @keyframes scanningMove {
-            0% {
-                top: 0;
-            }
-            100% {
-                top: 100%;
-            }
-        }
-    
-        /* Pulse effect for the square border */
-        .relative .border-4 {
-            animation: pulse-border 1.5s infinite;
-        }
-    
-        @keyframes pulse-border {
-            0% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-    </style>
-    
 
     <section class="pt-24">
         <div class="w-full shadow-lg text-left">
@@ -58,38 +29,42 @@
     
         <!-- Incoming Events Section -->
         <section id="incoming" class="pt-4 ">
-            <div class="lg:grid lg:grid-cols-2 gap-4 mx-4 pb-10">
-                @forelse($upcomingEvents as $event)
-                <x-card class="bg-white shadow-lg mb-6">
-                    <div class="flex flex-wrap md:flex-nowrap">
-                        <img class="w-full md:w-48 md:mr-6 block rounded" 
-                            src="{{ $event->image ? asset('storage/' . $event->image) : asset('/images/no-image.png') }}" 
-                            alt="Event Image" />
-                        <div>
-
-                            <div class="text-xl font-medium mb-4 text-laravel">{{ strtoupper($event->title) }}</div>
-                            <h3 class="text-2xl font-bold text-laravel">
-                                 <a>{{ $event->tags }}</a>
-                            </h3>
-                            
-        
-                            <x-listing-organizations :organizationsCsv="$event->organization" />
-        
-                            <div class="text-lg mt-4 text-laravel">
-                                
+            <div class="max-w-7xl mx-auto my-8 px-2">
+                <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 p-2 xl:p-5">
+                    @forelse($upcomingEvents as $event)
+                        <li class="relative bg-white flex flex-col justify-between border rounded shadow-md hover:shadow-primary-400">
+                            <a class="relative" href="/tool/writey-ai">
+                                <div class="relative w-full aspect-video">
+                                    <img class="rounded w-full h-[280px] object-cover"
+                                         src="{{ $event->image ? asset('storage/' . $event->image) : asset('/images/no-image.png') }}" alt="Event">
+                                         <a href="/">
+                                         <div
+                                         class="text-xs absolute top-0 right-0 bg-blue-700 rounded-lg px-4 py-2 text-white mt-3 mr-3">
+                                         Recommended for you
+                                     </div>
+                                    </a>
+                                    <div class="absolute bottom-0 left-0 right-0 p-4 bg-laravel text-white">
+                                        <h2 class="text-xl font-semibold">{{ $event->tags }}</h2>
+                                    </div>
+                                </div>
+                            </a>
+            
+                            <div class="flex flex-col justify-between gap-3 px-4 py-2">
+                                <p><strong>{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }} at {{$event->event_time}}</strong></p>
                                 <h3 class="text-sm font-medium text-laravel">
                                     <a href="/listings/{{ $event->id }}">See more Info...</a>
                                 </h3>
                             </div>
+                        </li>
+                    @empty
+                        <div class="p-4 text-center text-lg font-bold pb-80">
+                            No Upcoming events.
                         </div>
-                    </div>
-                </x-card>
-                @empty
-                <div class="p-4 text-center text-lg font-bold pb-80">
-                    No Upcoming events.
-                </div>
-                @endforelse
+                    @endforelse
+                </ul>
             </div>
+            
+           
         </section>
         
         
@@ -112,87 +87,23 @@
         <h2 class="text-xl mb-5">Here at <strong>{{$event->venue}}</strong></h2>
 
         <!-- Button to trigger modal -->
-        <button type="button" id="openModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Submit Attendance
-        </button>
+        
   
 
 <div class="pt-4">
-    @if(!$event->eventTimings || $event->eventTimings->isEmpty() || !$event->eventTimings->last()->time_end)
+   
         <!-- Show the "Will be starting at" message only if the event has not ended -->
         <div class="inline-block align-bottom mr-5">
             <span class="text-lg  leading-none align-baseline">Will be starting at</span>
             <span class="font-bold text-xl leading-none align-baseline">{{$event->event_time}}</span>
         </div>
-    @endif 
+  
 
-    <div id="eventContainer">
-        <!-- Loop through the event timings for the current listing -->
-        @if($event->eventTimings)
-            @foreach($event->eventTimings as $eventTime)
-                <div class="event">
-                    <p> Started: <strong>{{ $eventTime->time_start }}</strong></p>
-                    <p> Ended: <strong>{{ $eventTime->time_end }}</strong></p>
-                    <p>Duration: <strong>{{ gmdate('H:i:s', $eventTime->event_duration) }} </strong></p>
-                </div>
-            @endforeach
-        @else
-            <p>No timing information available for this event.</p>
-        @endif
-    </div>
+   
 </div>
 </div>
 </div>
-<!-- Modal (initially hidden) -->
-<div id="qrModal" class="fixed z-10 inset-0 flex items-center justify-center p-4 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen">
-        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full">
-            <div class="px-4 py-2">
-                <h3 class="text-xl font-bold mb-4">Scan QR Code</h3>
-                <hr class="border-black px-4">
-                
-                <div class="relative w-full h-[300px]">
-                    <!-- Video element to display the camera stream -->
-                    <video id="cameraStream" class="w-full h-full object-cover" autoplay playsinline></video>
                     
-                    <!-- Overlay with square to guide QR positioning -->
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="border-4 border-green-500 rounded-md w-1/2 h-1/2 relative">
-                            <!-- Scanning line that moves up and down -->
-                            <div id="scanningLine" class="absolute top-0 left-0 w-full h-1 bg-red-500"></div> 
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Div to display the scanned QR code result -->
-                <p id="qrResult" class="mt-4 text-lg font-bold text-green-600"></p>
-
-                <button id="submitAttendance" class="btn hidden">Submit Attendance</button>
-                <!-- Warning message -->
-                <p id="qrWarning" class="mt-4 text-lg font-bold text-red-600 hidden">Cannot scan the QR code. Please try again.</p>
-            </div>
-            <div class="px-4 py-2 flex justify-end">
-                <button id="closeModal" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-                
-         
-
-                        
-                        <!-- Modal -->
-                     
-
-                        
-
-                        <!------------modalend------------->
-
-                        
-                          
-                            
                             
                         </div>
                     </div>
@@ -204,52 +115,89 @@
             @endforelse
         </section>
         
-        
-        
-        
 
-       
-        
-    
         <!-- Previous Events Section -->
-        <section id="previous" class="pt-4 shadow-lg hidden">
-            <div class="mx-auto px-4 py-8 max-w-xl my-20 lg:max-w-3xl">
+        <section id="previous" class="pt-4 shadow-lg hidden pb-10">
+            
                 @forelse($previousEvents as $event)
-                <div class="bg-white shadow-2xl rounded-lg mb-6 tracking-wide">
-                    <div class="md:flex-shrink-0">
-                        <img src="{{ asset('images/umak_after-event.jpg') }}" alt="Image" class="w-full h-64 rounded-lg rounded-b-none">
+                <div class="max-w-2xl mx-auto px-10 bg-white rounded-lg shadow-md lg:p-6 lg:max-w-4xl">
+                    <!-- Post Header -->
+                    <div class="flex items-center mb-4">
+                      <img src="{{ asset('images/logo/umak_ccis_logo.png') }}" alt="User Avatar" class="w-12 h-12 rounded-full mr-4">
+                      <div>
+                        <h3 class="font-semibold text-lg">CCIS</h3>
+                        <p class="text-sm text-gray-500">2 hours ago</p>
+                      </div>
                     </div>
-                    <div class="px-4 py-2 mt-2">
-                        <h2 class="font-bold text-2xl text-gray-800 tracking-normal">{{ $event->tags }}</h2>
-                        
-                        <p class="text-sm text-gray-700 px-2 mr-1">
-                            {{ $event->description }}
-                        </p>
-                        <div class="flex items-center justify-between mt-2 mx-6">
-                            <a href="#" class="text-blue-500 text-xs -ml-3 "></a>
-                            <a href="#" class="flex text-gray-700">
-                                <svg fill="none" viewBox="0 0 24 24" class="w-6 h-6 text-blue-500" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-                                </svg>
-                                5
-                            </a>
-                        </div>
-                        <div class="author flex items-center -ml-3 my-3">
-                            <div class="user-logo">
-                                <img class="w-12 h-12 object-cover rounded-full mx-4 shadow" src="{{ asset('images/logo/umak_ccis_logo.png') }}" alt="avatar">
-                            </div>
-                            <h2 class="text-sm tracking-tighter text-gray-900">
-                                <a href="#">{{ $event->org }}</a> <span class="text-gray-600">{{ $event->event_date }}</span>
-                            </h2>
-                        </div>
+                  
+                    <!-- Post Content -->
+                    <p class="text-gray-800 text-base mb-4">Thank you for your participation in our event! Your involvement truly made a difference, and we appreciate your time and contribution. We hope you enjoyed the experience and look forward to having you join us again in the future. Your presence helped make the event a success!🎉</p>
+                  
+                    <!-- Post Images -->
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                      <img src="{{ asset('images/umak_after-event.jpg') }}" alt="Image 1" class="w-full h-32 object-cover rounded-lg">
+                      <img src="{{ asset('images/umak_after-event.jpg') }}" alt="Image 2" class="w-full h-32 object-cover rounded-lg">
+                      <img src="{{ asset('images/umak_after-event.jpg') }}" alt="Image 3" class="w-full h-32 object-cover rounded-lg">
                     </div>
-                </div>
+                  
+                    <!-- Reactions and Comments Toggle -->
+                    <div class="flex items-center justify-between mb-4">
+                      <!-- Reactions -->
+                      <div class="flex space-x-4">
+                        <div class="flex items-center">
+                          <span class="text-red-500 text-xl">❤️</span>
+                          <span class="ml-2 text-gray-600">123</span>
+                        </div>
+                        <div class="flex items-center">
+                          <span class="text-blue-500 text-xl">😢</span>
+                          <span class="ml-2 text-gray-600">8</span>
+                        </div>
+                      </div>
+                  
+                      <!-- Comments Icon -->
+                      <button onclick="toggleComments()" class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-gray-600">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16h6m-7 4h8.486a2 2 0 001.414-.586l3.414-3.414A2 2 0 0022 14.485V7a2 2 0 00-2-2H6a2 2 0 00-2 2v7a2 2 0 002 2h1v3z" />
+                        </svg>
+                        <span class="text-gray-600">Comments</span>
+                      </button>
+                    </div>
+                  
+                    <!-- Comments Section (Initially Hidden) -->
+                    <div id="commentsSection" class="hidden">
+                      <div class="mt-4">
+                        <div class="flex items-start mb-4">
+                          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+                          <div>
+                            <p class="font-semibold text-sm">Jane Smith</p>
+                            <p class="text-sm text-gray-700">That’s awesome! Keep it up!</p>
+                          </div>
+                        </div>
+                  
+                        <div class="flex items-start mb-4">
+                          <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+                          <div>
+                            <p class="font-semibold text-sm">Chris Johnson</p>
+                            <p class="text-sm text-gray-700">Looking great! Love the new update.</p>
+                          </div>
+                        </div>
+                  
+                        <!-- Add a Comment -->
+                        <div class="flex items-center mt-4">
+                          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+                          <input type="text" placeholder="Add a comment..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 @empty
                 <div class="p-4 text-center">
                     No previous events.
                 </div>
-                @endforelse
+                @endforelse          
             </div>
+           
         </section>
         
     
@@ -289,147 +237,10 @@
           previousSection.classList.remove('hidden');
         });
 
-        /////// qr scannerrrrrrrr
-        document.addEventListener('DOMContentLoaded', function () {
-    const openModalButton = document.getElementById('openModal');
-    const closeModalButton = document.getElementById('closeModal');
-    const qrModal = document.getElementById('qrModal');
-    const videoElement = document.getElementById('cameraStream');
-    const qrResultElement = document.getElementById('qrResult');
-    const qrWarningElement = document.getElementById('qrWarning');
-    const scanningLine = document.getElementById('scanningLine');
-    const submitAttendanceButton = document.getElementById('submitAttendance');
-    let scanning = false;
-    let stream = null;
-    let timeoutId = null;
-    let scannedEventId = null; // Store the scanned event ID
-
-    // Open the QR Scanner Modal
-    openModalButton.addEventListener('click', function () {
-        qrModal.classList.remove('hidden');
-        scanningLineAnimation(); // Start scanning line animation
-
-        // Access the user's camera
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                .then(function (videoStream) {
-                    videoElement.srcObject = videoStream;
-                    stream = videoStream;
-                    scanning = true;
-                    scanQRCode(); // Start scanning
-                    timeoutId = setTimeout(() => {
-                        if (scanning) qrWarningElement.classList.remove('hidden'); // Show warning if QR not found
-                    }, 10000); // 10 seconds
-                })
-                .catch(function (error) {
-                    console.error('Error accessing camera:', error);
-                    qrWarningElement.textContent = 'Error accessing camera. Please check permissions.';
-                    qrWarningElement.classList.remove('hidden');
-                });
-        } else {
-            alert('Camera access is not supported by your browser.');
-        }
-    });
-
-    // Close the QR Scanner Modal
-    closeModalButton.addEventListener('click', function () {
-        qrModal.classList.add('hidden');
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-        }
-        videoElement.srcObject = null;
-        scanning = false;
-        qrResultElement.textContent = '';
-        qrWarningElement.classList.add('hidden');
-        submitAttendanceButton.classList.add('hidden'); // Hide the submit button when modal closes
-        clearTimeout(timeoutId);
-    });
-
-    // Function to scan the QR code
-    function scanQRCode() {
-        if (!scanning || videoElement.videoWidth === 0 || videoElement.videoHeight === 0) {
-            requestAnimationFrame(scanQRCode);
-            return;
-        }
-
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = videoElement.videoWidth;
-        canvas.height = videoElement.videoHeight;
-        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
-
-        if (qrCode) {
-            // Store the event ID from the scanned QR code
-            scannedEventId = qrCode.data;
-            qrResultElement.innerHTML = `Event Info: ${scannedEventId}<br>User Name: {{ ucfirst(auth()->user()->fname) }}`;
-            qrWarningElement.classList.add('hidden');  // Hide warning if successful
-
-            // Show the submit button once a QR code is scanned
-            submitAttendanceButton.classList.remove('hidden');
-            scanning = false;  // Stop scanning after detecting a QR code
-            clearTimeout(timeoutId);
-        } else {
-            requestAnimationFrame(scanQRCode);  // Continue scanning if no QR code detected
-        }
-    }
-
-    // Scanning line animation
-    function scanningLineAnimation() {
-        scanningLine.style.animation = 'scanningMove 2s infinite linear';
-    }
-
-    // Submit attendance button action
-    submitAttendanceButton.addEventListener('click', function () {
-    console.log('Button clicked!'); // Log button click
-    console.log('Scanned Event ID:', scannedEventId); // Log scanned event ID
-    console.log('User ID:', "{{ auth()->user()->id }}"); // Log user ID
-
-    if (scannedEventId) {
-        fetch('/submit-attendance', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                event_id: scannedEventId, // Use 'event_id' instead of 'listing_id'
-                user_id: "{{ auth()->user()->id }}"
-            })
-        })
-        .then(response => {
-            // Check if the response is OK (status code in the range 200-299)
-            if (!response.ok) {
-                return response.json().then(err => { throw err; }); // Parse error response
-            }
-            return response.json(); // Return the successful response
-        })
-        .then(data => {
-            console.log('Response data:', data); // Log the response data
-            if (data.success) {
-                alert('Attendance submitted successfully!');
-                submitAttendanceButton.classList.add('hidden'); // Hide the button after submission
-            } else {
-                alert('Failed to submit attendance: ' + JSON.stringify(data.error)); // Show detailed error
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error); // Log the error
-            alert('There was an error submitting attendance: ' + (error.message || 'Please try again.')); // Display error message
-        });
-    } else {
-        alert('No event scanned.'); // Alert if no event was scanned
-    }
-});
-
-
-});
-    
-
-    </script>
-
+function toggleComments() {
+    const commentsSection = document.getElementById('commentsSection');
+    commentsSection.classList.toggle('hidden');
+  }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 

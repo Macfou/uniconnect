@@ -1,4 +1,6 @@
 <x-layout>
+
+    @include('partials._myevents')
   <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
       <div class="max-w-[1000px] mx-auto position:sticky pt-20 pl-32">
           <form method="POST" action="/listings/{{$listing->id}}" enctype="multipart/form-data">

@@ -1,6 +1,6 @@
 <section>
 
-    <footer class="bg-laravel text-white px-6 lg:px-8 py-8 bottom-0">
+    <footer class="bg-laravel text-white px-6 lg:px-8  py-8 bottom-0">
         <div class="max-w-screen-xl mx-auto mb-12 lg:mb-16  ">
           <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="{{ asset('images/uniconnect_icon.png') }}" class="h-16" alt="Umak Logo">
@@ -25,6 +25,9 @@
                   </li>
                   <li>
                     <a href="/announcement" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Announcement</a>
+                  </li>
+                  <li>
+                    <a href="/about" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About Us</a>
                   </li>
                   <li>
                     <a href="/facility" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Facilities</a>

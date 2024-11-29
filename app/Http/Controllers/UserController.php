@@ -27,6 +27,7 @@ class UserController extends Controller
             'miname' => ['nullable', 'string', 'max:5'], // Middle Initial is optional
             'org' => 'required',
             'status' => ['required', 'string'], // Must be 'student' or 'faculty'
+            'idnumber' => ['required', 'string'],
             'yearlevel' => ['nullable', 'string'], // Only required if status is student
             'section' => ['nullable', 'string', 'max:50'], // Optional for both status types
             'email' => ['required', 'email', Rule::unique('users', 'email')],

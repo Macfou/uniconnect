@@ -24,6 +24,19 @@
     
                 <span class="mx-2">Profile</span>
             </a>
+
+            <span class="mx-5 text-gray-500 dark:text-gray-300">
+
+            </span>
+
+            <a href="/pages/eventattended" class="flex items-center text-gray-600 -px-2 dark:text-gray-200 hover:underline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon review-icon">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10h4z"></path>
+                  </svg>
+                  
+    
+                <span class="mx-2">Event Attended</span>
+            </a>
     
            
             </a>

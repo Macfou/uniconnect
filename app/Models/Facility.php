@@ -10,7 +10,8 @@ class Facility extends Model
     use HasFactory;
 
 
-    protected $table = 'facility';
+    protected $table = 'facilities'; 
     
-    protected $fillable = ['facilityName', 'facilityImage', 'facilityCapacity'];
+    protected $fillable = ['facility_name', 'description', 'image', 'sitting_capacity'];
 }
+

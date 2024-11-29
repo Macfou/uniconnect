@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Listing;
 use App\Models\EventTiming;
 use Illuminate\Http\Request;
+use App\Models\EventAttendee;
 use Illuminate\Support\Facades\Log;
 
 class StartEventController extends Controller
@@ -70,7 +72,69 @@ public function showTimes($id)
 
 
 
-    
+    // scan
+
+    public function searchStudent(Request $request)
+    {
+        // Validate that 'idnumber' was provided in the request
+        $request->validate([
+            'idnumber' => 'required|string'
+        ]);
+
+        // Search for the student in the users table by 'idnumber'
+        $student = User::where('idnumber', $request->idnumber)->first();
+
+        if ($student) {
+            // Return student details as JSON response
+            return response()->json([
+                'success' => true,
+                'student' => [
+                    'fname' => $student->fname,
+                    'lname' => $student->lname,
+                    'org' => $student->org,
+                    
+                ]
+            ]);
+        } else {
+            // Return error if student not found
+            return response()->json([
+                'success' => false,
+                'error' => 'Student not found'
+            ], 404);
+        }
+    }
+
+    //submit attendance
+
+    public function submitAttendance(Request $request)
+    {
+        // Validate the incoming data
+        $validatedData = $request->validate([
+            'student_id' => 'required|exists:users,idnumber',  // Make sure the student ID exists in users table
+            'event_id'   => 'required|exists:listings,id',     // Make sure the event ID exists in listings table
+        ]);
+
+        // Check if the student is already registered for the event
+        $existingAttendance = EventAttendee::table('event_attendees')
+                                ->where('user_id', $validatedData['student_id'])
+                                ->where('event_id', $validatedData['event_id'])
+                                ->first();
+
+        if ($existingAttendance) {
+            return response()->json(['error' => 'Student has already registered for this event'], 400);
+        }
+
+        // Insert the attendance record into the event_attendees table
+        EventAttendee::table('event_attendees')->insert([
+            'user_id'  => $validatedData['student_id'],
+            'event_id' => $validatedData['event_id'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Return a success response
+        return response()->json(['success' => true]);
+    }
 
 
 }

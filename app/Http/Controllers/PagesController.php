@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
+
  class PagesController extends Controller
 {
 
@@ -11,8 +13,10 @@ namespace App\Http\Controllers;
     }
 
     //venue
-    public function facility () {
-        return view ('pages.facility');
+    public function facility()
+    {
+        $facilities = Facility::all();
+        return view('pages.facility', compact('facilities'));
     }
 
     //announcement
@@ -29,5 +33,28 @@ namespace App\Http\Controllers;
         return view ('pages.about');
     }
     
+    // event attended
+
+    public function eventattended() {
+        return view ('pages.eventattended');
+    }
+   
+     
+    public function showTryView()
+    {
+        // You can pass data if needed, e.g., an array or model data
+        return view('pages.tryview');
+    }
+
+    public function gsouser() {
+        return view('admin.admin_users.gsouser');
+    }
+
+    public function ufmouser() {
+        return view('admin.admin_users.ufmouser');
+    }
+  
+       
+
     
 }

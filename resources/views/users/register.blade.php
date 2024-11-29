@@ -100,6 +100,21 @@
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
             @enderror
         </div>
+
+         {{--- idnumber-----}}
+         <div class="mb-6">
+            <label for="idnumber" class="inline-block text-lg mb-2 text-white">
+                <i class="fa-solid fa-user pr-4"></i>Id Number
+            </label>
+            <input
+                type="text"
+                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
+                name="idnumber" value="{{old('idnumber')}}"/>
+
+                @error('idnumber')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                @enderror
+        </div>
         
         <!-- Year Level Dropdown (hidden by default) -->
         <div id="yearLevelContainer" class="mb-6 hidden">

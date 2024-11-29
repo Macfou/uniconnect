@@ -26,7 +26,10 @@ class AppServiceProvider extends ServiceProvider
 
         // Register the admin-layout component
         Blade::component('admin.admin_components.admin-layout', 'admin-layout');
+
+        Blade::component('gso.gso_components.gsolayout', 'gso-layout');
        
+        Blade::component('ufmo.ufmo_components.ufmolayout', 'ufmo-layout');
     }
 
     

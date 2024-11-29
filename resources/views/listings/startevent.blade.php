@@ -1,4 +1,33 @@
 <x-layout>
+
+    <style>
+        /* Scanning line animation */
+        @keyframes scanningMove {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+    
+        /* Pulse effect for the square border */
+        .relative .border-4 {
+            animation: pulse-border 1.5s infinite;
+        }
+    
+        @keyframes pulse-border {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
     @include('partials._myevents')
 
     <!-- Profile Card -->
@@ -23,63 +52,71 @@
 
             <!-- Flex container to align left and right divs -->
             <div class="flex mt-6 space-x-4">
-                <img id="qrCodeImage" alt="QR Code" class="rounded-t cursor-pointer" src="{{ $listing->qr_code ? asset($listing->qr_code) : asset('/images/no-image.png') }}" />
+                
 
                 <!-- Modal (hidden by default) -->
-                <div id="qrModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-                    <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
-                        <div class="text-center">
-                            <h3 class="text-2xl font-bold mb-4">QR Code</h3>
-                            <!-- Display QR Code inside modal, make it larger -->
-                            <img id="qrImageInModal" alt="QR Code" class="rounded w-80 h-80 mx-auto" src="{{ $listing->qr_code ? asset($listing->qr_code) : asset('/images/no-image.png') }}">
-                        </div>
-                        <div class="text-center mt-4">
+               
+                <!-- Right side (60% width with form) -->
+                <div class="w-3/5">
+                    <form>
+                        <input type="hidden" id="listing_id" value="{{ $listing->id }}"> <!-- Assuming $listing is passed to the view -->
+                        <div class="mb-4">
+                            <button type="button" id="openModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Scan student Qr
+                            </button>    
 
-                             <!-- Print Button -->
-                             <button id="printQrCode" class="bg-laravel hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
-                                Save QR Code
-                            </button>
-                            <!-- Close Button -->
-                            <button id="closeModal" class="bg-blue-700 hover:bg-laravel text-white font-bold py-2 px-6 rounded mr-2">
-                                Close
-                            </button>
+                            <a href="{{ route('attendance.show', $listing->id) }}" class="pt-1 pb-1 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">
+                               Show
+                            </a>
+                            
                            
+
+                            
+                        </div>
+
+                <!--------------modal q scanner-------------->
+                <div id="qrModalscanner" class="fixed z-10 inset-0 flex items-center justify-center p-4 overflow-y-auto hidden">
+                    <div class="flex items-center justify-center min-h-screen">
+                        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full">
+                            <div class="px-4 py-2">
+                                <h3 class="text-xl font-bold mb-4">Scan QR Code</h3>
+                                <hr class="border-black px-4">
+                                
+                                <div class="relative w-full h-[300px]">
+                                    <!-- Video element to display the camera stream -->
+                                    <video id="cameraStream" class="w-full h-full object-cover" autoplay playsinline></video>
+                                    
+                                    <!-- Overlay with square to guide QR positioning -->
+                                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        <div class="border-4 border-green-500 rounded-md w-1/2 h-1/2 relative">
+                                            <!-- Scanning line that moves up and down -->
+                                            <div id="scanningLine" class="absolute top-0 left-0 w-full h-1 bg-red-500"></div> 
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <!-- Div to display the scanned QR code result -->
+                                <p id="qrResult" class="mt-4 text-lg font-bold text-green-600"></p>
+                
+                                <button id="submitAttendance" class="btn hidden">Submit Attendance</button>
+                                <!-- Warning message -->
+                                <p id="qrWarning" class="mt-4 text-lg font-bold text-red-600 hidden">Cannot scan the QR code. Please try again.</p>
+                            </div>
+                            <div class="px-4 py-2 flex justify-end">
+                                <button id="closeModalscanner" type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                                    Close
+                                </button>
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Right side (60% width with form) -->
-                <div class="w-3/5">
-                    <form id="eventForm" method="post" onsubmit="startEvent(event)">
-                        <input type="hidden" id="listing_id" value="{{ $listing->id }}"> <!-- Assuming $listing is passed to the view -->
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="input1">
-                                Input Link
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" id="input1" type="text" placeholder="fb live link">
-                        </div>
                     
-                        <!-- Button to start the event -->
-                        <button id="startButton" type="submit" class="block w-full rounded-lg bg-laravel text-white py-3.5 px-7">
-                            Start Now!
-                        </button>
+                       
+                       
                     </form>
                     
-                    <!-- Save button for saving event data -->
-                    <button id="saveButton" type="button" class="mt-4 hidden" onclick="saveEvent()">Save</button>
-                    
-                    <!-- Display area for event status and timer -->
-                    <div id="eventStatus" class="mt-4 text-lg"></div>
-                    <div id="timer" class="mt-2 text-xl hidden"></div>
-                    
-                    <!-- Button to stop the event -->
-                    <button id="stopButton" type="button" class="mt-4 hidden" onclick="stopEvent()">Stop Event</button>
-                    
-                    <!-- Display for event start, end, and duration -->
-                    <div id="eventDetails" class="mt-4 hidden">
-                        <div id="timeStarted" class="text-lg"></div>
-                        <div id="timeEnded" class="text-lg"></div>
-                        <div id="duration" class="text-lg"></div>
-                    </div>
+                   
                     
                     
                 </div>
@@ -105,21 +142,33 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody> 
+                 <!-- In the attendance table section of your view -->
+                 <tbody>
+                   
+                
+                   
                     <tr>
-                      <td class="py-3 px-5 border-b border-blue-gray-50">
-                        <div class="flex items-center gap-4">
-                          <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">Juan Dela Cruz</p>
-                        </div>
-                      </td>
-                      <td class="py-3 px-5 border-b border-blue-gray-50">
-                        <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600 font-bold">CCIS</p>
-                      </td>
-                      <td class="py-3 px-5 border-b border-blue-gray-50">                   
-                            <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">4th-year</p>
-                      </td>
-                    </tr>                   
-                  </tbody>
+                        <td class="py-3 px-5 border-b border-blue-gray-50">
+                            <div class="flex items-center gap-4">
+                                <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
+                                    
+                                </p>
+                            </div>
+                        </td>
+                        <td class="py-3 px-5 border-b border-blue-gray-50">
+                            <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600 font-bold">
+                             
+                            </p>
+                        </td>
+                        <td class="py-3 px-5 border-b border-blue-gray-50">
+                            <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
+                      
+                            </p>
+                        </td>
+                    </tr>
+                   
+                </tbody>
+                
                 </table>
               </div>
             </div>
@@ -129,141 +178,173 @@
     </div>
 
     <script>
-        let timerInterval;
-        let eventStartTime;
-        let durationInSeconds = 0;
-        
-        function startEvent(event) {
-            event.preventDefault(); // Prevent form submission
-        
-            eventStartTime = new Date();
-            document.getElementById("eventStatus").textContent = "Ongoing Event";
-            document.getElementById("timer").classList.remove("hidden");
-            document.getElementById("stopButton").classList.remove("hidden");
-            document.getElementById("startButton").classList.add("hidden");
-            document.getElementById("timeStarted").textContent = `Event Started At: ${eventStartTime.toLocaleTimeString()}`;
-        
-            timerInterval = setInterval(() => {
-                durationInSeconds++;
-                const hours = Math.floor(durationInSeconds / 3600);
-                const minutes = Math.floor((durationInSeconds % 3600) / 60);
-                const seconds = durationInSeconds % 60;
-                document.getElementById("timer").textContent = `Event Duration: ${hours}h ${minutes}m ${seconds}s`;
-            }, 1000);
-        }
-        
-        function stopEvent() {
-            clearInterval(timerInterval); // Stop the timer
-        
-            const timeEndedDiv = document.getElementById("timeEnded");
-            const durationDiv = document.getElementById("duration");
-            const durationContainer = document.getElementById("eventDetails");
-        
-            // Capture the end time
-            const eventEndTime = new Date();
-            const endTimeFormatted = eventEndTime.toLocaleTimeString();
-        
-            // Display end time
-            timeEndedDiv.textContent = `Event Ended At: ${endTimeFormatted}`;
-        
-            // Calculate and display the duration
-            const hours = Math.floor(durationInSeconds / 3600);
-            const minutes = Math.floor((durationInSeconds % 3600) / 60);
-            const seconds = durationInSeconds % 60;
-        
-            durationDiv.textContent = `Total Duration: ${hours}h ${minutes}m ${seconds}s`;
-        
-            // Show the event details (start time, end time, and duration)
-            durationContainer.classList.remove("hidden");
-        
-            // Show the Save button
-            document.getElementById("saveButton").classList.remove("hidden");
-        
-            // Hide the stop button after stopping the event
-            document.getElementById("stopButton").classList.add("hidden");
-        }
-        
-        function saveEvent() {
-    const listingId = document.getElementById("listing_id").value;
+       
+document.addEventListener('DOMContentLoaded', function () {
+    const openModalButton = document.getElementById('openModal');
+    const closeModalButton = document.getElementById('closeModalscanner');
+    const qrModal = document.getElementById('qrModalscanner');
+    const videoElement = document.getElementById('cameraStream');
+    const qrResultElement = document.getElementById('qrResult');
+    const qrWarningElement = document.getElementById('qrWarning');
+    const scanningLine = document.getElementById('scanningLine');
+    const submitAttendanceButton = document.getElementById('submitAttendance');
+    let scanning = false;
+    let stream = null;
+    let timeoutId = null;
+    let studentId = null; // Store the scanned student ID
 
-    // Assume `eventStartTime` and `durationInSeconds` are already available globally.
-    const eventStartTimeFormatted = eventStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-    const eventEndTime = new Date(eventStartTime);
-    eventEndTime.setSeconds(eventEndTime.getSeconds() + durationInSeconds);
-    const eventEndTimeFormatted = eventEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    // Open the QR Scanner Modal
+    openModalButton.addEventListener('click', function () {
+        qrModal.classList.remove('hidden');
+        scanningLineAnimation(); // Start scanning line animation
 
-    const eventDuration = durationInSeconds;
-
-    // Prepare data to send
-    const data = {
-        listing_id: listingId,
-        time_start: eventStartTimeFormatted,
-        time_end: eventEndTimeFormatted,
-        event_duration: eventDuration,
-    };
-
-    console.log("Sending data:", data); // Debug log to check data being sent
-
-    // Send AJAX request to save event data
-    fetch('/event/save', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            alert('Event data saved successfully!'); // Success
-            document.getElementById("saveButton").classList.add("hidden");
+        // Access the user's camera
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                .then(function (videoStream) {
+                    videoElement.srcObject = videoStream;
+                    stream = videoStream;
+                    scanning = true;
+                    scanQRCode(); // Start scanning
+                    timeoutId = setTimeout(() => {
+                        if (scanning) qrWarningElement.classList.remove('hidden'); // Show warning if QR not found
+                    }, 10000); // 10 seconds
+                })
+                .catch(function (error) {
+                    console.error('Error accessing camera:', error);
+                    qrWarningElement.textContent = 'Error accessing camera. Please check permissions.';
+                    qrWarningElement.classList.remove('hidden');
+                });
         } else {
-            console.error('Server error:', data.error);
-            alert(`Failed to save event data: ${data.error}`);
+            alert('Camera access is not supported by your browser.');
         }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('An error occurred while saving event data.');
     });
+
+    // Close the QR Scanner Modal
+    document.getElementById('closeModalscanner').addEventListener('click', function () {
+        qrModal.classList.add('hidden');
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+        videoElement.srcObject = null;
+        scanning = false;
+        qrResultElement.textContent = '';
+        qrWarningElement.classList.add('hidden');
+        submitAttendanceButton.classList.add('hidden');
+        clearTimeout(timeoutId);
+    });
+
+    // Function to scan the QR code
+    function scanQRCode() {
+        if (!scanning || videoElement.videoWidth === 0 || videoElement.videoHeight === 0) {
+            requestAnimationFrame(scanQRCode);
+            return;
+        }
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+
+        if (qrCode) {
+            // Store the student ID from the scanned QR code
+            studentId = qrCode.data;
+            qrResultElement.innerHTML = `Student ID: ${studentId}<br>Searching for student...`;
+            qrWarningElement.classList.add('hidden');  // Hide warning if successful
+
+            // Fetch student data based on the scanned student ID
+            fetch(`/search-student`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: JSON.stringify({
+        idnumber: studentId  // Send scanned student ID (idnumber)
+    })
+})
+.then(response => {
+    // Check if the response is OK
+    if (!response.ok) {
+        throw new Error('Student not found');
+    }
+    return response.json();
+})
+.then(data => {
+    if (data.success) {
+        // Update the modal to show the student's name
+        qrResultElement.innerHTML = `Student ID: ${studentId}<br> Name: ${data.student.fname} ${data.student.lname}<br>College: ${data.student.org}`;
+    } else {
+        qrResultElement.innerHTML = `Student ID: ${studentId}<br>Student not found.`;
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+    qrResultElement.innerHTML = `Student ID: ${studentId}<br>Student not found`;
+});
+
+            // Show the submit button once a QR code is scanned
+            submitAttendanceButton.classList.remove('hidden');
+            scanning = false;  // Stop scanning after detecting a QR code
+            clearTimeout(timeoutId);
+        } else {
+            requestAnimationFrame(scanQRCode);  // Continue scanning if no QR code detected
+        }
+    }
+
+    // Scanning line animation
+    function scanningLineAnimation() {
+        scanningLine.style.animation = 'scanningMove 2s infinite linear';
+    }
+
+    function resetScanner() {
+    qrResultElement.textContent = '';
+    submitAttendanceButton.classList.add('hidden');
+    scanning = true;
+    scanQRCode();
 }
 
-// modal for qr
+    // Submit attendance button action
+    submitAttendanceButton.addEventListener('click', function () {
+    const eventId = "{{ $listing->id }}"; // Replace with your dynamic event ID variable
 
-document.addEventListener('DOMContentLoaded', function () {
-        const qrCodeImage = document.getElementById('qrCodeImage');
-        const qrModal = document.getElementById('qrModal');
-        const closeModalButton = document.getElementById('closeModal');
-        const printButton = document.getElementById('printQrCode');
-        const qrImageInModal = document.getElementById('qrImageInModal');
-
-        // Open modal when the QR code image is clicked
-        qrCodeImage.addEventListener('click', function () {
-            qrModal.classList.remove('hidden');
-            qrModal.classList.add('flex');
+    if (studentId) {
+        fetch('/submit-attendance', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                student_id: studentId,
+                event_id: eventId // Include event ID
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Attendance submitted successfully!');
+                submitAttendanceButton.classList.add('hidden');
+            } else {
+                alert('Failed to submit attendance: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error submitting attendance.');
         });
+    } else {
+        alert('No student scanned.');
+    }
+});
 
-        // Close modal when the close button is clicked
-        closeModalButton.addEventListener('click', function () {
-            qrModal.classList.remove('flex');
-            qrModal.classList.add('hidden');
-        });
+});
 
-        // Save the QR code image when the print button is clicked
-        printButton.addEventListener('click', function () {
-            const qrImageSrc = qrImageInModal.src;
-            const link = document.createElement('a');
-            link.href = qrImageSrc;
-            link.download = 'qr_code.png'; // The name of the file to be downloaded
-            link.click(); // Trigger the download
-        });
-    });
+
         </script>
         
 </x-layout>

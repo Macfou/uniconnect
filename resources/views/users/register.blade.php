@@ -1,5 +1,13 @@
 <x-layout>
 
+    <div 
+        class="fixed inset-0 bg-cover bg-center -z-10"
+        style="background-image: url('{{ asset('images/umakadmin.jpg') }}');">
+    </div>
+
+    <!-- Black Overlay -->
+    <div class="fixed inset-0 bg-black opacity-50 -z-10"></div>
+
     <x-card class="p-10 rounded-xl max-w-lg mx-auto mt-24 bg-laravel border-2">
     <header class="text-center">
         <div class="flex items-center justify-center space-x-2">

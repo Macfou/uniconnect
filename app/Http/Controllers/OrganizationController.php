@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Listing;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -81,6 +83,20 @@ public function destroy($id)
     return redirect()->route('admin.admin_pages.organization.index')->with('success', 'Organization deleted successfully!');
 }
 
+public function showabout()
+{
+    // Get the total count of organizations, users, and listings
+    $organizationCount = Organization::count();
+    $userCount = User::count();
+    $listingCount = Listing::count();
+
+    // Pass the counts to the view
+    return view('pages.about', [
+        'organizationCount' => $organizationCount,
+        'userCount' => $userCount,
+        'listingCount' => $listingCount,
+    ]);
+}
 
 
 

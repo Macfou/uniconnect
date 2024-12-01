@@ -105,12 +105,12 @@ class ListingController extends Controller
         if ($request->hasFile('image')) {
             $formFields['image'] = $request->file('image')->store('images', 'public');
         }
-    
+
         // Add user_id to the form fields to associate the listing with the authenticated user
         $formFields['user_id'] = auth()->id();
     
         // Create the listing with user_id and save it to the database
-        $listing = Listing::create($formFields);  // Now $listing contains the saved event
+        Listing::create($formFields);  // Now $listing contains the saved event
     
         // Redirect with a success message
         return redirect('/')->with('message', 'Event posted successfully!');

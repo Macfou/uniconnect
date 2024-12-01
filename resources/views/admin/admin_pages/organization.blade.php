@@ -4,6 +4,13 @@
         <div class="block mb-4 mx-auto border-b border-slate-300 pb-2 max-w-[360px]">
            
         </div>
+
+          <!-- Success Message -->
+          @if (session('success'))
+          <div class="bg-green-500 text-white p-4 rounded-lg mb-4">
+              {{ session('success') }}
+          </div>
+      @endif
     
         <div class="relative flex flex-col w-full h-full text-slate-700 bg-white mx-w-lg shadow-md rounded-xl bg-clip-border">
             <div class="relative mx-4 mt-4 overflow-hidden text-slate-700 bg-white rounded-none bg-clip-border">
@@ -252,12 +259,7 @@
                     <button id="closeModalBtn" class="text-white text-2xl hover:text-gray-200 transition ease-in-out duration-300">&times;</button>
                 </div>
 
-                <!-- Success Message -->
-                @if (session('success'))
-                    <div class="bg-green-500 text-white p-4 rounded-lg mb-4">
-                        {{ session('success') }}
-                    </div>
-                @endif
+              
 
                 <!-- Modal Body -->
                 <form id="orgForm" action="{{ route('admin.admin_pages.organization.store') }}" method="POST" enctype="multipart/form-data">

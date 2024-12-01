@@ -335,6 +335,10 @@ Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class,'ufmoap
 Route::get('/ufmo/ufmo_pages/ufmo_cancelled', [UfmoPagesController::class,'ufmocancelled'])->name('ufmo.ufmo_pages.ufmo_cancelled');
 Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoPagesController::class, 'ufmocalendar'])->name('ufmo.ufmo_pages.ufmo_calendar');
 
+//about us age
+
+Route::get('about', [OrganizationController::class, 'showabout'])->name('about');
+
 
 
 

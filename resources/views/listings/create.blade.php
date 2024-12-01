@@ -29,7 +29,7 @@
                         {{--title-------}}
                         <div class="md:col-span-5">
                           <label for="title">Organization</label>
-                          <input type="text" name="title" id="title" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="{{ old('organization', Auth::user()->org) }}" readonly style="text-transform: uppercase;" />
+                          <input type="text" name="title" id="title" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"  />
                         </div>
 
                         {{----venue-------}}

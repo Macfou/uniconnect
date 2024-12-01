@@ -112,27 +112,12 @@ class ListingController extends Controller
         $listing = Listing::create($formFields);  // Now $listing contains the saved event
     
         // Generate the QR Code with event details
-        $qrCodeData = "🔊 Title: " . $listing->tags . "\n📍 Venue: " . $listing->venue;
-
-        $qrCode = QrCode::create($qrCodeData);
-        $writer = new PngWriter();
+        
     
         // Create a directory for storing QR codes if it doesn't exist
-        if (!file_exists(public_path('qrcodes'))) {
-            mkdir(public_path('qrcodes'), 0755, true);
-        }
+       
     
-        // Generate a unique path for the QR code image
-        $qrCodePath = 'qrcodes/' . uniqid() . '.png';
-    
-        // Generate and save the QR code as a PNG file
-        $result = $writer->write($qrCode);
-        $result->saveToFile(public_path($qrCodePath));
-    
-        // Update the listing with the QR code path
-        $listing->update(['qr_code' => $qrCodePath]);
-    
-        return redirect('/')->with('message', 'Event posted successfully!')->with('qr_code', $qrCodePath);
+        return redirect('/')->with('message', 'Event posted successfully!');
     }
 
 

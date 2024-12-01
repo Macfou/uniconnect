@@ -86,6 +86,7 @@ class ListingController extends Controller
  
     // Store listing
     public function store(Request $request) {
+        // Validate the incoming request data
         $formFields = $request->validate([
             'tags' => ['required', Rule::unique('listings', 'tags')],
             'title' => 'required',
@@ -111,14 +112,10 @@ class ListingController extends Controller
         // Create the listing with user_id and save it to the database
         $listing = Listing::create($formFields);  // Now $listing contains the saved event
     
-        // Generate the QR Code with event details
-        
-    
-        // Create a directory for storing QR codes if it doesn't exist
-       
-    
+        // Redirect with a success message
         return redirect('/')->with('message', 'Event posted successfully!');
     }
+    
 
 
 
@@ -218,6 +215,8 @@ class ListingController extends Controller
     ///////////////  start eventtt
 
    // ListingController.php
+
+   
  
    
 

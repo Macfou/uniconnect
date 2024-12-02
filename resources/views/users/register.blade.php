@@ -188,17 +188,19 @@
 
         <div class="mb-6">
             <label for="email" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-envelope pr-4"></i>Email</label>
+                <i class="fa-solid fa-envelope pr-4"></i>Email
+            </label>
             <input
                 type="email"
-                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
-                name="email" value="{{old('email')}}"/>
-
-                @error('email')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-            </p>
+                class="border bg-laravel border-gray-200 rounded p-2 w-full text-white"
+                autocomplete="off"
+                name="email"
+                value="{{ old('email') }}" />
+            @error('email')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
         </div>
+        
 
 
 

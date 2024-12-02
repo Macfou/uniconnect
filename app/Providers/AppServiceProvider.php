@@ -30,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('gso.gso_components.gsolayout', 'gso-layout');
        
         Blade::component('ufmo.ufmo_components.ufmolayout', 'ufmo-layout');
+
+        Blade::component('components.officer_layout', 'officer-layout');
     }
 
     

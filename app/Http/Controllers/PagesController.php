@@ -53,8 +53,14 @@ use App\Models\Facility;
     public function ufmouser() {
         return view('admin.admin_users.ufmouser');
     }
+
+    public function afterevent() {
+        return view('pages.afterevent');
+    }
   
        
 
-    
+    public function calendar() {
+        return view('pages.calendar');
+    }
 }

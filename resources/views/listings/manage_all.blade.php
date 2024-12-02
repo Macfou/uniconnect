@@ -44,12 +44,9 @@
                                      <td class="p-4 border-b border-slate-200">{{ $event->venue }}</td>
                                      <td class="p-4 border-b border-slate-200">{{ $event->event_date }}</td>
                                      <td class="p-4 border-b border-slate-200">
-                                         <a href="/listings/{{ $event->id }}/edit" class="h-10 w-10 rounded-lg hover:bg-slate-900/10">Edit</a>
-                                         <form method="POST" action="/listings/{{ $event->id }}" class="inline">
-                                             @csrf
-                                             @method('DELETE')
-                                             <button type="submit" class="h-10 w-10 rounded-lg hover:bg-slate-900/10">Delete</button>
-                                         </form>
+                                         <a href="/pages/afterevent" class="pt-1 pb-1 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">View Details</a>
+                                        
+                                     
                                      </td>
                                  </tr>
                              @empty

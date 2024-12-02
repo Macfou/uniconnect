@@ -30,24 +30,30 @@ class UserController extends Controller
             'idnumber' => ['required', 'string'],
             'yearlevel' => ['nullable', 'string'], // Only required if status is student
             'section' => ['nullable', 'string', 'max:50'], // Optional for both status types
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email'),
+                'regex:/^[a-zA-Z0-9._%+-]+@umak\.edu\.ph$/'
+            ],
             'password' => 'required|confirmed|min:6'
+        ], [
+            'email.regex' => 'Please use your Umak email to register.',
         ]);
-        
-
+    
         // Hash Password
         $formFields['password'] = bcrypt($formFields['password']);
-
+    
         // Create User
         $user = User::create($formFields);
-
+    
         // Login
         Auth::login($user);
-
-        
-
+    
         return redirect('/')->with('message', 'User created and logged in');
     }
+    
+    
 
     // Logout
     public function logout(Request $request) {

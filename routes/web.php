@@ -339,6 +339,11 @@ Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoPagesController::class, 'ufmoca
 
 Route::get('about', [OrganizationController::class, 'showabout'])->name('about');
 
+//after event
+Route::get('/pages/afterevent', [PagesController::class, 'afterevent'])->name('pages.afterevent');
+
+Route::get('/pages/calendar', [PagesController::class, 'calendar'])->name('pages.calendar');
+
 
 
 

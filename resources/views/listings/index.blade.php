@@ -1,5 +1,5 @@
 <x-layout>
-
+  
     <section class="pt-24">
         <div class="w-full shadow-lg text-left">
             <nav aria-label="breadcrumb" class="block w-full">
@@ -199,7 +199,8 @@
             </div>
            
         </section>
-        
+
+     
     
     <script>
         // Get references to sections and links

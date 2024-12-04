@@ -14,7 +14,7 @@ return new class extends Migration
      {
          Schema::table('listings', function (Blueprint $table) {
              $table->date('event_date')->nullable();  // For the date field
-             $table->time('event_time')->nullable();  // For the time field
+             $table->string('event_time')->change();  // For the time field
          });
      }
      

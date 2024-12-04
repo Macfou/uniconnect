@@ -1,3 +1,9 @@
+@php
+    $facility = request('facility');
+    $date = request('date');
+    $time = request('time');
+@endphp
+
 <x-layout>
   @include('partials._myevents')
 
@@ -18,6 +24,8 @@
                       <p>Please fill out all the fields.</p>
                     </div>
 
+                  
+
                     {{---organization----}}
 
                     <div class="lg:col-span-2">
@@ -26,17 +34,33 @@
                           <label for="tags">Title</label>
                           <input type="text" name="tags" id="tags" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="{{old('tags')}}" />
                         </div>
+                        <div class="lg:col-span-2">
+                          <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                          <select id="status" name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                              <option value="face_to_face">Face to Face</option>
+                              <option value="online">Online</option>
+                          </select>
+                          @error('status')
+                              <span class="text-red-500 text-sm">{{ $message }}</span>
+                          @enderror
+                      </div>
+                      
+                      <!-- Link Input (static, always visible) -->
+                      <div id="linkInput" class="lg:col-span-2">
+                          <label for="link" class="block text-sm font-medium text-gray-700">Link</label>
+                          <input type="url" id="link" name="link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                          @error('link')
+                              <span class="text-red-500 text-sm">{{ $message }}</span>
+                          @enderror
+                      </div>
+                      
                         {{--title-------}}
                         <div class="md:col-span-5">
                           <label for="title">Organization</label>
                           <input type="text" name="title" id="title" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"  />
                         </div>
 
-                        {{----venue-------}}
-                        <div class="md:col-span-2">
-                          <label for="venue">Venue</label>
-                          <input type="text" name="venue" id="venue" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="{{old('venue')}}" placeholder="" />
-                        </div>
+                     
 
                         {{----org involeve----------}}
                         <div class="md:col-span-3">
@@ -65,25 +89,36 @@
 
                       {{----date------}}
                       <div class="md:col-span-3">
-                        <label  for="event_date">Select Date</label>
+                        <label for="event_date">Select a Venue, Date and Time</label>
                         <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                          <input type="date" name="event_date" id="event_date" class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent" value="{{old('event_date')}}"/>
+                            <button 
+                                type="button" 
+                                onclick="window.location.href='/pages/calendar'" 
+                                class="w-full text-gray-800 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+                            >
+                                Select a Venue, Date and Time
+                            </button>
                         </div>
                         @error('event_date')
-                        <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                        @enderror
-                      </div>
-
-                      {{------time-------}}
-                      <div class="md:col-span-2">
-                        <label for="state">Select Time</label>
-                        <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                            <input type="time" name="event_time" id="event_time" class="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent" value="{{ old('event_time') }}" />
-                        </div>
-                        @error('event_time')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                      @enderror
-                      </div>
+                        @enderror
+                    </div>
+
+                    @if ($facility && $date && $time)
+                    <div class="mb-6">
+                        <p class="text-gray-700">Selected Facility: <strong>{{ $facility }}</strong></p>
+                        <p class="text-gray-700">Selected Date: <strong>{{$date}}</strong></p>
+                        <p class="text-gray-700">Selected Time: <strong>{{ $time }}</strong></p>
+                    </div>
+                @endif
+        
+                
+                   
+                <input type="hidden" name="venue" value="{{ $facility }}">
+                <input type="hidden" name="event_date" value="{{ $date }}">
+                <input type="hidden" name="event_time" value="{{ $time }}">
+
+                    
 
                       {{------image----}}
 
@@ -179,6 +214,25 @@
         // Initial update of the button text
         updateSelectedOrganizations();
     });
+
+    // Function to show/hide link input based on status selection
+    function toggleLinkInput() {
+        const status = document.getElementById('status').value;
+        const linkInput = document.getElementById('linkInput');
+        const linkField = document.getElementById('link');
+        
+        if (status === 'online') {
+            linkInput.classList.remove('hidden');
+            linkField.setAttribute('required', 'required');
+        } else {
+            linkInput.classList.add('hidden');
+            linkField.removeAttribute('required');
+        }
+    }
+
+    // Initialize the form state on page load
+    window.onload = toggleLinkInput;
+
   </script>
 
 </x-layout>

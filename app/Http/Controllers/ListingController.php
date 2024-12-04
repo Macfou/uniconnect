@@ -85,37 +85,43 @@ class ListingController extends Controller
 
  
     // Store listing
-    public function store(Request $request) {
-        // Validate the incoming request data
-        $formFields = $request->validate([
-            'tags' => ['required', Rule::unique('listings', 'tags')],
-            'title' => 'required',
-            'venue' => 'required', 
-            'event_date' => 'required',
-            'event_time' => 'required',
-            'organization' => 'required|array',
-            'description' => 'required',
-            'image' => 'required|image'
-        ]);
-    
-        // Convert the organization array into a comma-separated string
-        $formFields['organization'] = implode(', ', $request->input('organization'));
-    
-        // Handle the image upload
-        if ($request->hasFile('image')) {
-            $formFields['image'] = $request->file('image')->store('images', 'public');
-        }
+    public function store(Request $request)
+{
+    // Manually convert the event date to Y-m-d format
+  
 
-        // Add user_id to the form fields to associate the listing with the authenticated user
-        $formFields['user_id'] = auth()->id();
-    
-        // Create the listing with user_id and save it to the database
-        Listing::create($formFields);  // Now $listing contains the saved event
-    
-        // Redirect with a success message
-        return redirect('/')->with('message', 'Event posted successfully!');
+    // Now validate the incoming request data
+    $formFields = $request->validate([
+        'tags' => ['required', Rule::unique('listings', 'tags')],
+        'title' => 'required',
+        'venue' => 'required',
+        'event_date' => 'required', // validate it now after conversion
+        'event_time' => 'required',
+        'organization' => 'required|array',
+        'description' => 'required',
+        'image' => 'required|image',
+    ]);
+
+ 
+   
+    // Convert the organization array into a comma-separated string
+    $formFields['organization'] = implode(', ', $request->input('organization'));
+
+    // Handle the image upload
+    if ($request->hasFile('image')) {
+        $formFields['image'] = $request->file('image')->store('images', 'public');
     }
-    
+
+    // Add user_id to the form fields to associate the listing with the authenticated user
+    $formFields['user_id'] = auth()->id();
+
+    // Create the listing with user_id and save it to the database
+    Listing::create($formFields);
+
+    // Redirect with a success message
+    return redirect('/')->with('message', 'Event posted successfully!');
+}
+
 
 
 

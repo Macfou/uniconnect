@@ -13,6 +13,7 @@ use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OfficerController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GsoLoginController;
@@ -24,6 +25,8 @@ use App\Http\Controllers\UfmoPagesController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StartEventController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\GsoCategoryController;
+use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
@@ -343,6 +346,17 @@ Route::get('about', [OrganizationController::class, 'showabout'])->name('about')
 Route::get('/pages/afterevent', [PagesController::class, 'afterevent'])->name('pages.afterevent');
 
 Route::get('/pages/calendar', [PagesController::class, 'calendar'])->name('pages.calendar');
+
+//caledar
+Route::get('/pages/calendar', [CalendarController::class, 'calendarPage'])->name('pages.calendar');
+
+//gso
+Route::get('/gso/gso_pages/gso_category', [GsoCategoryController::class, 'index'])->name('gso.gso_pages.gso_category');
+Route::post('/gso.gso_pages.gso_category', [GsoCategoryController::class, 'store'])->name('gso.gso_pages.gso_category.store');
+Route::get('/gso/gso_pages/gso_inventory', [GsoCategoryController::class, 'showInventory'])->name('gso.gso_pages.gso_inventory');
+Route::get('/gso/gso_pages/gso_inventory', [GsoInventoryController::class, 'index'])->name('gso.gso_pages.gso_inventory');
+Route::post('/gso/gso_pages/gso_inventory/add', [GsoInventoryController::class, 'storeInventory'])->name('gso.gso_pages.gso_inventory.add');
+
 
 
 

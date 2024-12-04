@@ -47,6 +47,13 @@ public function attendees()
     return $this->hasMany(EventAttendee::class, 'event_id');
 }
     
+public static function isFacilityBooked($venue, $date, $time)
+{
+    return self::where('venue', $venue)
+                ->where('event_date', $date)
+                ->where('event_time', $time)
+                ->exists();
+}
 
     
 }

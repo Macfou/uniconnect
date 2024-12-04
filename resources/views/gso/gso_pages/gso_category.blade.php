@@ -16,4 +16,48 @@
         
       </div>
 
+      <div class="min-h-screen p-8">
+        <div class="bg-white p-10 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-6">Category List</h1>
+
+            <!-- Success message -->
+            @if (session('success'))
+                <div class="bg-green-100 text-green-700 p-4 mb-4 rounded-md">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- Add Category Form -->
+            <form action="{{ route('gso.gso_pages.gso_category.store') }}" method="POST" class="mb-6">
+                @csrf
+                <div class="flex space-x-4">
+                    <input type="text" name="name" placeholder="Category Name" class="px-4 py-2 border rounded-md w-full" required>
+                    <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Add Category
+                    </button>
+                </div>
+            </form>
+
+            <!-- Categories Table -->
+            <table class="min-w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700">
+                        <th class="px-4 py-2 text-left">#</th>
+                        <th class="px-4 py-2 text-left">Category Name</th>
+                        <th class="px-4 py-2 text-left">Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($categories as $category)
+                        <tr class="border-t">
+                            <td class="px-4 py-2">{{ $category->id }}</td>
+                            <td class="px-4 py-2">{{ $category->name }}</td>
+                            <td class="px-4 py-2">{{ $category->created_at->format('F j, Y') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </x-gso-layout>

@@ -20,7 +20,7 @@
               <a href="#">Login <span aria-hidden="true">&rarr;</span></a>
               <a href="#">Get the Updates on Events <span aria-hidden="true">&rarr;</span></a>
               <a href="#">Attend <span aria-hidden="true">&rarr;</span></a>
-              <a href="#">Feedback <span aria-hidden="true">&rarr;</span></a>
+              <a href="/pages/eventattended">Feedback <span aria-hidden="true">&rarr;</span></a>
             </div>
             <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
               <div class="flex flex-col-reverse gap-1">

@@ -20,7 +20,7 @@ public function storeInventory(Request $request)
     $request->validate([
         'name' => 'required|unique:gso_inventories',
         'quantity' => 'required|integer|min:1',
-        'gso_category_id' => 'required|exists:gso_categories,id',
+        'gsocategory_id' => 'required|exists:gsocategory,id',
     ]);
 
     GsoInventory::create($request->only('name', 'quantity', 'gso_category_id', 'status'));

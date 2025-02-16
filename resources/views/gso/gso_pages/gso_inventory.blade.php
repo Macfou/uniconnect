@@ -16,15 +16,7 @@
           <h1 class="text-3xl font-bold mb-6">Inventory</h1>
 
           <!-- Category Dropdown -->
-          <form method="GET" action="{{ route('gso.inventory') }}">
-              <label for="category" class="block text-lg font-medium mb-2">Category</label>
-              <select id="category" name="category" class="w-full p-3 border rounded-lg">
-                  <option value="" disabled selected>Select a category</option>
-                  @foreach ($categories as $category)
-                      <option value="{{ $category->id }}">{{ $category->name }}</option>
-                  @endforeach
-              </select>
-          </form>
+          
 
           <!-- Success Message -->
           @if (session('success'))
@@ -34,7 +26,7 @@
           @endif
 
           <!-- Add Supply Form -->
-          <form action="{{ route('gso.inventory.add') }}" method="POST" class="my-6">
+          <form action="{{ route('gso.gso_pages.gso_inventory.add') }}" method="POST" class="my-6">
               @csrf
               <div class="flex space-x-4">
                   <input type="text" name="name" placeholder="Supply Name" class="px-4 py-2 border rounded-md w-full" required>

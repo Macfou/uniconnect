@@ -30,7 +30,7 @@
                </div>
                <div class="p-4 text-right">
                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Pending Requests</p>
-                 <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">21</h4>
+                 <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $pendingCount }}</h4>
              </div>
              
                
@@ -43,7 +43,7 @@
                </div>
                <div class="p-4 text-right">
                  <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Approved Requests</p>
-                 <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">21</h4>
+                 <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $approvedCount }}</h4>
                </div>
                
              </div>
@@ -54,8 +54,8 @@
                  </svg>
                </div>
                <div class="p-4 text-right">
-                 <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Cancelled Requests</p>
-                 <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">12</h4>
+                 <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Rejected Requests</p>
+                 <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $rejectedCount }}</h4>
                </div>
                
              </div>
@@ -66,10 +66,10 @@
              <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden xl:col-span-2">
                <div class="relative bg-clip-border rounded-xl overflow-hidden bg-transparent text-gray-700 shadow-none m-0 flex items-center justify-between p-6">
                  <div>
-                   <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">Borrowed </h6>
+                   <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">Feedbacks </h6>
                    <p class="antialiased font-sans text-sm leading-normal flex items-center gap-1 font-normal text-blue-gray-600">
                      
-                     <strong>Inventory</strong> 
+                     <strong>Feedback on Venue</strong> 
                    </p>
                  </div>
                  <button aria-expanded="false" aria-haspopup="menu" id=":r5:" class="relative middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30" type="button">
@@ -85,14 +85,15 @@
                    <thead>
                      <tr>
                        <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                         <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Equipments</p>
+                         <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Title</p>
                        </th>
                        <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                         <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">College borrowed</p>
+                         <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Venue</p>
                        </th>
                        <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                         <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Date</p>
+                         <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Positive Rate</p>
                        </th>
+                      
                      </tr>
                    </thead>
                    <tbody>
@@ -106,7 +107,7 @@
                          </div>
                        </td>
                        <td class="py-3 px-5 border-b border-blue-gray-50">
-                         <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">500</p>
+                         <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">Dancing Room</p>
                        </td>
                        <td class="py-3 px-5 border-b border-blue-gray-50">
                          <div class="w-10/12">

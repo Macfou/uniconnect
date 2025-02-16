@@ -66,7 +66,7 @@
                             </button>    
 
                             <a href="{{ route('attendance.show', $listing->id) }}" class="pt-1 pb-1 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">
-                               Show
+                               Show Attendance
                             </a>
                             
                            
@@ -111,69 +111,11 @@
                         </div>
                     </div>
                 </div>
-                    
-                       
-                       
-                    </form>
-                    
-                   
-                    
-                    
+                      
+                    </form>                  
                 </div>
             </div>
 
-            <!-- attendance table---------->
-
-            <div class="md:col-span-3 bg-white  shadow-xl p-4 space-y-2 p-3 rounded-lg mt-6 ">
-            <div class="p-6 overflow-x-scroll px-0 pt-0 pb-2">
-                <table class="w-full min-w-[640px] table-auto">
-                  <thead>
-                    <p class="pl-4 text-lg"><strong>{{$listing->tags}}</strong> Attende's</p>
-                    <hr class="border-black px-4">
-                    <tr>
-                      <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                        <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Name</p>
-                      </th>
-                      <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                        <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Oganization</p>
-                      </th>
-                      <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                        <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Year Level</p>
-                      </th>
-                    </tr>
-                  </thead>
-                 <!-- In the attendance table section of your view -->
-                 <tbody>
-                   
-                
-                   
-                    <tr>
-                        <td class="py-3 px-5 border-b border-blue-gray-50">
-                            <div class="flex items-center gap-4">
-                                <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
-                                    
-                                </p>
-                            </div>
-                        </td>
-                        <td class="py-3 px-5 border-b border-blue-gray-50">
-                            <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600 font-bold">
-                             
-                            </p>
-                        </td>
-                        <td class="py-3 px-5 border-b border-blue-gray-50">
-                            <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
-                      
-                            </p>
-                        </td>
-                    </tr>
-                   
-                </tbody>
-                
-                </table>
-              </div>
-            </div>
-
-            
         </div>
     </div>
 

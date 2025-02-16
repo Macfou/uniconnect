@@ -34,16 +34,7 @@
                           <label for="tags">Title</label>
                           <input type="text" name="tags" id="tags" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="{{old('tags')}}" />
                         </div>
-                        <div class="lg:col-span-2">
-                          <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                          <select id="status" name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                              <option value="face_to_face">Face to Face</option>
-                              <option value="online">Online</option>
-                          </select>
-                          @error('status')
-                              <span class="text-red-500 text-sm">{{ $message }}</span>
-                          @enderror
-                      </div>
+                       
                       
                       <!-- Link Input (static, always visible) -->
                       <div id="linkInput" class="lg:col-span-2">

@@ -61,10 +61,8 @@
                   <div>
                     <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">Events</h6>
                     <p class="antialiased font-sans text-sm leading-normal flex items-center gap-1 font-normal text-blue-gray-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-500">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
-                      </svg>
-                      <strong>30 done</strong> this month
+                     
+                      <strong>This Month</strong>
                     </p>
                   </div>
                   <button aria-expanded="false" aria-haspopup="menu" id=":r5:" class="relative middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30" type="button">
@@ -76,46 +74,45 @@
                   </button>
                 </div>
                 <div class="p-6 overflow-x-scroll px-0 pt-0 pb-2">
-                  <table class="w-full min-w-[640px] table-auto">
-                    <thead>
-                      <tr>
-                        <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                          <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Event</p>
-                        </th>
-                        <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                          <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Attendee</p>
-                        </th>
-                        <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                          <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Success Rate</p>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                     
-                       
-                     
-                      <tr>
-                        <td class="py-3 px-5 border-b border-blue-gray-50">
-                          <div class="flex items-center gap-4">
-                            <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">Sample Event</p>
-                          </div>
-                        </td>
-                        <td class="py-3 px-5 border-b border-blue-gray-50">
-                          <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">500</p>
-                        </td>
-                        <td class="py-3 px-5 border-b border-blue-gray-50">
-                          <div class="w-10/12">
-                            <p class="antialiased font-sans mb-1 block text-xs font-medium text-blue-gray-600">25%</p>
-                            <div class="flex flex-start bg-blue-gray-50 overflow-hidden w-full rounded-sm font-sans text-xs font-medium h-1">
-                              <div class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white" style="width: 25%;"></div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      
-                    </tbody>
-                  </table>
-                </div>
+    <table class="w-full min-w-[640px] table-auto">
+        <thead>
+            <tr>
+                <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
+                    <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Event</p>
+                </th>
+                <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
+                    <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Attendee</p>
+                </th>
+                <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
+                    <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">Success Rate</p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($eventData as $data)
+            <tr>
+                <td class="py-3 px-5 border-b border-blue-gray-50">
+                    <div class="flex items-center gap-4">
+                        <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">{{ $data['event']->tags }}</p>
+                    </div>
+                </td>
+                <td class="py-3 px-5 border-b border-blue-gray-50">
+                    <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">{{ $data['attendees'] }}</p>
+                </td>
+                <td class="py-3 px-5 border-b border-blue-gray-50">
+                    <div class="w-10/12">
+                        <p class="antialiased font-sans mb-1 block text-xs font-medium text-blue-gray-600">{{ $data['positivePercentage'] }}%</p>
+                        <div class="flex flex-start bg-blue-gray-50 overflow-hidden w-full rounded-sm font-sans text-xs font-medium h-1">
+                            <div class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white" style="width: {{ $data['positivePercentage'] }}%;"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
               </div>
             </div>
           </div>

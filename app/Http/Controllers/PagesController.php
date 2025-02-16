@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Facility;
+use App\Models\Announcement;
 
  class PagesController extends Controller
 {
@@ -20,9 +21,15 @@ use App\Models\Facility;
     }
 
     //announcement
-    public function announcement () {
-        return view ('pages.announcement');
-    }
+    public function announcement()
+{
+    $announcements = Announcement::with('user')->orderBy('created_at', 'desc')->get();
+
+    return view('pages.announcement', [
+        'announcements' => $announcements,
+    ]);
+}
+
 
     public function editaccount () {
         return view ('users.editaccount');

@@ -27,7 +27,7 @@ class GsoCategoryController extends Controller
         ]);
 
         // Return back with a success message
-        return redirect()->route('gso.gso_pages.gso_category')->with('success', 'Category added successfully!');
+        return redirect()->route('gso.gso_pages.gso_category')->with('success', 'Supply added successfully!');
     }
 
     public function showInventory()

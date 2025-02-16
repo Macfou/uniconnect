@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ufmo;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -55,4 +56,15 @@ class UfmoController extends Controller
 
         return redirect()->back()->with('success', 'UFMo Officer deleted successfully!');
     }
+
+    public function ufmolayout()
+    {
+        // Get the count of pending requests
+        $pendingCount = Listing::where('status', 'pending')->count();
+    
+        // Return the view and pass the variable
+        return view('ufmo.ufmo_components.ufmolayout', compact('pendingCount'));
+    }
+
+   
 }

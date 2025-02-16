@@ -9,7 +9,7 @@
               <span class="text-gray-500 text-sm antialiased font-sans font-normal leading-normal mx-2 pointer-events-none select-none">/</span>
             </li>
             <li class="flex items-center text-blue-900 antialiased font-sans text-sm font-normal leading-normal cursor-pointer transition-colors duration-300 hover:text-blue-500">
-                <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-gray-900">Cancelled Requests</h6>
+                <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-gray-900">Rejected Requests</h6>
             </li>
           </ol>
         </nav>
@@ -18,7 +18,7 @@
       <div class="relative flex flex-col w-full h-full text-slate-700  bg-white mx-w-lg shadow-md rounded-xl">
         <div class="relative mx-4 mt-4 flex justify-between items-center">
             <!-- Left Side: University Facility Title -->
-            <h3 class="text-lg font-bold text-slate-800">Cancelled Requests</h3>   
+            <h3 class="text-lg font-bold text-slate-800">Rejected Requests</h3>   
         </div>
         
 
@@ -34,12 +34,12 @@
                 </tr>
             </thead>
             <tbody>
-               
+              @foreach ($rejectedEvents as $event)
                     <tr class="hover:bg-slate-100">
-                        <td class="p-4 border-b">Juan Dela Cruz</td>
-                        <td class="p-4 border-b">CCIS</td>
-                        <td class="p-4 border-b">CCIS General Assembly</td>
-                        <td class="p-4 border-b">Oval</td>
+                        <td class="p-4 border-b">{{ strtoupper($event->user->fname) }} {{ strtoupper($event->user->lname) }}</td>
+                        <td class="p-4 border-b">{{ $event->title }}</td>
+                        <td class="p-4 border-b">{{ $event ->tags}}</td>
+                        <td class="p-4 border-b">{{ $event ->venue}}</td>
                         <td class="p-4 border-b">
                             <!-- Edit Button -->
                             <button
@@ -48,7 +48,7 @@
                         </button>            
                         </td>
                     </tr>
-                
+                @endforeach
             </tbody>
         </table>
     </div>

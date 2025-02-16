@@ -22,10 +22,14 @@ use App\Http\Controllers\MyEventsController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UfmoPagesController;
+use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AfterEventController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StartEventController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\GsoCategoryController;
+use App\Http\Controllers\UfmoRequestController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\EventattendedController;
@@ -40,7 +44,7 @@ Route::get('/home', [PagesController::class, 'home']);
 Route::get('/facility', [PagesController::class, 'facility']);
 
 //announcement
-Route::get('/announcement', [PagesController::class, 'announcement']);
+Route::get('/pages/announcement', [PagesController::class, 'announcement']);
 
 //editaccount
 Route::get('/editaccount', [PagesController::class, 'editaccount']);
@@ -357,6 +361,24 @@ Route::get('/gso/gso_pages/gso_inventory', [GsoCategoryController::class, 'showI
 Route::get('/gso/gso_pages/gso_inventory', [GsoInventoryController::class, 'index'])->name('gso.gso_pages.gso_inventory');
 Route::post('/gso/gso_pages/gso_inventory/add', [GsoInventoryController::class, 'storeInventory'])->name('gso.gso_pages.gso_inventory.add');
 
+
+Route::get('/pages/afterevent/{id}', [AfterEventController::class, 'showEventAttendees'])->name('pages.afterevent');
+
+//
+Route::get('/pages/post_announcement', [AnnouncementController::class, 'create'])->name('pages.post_announcement');
+Route::post('/pages/post_announcements/store', [AnnouncementController::class, 'store'])->name('pages.post_announcements.store');
+
+
+//
+Route::get('/listings/getBookedTimes', [CalendarController::class, 'getBookedTimes']);
+
+// ufmo pending approved
+
+
+Route::patch('/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::class, 'approveEvent'])->name('ufmo.ufmo_pages.ufmo_approved');
+Route::patch('/ufmo/ufmo_pages/ufmo_cancelled/{id}', [UfmoRequestController::class, 'rejectEvent'])->name('ufmo.ufmo_pages.ufmo_cancelled');
+
+Route::get('/ufmo/ufmo_components/ufmolayout', [UfmoController:: class, 'ufmolayout'])->name('ufmo.ufmo_components.ufmolayout');
 
 
 

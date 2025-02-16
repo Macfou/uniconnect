@@ -9,7 +9,7 @@
               <span class="text-gray-500 text-sm antialiased font-sans font-normal leading-normal mx-2 pointer-events-none select-none">/</span>
             </li>
             <li class="flex items-center text-blue-900 antialiased font-sans text-sm font-normal leading-normal cursor-pointer transition-colors duration-300 hover:text-blue-500">
-                <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-gray-900">Category</h6>
+                <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-gray-900">Inventory</h6>
             </li>
           </ol>
         </nav>
@@ -18,7 +18,7 @@
 
       <div class="min-h-screen p-8">
         <div class="bg-white p-10 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold mb-6">Category List</h1>
+            <h1 class="text-3xl font-bold mb-6">Inventory List</h1>
 
             <!-- Success message -->
             @if (session('success'))
@@ -31,9 +31,9 @@
             <form action="{{ route('gso.gso_pages.gso_category.store') }}" method="POST" class="mb-6">
                 @csrf
                 <div class="flex space-x-4">
-                    <input type="text" name="name" placeholder="Category Name" class="px-4 py-2 border rounded-md w-full" required>
+                    <input type="text" name="name" placeholder="Supply Name" class="px-4 py-2 border rounded-md w-full" required>
                     <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                        Add Category
+                        Add Supply 
                     </button>
                 </div>
             </form>
@@ -43,7 +43,7 @@
                 <thead>
                     <tr class="bg-gray-200 text-gray-700">
                         <th class="px-4 py-2 text-left">#</th>
-                        <th class="px-4 py-2 text-left">Category Name</th>
+                        <th class="px-4 py-2 text-left">Supply Name</th>
                         <th class="px-4 py-2 text-left">Created At</th>
                     </tr>
                 </thead>

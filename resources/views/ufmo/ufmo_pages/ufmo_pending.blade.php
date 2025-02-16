@@ -15,7 +15,7 @@
         </nav>
       </div>
 
-
+      
       <div class="relative flex flex-col w-full h-full text-slate-700  bg-white mx-w-lg shadow-md rounded-xl">
         <div class="relative mx-4 mt-4 flex justify-between items-center">
             <!-- Left Side: University Facility Title -->
@@ -34,23 +34,32 @@
                     <th class="p-4 border-b border-slate-200">Action</th>
                 </tr>
             </thead>
+            @foreach ($pendingEvents as $event)
             <tbody>
-               
-                    <tr class="hover:bg-slate-100">
-                        <td class="p-4 border-b">Juan Dela Cruz</td>
-                        <td class="p-4 border-b">CCIS</td>
-                        <td class="p-4 border-b">CCIS General Assembly</td>
-                        <td class="p-4 border-b">Oval</td>
-                        <td class="p-4 border-b">
-                            <!-- Edit Button -->
-                            <button
-                            class="flex select-none items-center gap-2 rounded bg-laravel py-2.5 px-4 text-xs font-semibold text-white shadow-md shadow-slate-900/10 transition-all hover:shadow-lg hover:shadow-slate-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                            Approve
-                        </button>            
-                        </td>
-                    </tr>
-                
+                <tr class="hover:bg-slate-100">
+                    <td class="p-4 border-b">{{ strtoupper($event->user->fname) }} {{ strtoupper($event->user->lname) }}</td>
+                    <td class="p-4 border-b">{{ $event->title }}</td>
+                    <td class="p-4 border-b">{{ $event->tags }}</td>
+                    <td class="p-4 border-b">{{ $event->venue }}</td>
+                    <td class="p-4 border-b">
+                        <!-- Approve Form -->
+                        <form action="{{ route('ufmo.ufmo_pages.ufmo_approved', $event->id) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button class="text-blue-500 hover:underline" type="submit">Approve</button>
+                        </form>
+                        <!-- Reject Form -->
+                        <form action="{{ route('ufmo.ufmo_pages.ufmo_cancelled', $event->id) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button class="text-red-500 hover:underline" type="submit">Reject</button>
+                        </form>
+                    </td>
+                </tr>
             </tbody>
+        @endforeach
+        
+        
         </table>
     </div>
 

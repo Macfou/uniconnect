@@ -69,7 +69,7 @@
         <!-- Today's Events Section -->
         <section id="today" class="pt-10 hidden pb-32">
             @forelse($todaysEvents as $event)
-                <div class="w-full max-w-6xl rounded bg-white shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
+                <div class="w-full max-w-6xl rounded bg-laravel shadow-xl p-10 lg:p-20 mx-auto text-gray-800 relative md:text-left">
                     <div class="md:flex items-center -mx-10">
                         <div class="w-full md:w-1/2 px-10 mb-10 md:mb-0">
                             <div class="relative">
@@ -80,8 +80,8 @@
 
 <div class="w-full md:w-1/2 px-10">
     <div class="mb-10">
-        <h1 class="font-bold uppercase text-2xl mb-5">{{$event->tags}}</h1>
-        <h2 class="text-xl mb-5">Here at <strong>{{$event->venue}}</strong></h2>
+        <h1 class="font-bold text-white uppercase text-2xl mb-5">{{$event->tags}}</h1>
+        <h2 class="text-xl text-white mb-5">Here at <strong>{{$event->venue}}</strong></h2>
 
         <!-- Button to trigger modal -->
         
@@ -91,8 +91,8 @@
    
         <!-- Show the "Will be starting at" message only if the event has not ended -->
         <div class="inline-block align-bottom mr-5">
-            <span class="text-lg  leading-none align-baseline">Will be starting at</span>
-            <span class="font-bold text-xl leading-none align-baseline">{{$event->event_time}}</span>
+            <span class="text-lg text-white  leading-none align-baseline">Will be starting at</span>
+            <span class="font-bold text-xl text-white leading-none align-baseline">{{$event->event_time}}</span>
         </div>
   
 

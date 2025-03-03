@@ -3,10 +3,11 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendOtp extends Mailable {
+class SendOtpMail extends Mailable {
     use Queueable, SerializesModels;
 
     public $otp;
@@ -16,6 +17,6 @@ class SendOtp extends Mailable {
     }
 
     public function build() {
-        return $this->subject('Your OTP for Registration')->view('emails.send_otp');
+        return $this->subject('Your OTP Code')->view('emails.otp');
     }
 }

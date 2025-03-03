@@ -5,6 +5,7 @@ use  App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GsoController;
+use App\Http\Controllers\OrcController;
 use App\Http\Controllers\UfmoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
@@ -34,7 +35,7 @@ use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
-
+use App\Models\Certificate;
 
 //home
 Route::get('/home', [PagesController::class, 'home']);
@@ -379,6 +380,8 @@ Route::patch('/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::clas
 Route::patch('/ufmo/ufmo_pages/ufmo_cancelled/{id}', [UfmoRequestController::class, 'rejectEvent'])->name('ufmo.ufmo_pages.ufmo_cancelled');
 
 Route::get('/ufmo/ufmo_components/ufmolayout', [UfmoController:: class, 'ufmolayout'])->name('ufmo.ufmo_components.ufmolayout');
+
+Route::get('/test-ocr', [CertificateController::class, 'extractText']);
 
 
 

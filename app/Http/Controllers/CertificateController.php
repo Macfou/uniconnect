@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Certificate;
 use Illuminate\Http\Request;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class CertificateController extends Controller
 {
-   
+    public function extractText()
+    {
+        $imagePath = public_path('certificate_sample.png'); // Make sure the image is in the public folder
+
+        $text = (new TesseractOCR($imagePath))->run();
+
+        return response()->json(['extracted_text' => $text]);
+    }
 
     public function create()
 {

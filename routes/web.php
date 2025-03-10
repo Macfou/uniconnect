@@ -2,6 +2,7 @@
 
 
 use  App\Models\Listing;
+use App\Models\Certificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GsoController;
@@ -35,7 +36,8 @@ use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
-use App\Models\Certificate;
+use App\Http\Controllers\BorrowEquipmentController;
+use App\Http\Controllers\EventRegistrationController;
 
 //home
 Route::get('/home', [PagesController::class, 'home']);
@@ -85,7 +87,9 @@ Route::get('/listings/manage_realtime', [ListingController::class, 'managetoday'
 Route::get('/listings/manage_previous', [ListingController::class, 'manageprevious'])->middleware('auth');
 
 //show listing
-Route::get('/listings/{listing}', [ListingController::class, 'show']);
+Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
+Route::get('/listings/{listing}/previous', [ListingController::class, 'showprevious'])->name('listings.showprevious');
+
 
 
 
@@ -268,11 +272,10 @@ Route::post('/search-student', [StartEventController::class, 'searchStudent']);
 
 
 
-Route::get('/certificates/create', [CertificateController::class, 'create'])->name('certificates.create');
-Route::post('/certificates/store', [CertificateController::class, 'store'])->name('certificates.store');
 
 
-Route::get('/certificates/{id}', [CertificateController::class, 'show'])->name('certificates.show');
+
+
 
 // dashboard
 
@@ -381,14 +384,61 @@ Route::patch('/ufmo/ufmo_pages/ufmo_cancelled/{id}', [UfmoRequestController::cla
 
 Route::get('/ufmo/ufmo_components/ufmolayout', [UfmoController:: class, 'ufmolayout'])->name('ufmo.ufmo_components.ufmolayout');
 
-Route::get('/test-ocr', [CertificateController::class, 'extractText']);
+
+Route::get('/certificate', [CertificateController::class, 'uploadForm'])->name('certificate.form');
+Route::post('/certificate/upload', [CertificateController::class, 'upload'])->name('certificate.upload');
+Route::post('/certificate/save', [CertificateController::class, 'save'])->name('certificate.save');
+
+
+Route::get('/listings/{id}/register', [EventRegistrationController::class, 'create'])->name('event.register');
+Route::post('/listings/{id}/register', [EventRegistrationController::class, 'store'])->name('event.store');
+
+//gso login
+
+Route::get('/gso/gso_pages/gsologin', function () {
+    return view('gso.gso_pages.gsologin'); 
+})->name('gso.gsologin');
+
+Route::post('/gso/login', [GsoLoginController::class, 'login'])->name('gso.login');
+Route::post('/gso/logout', [GsoLoginController::class, 'logout'])->name('gso.logout');
+
+//gso borrow
+
+Route::get('/pages/borrow/{listing_id}', [BorrowEquipmentController::class, 'borrow'])
+    ->name('pages.borrow');
+
+    Route::post('/borrow/store', [BorrowEquipmentController::class, 'store'])->name('borrow.store');
+
+
+ Route::get('/gso/gso_pages/gso_pending', [BorrowEquipmentController::class, 'pendingRequests'])->name('gso.gso_pages.gso_pending');
+ 
+ Route::patch('/borrow/reject/{id}', [BorrowEquipmentController::class, 'reject'])->name('borrow.reject');
+ 
+ Route::patch('/gso/gso_pages/gso_approved/{id}', [BorrowEquipmentController::class, 'approve'])->name('gso.gso_pages.gso_approved');
+ Route::get('/gso/gso_pages/gso_approved', [BorrowEquipmentController::class, 'approvedRequests'])->name('gso.gso_pages.gso_approved');
+ 
+ Route::get('/pages/requestview/{id}', [BorrowEquipmentController::class, 'requestView'])->name('pages.requestview');
+ Route::delete('/pages/requestview/{id}', [BorrowEquipmentController::class, 'cancelRequest'])->name('pages.requestview.cancel');
+
+// Route to mark an approved request as "Borrowed"
+Route::get('/gso/gso_pages/gso_borrowed/{id}', [BorrowEquipmentController::class, 'markAsBorrowed'])
+    ->name('borrow.markAsBorrowed');
+
+// Route to view all borrowed requests
+Route::get('/gso/gso_pages/gso_borrowed', [BorrowEquipmentController::class, 'showBorrowedRequests'])
+    ->name('gso.borrowed');
+
+// Route to mark a borrowed request as "Returned"
+Route::get('/gso/gso_pages/gso_returned/{id}', [BorrowEquipmentController::class, 'markAsReturned'])
+    ->name('borrow.markAsReturned');
+
+// Route to view all returned requests
+Route::get('/gso/gso_pages/gso_returned', [BorrowEquipmentController::class, 'showReturnedRequests'])
+    ->name('gso.returned');
 
 
 
-
-
-
-
+ 
 
 
 

@@ -73,6 +73,23 @@ class ListingController extends Controller
             'organization' => $organization, // Pass the author's organization to the view
         ]);
     }
+
+    public function showprevious(Listing $listing) {
+        // Get the author of the listing
+        $author = $listing->user;
+    
+        // Get the organization of the author
+        $organization = null;
+        if ($author && $author->org) {
+            $organization = Organization::where('orgNameAbbv', $author->org)->first();
+        }
+    
+        // Pass the listing and the author's organization to the view
+        return view('listings.showprevious', [
+            'listing' => $listing,
+            'organization' => $organization, // Pass the author's organization to the view
+        ]);
+    }
     
     
     

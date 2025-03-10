@@ -69,7 +69,8 @@
                                  <th class="p-4 border-y border-slate-200 bg-slate-50">Title</th>
                                  <th class="p-4 border-y border-slate-200 bg-slate-50">Venue</th>
                                  <th class="p-4 border-y border-slate-200 bg-slate-50">Date</th>
-                                 <th class="p-4 border-y border-slate-200 bg-slate-50">Action</th>
+                                
+                                 <th class="p-4 border-y border-slate-200 bg-slate-50">Equipments</th>
                              </tr>
                          </thead>
                          <tbody>
@@ -79,13 +80,14 @@
                                      <td class="p-4 border-b border-slate-200">{{ $event->venue }}</td>
                                      <td class="p-4 border-b border-slate-200">{{ $event->event_date }}</td>
                                      <td class="p-4 border-b border-slate-200">
-                                         <a href="/listings/{{ $event->id }}/edit" class="h-10 w-10 rounded-lg hover:bg-slate-900/10">Edit</a>
-                                         <form method="POST" action="/listings/{{ $event->id }}" class="inline">
-                                             @csrf
-                                             @method('DELETE')
-                                             <button type="submit" class="h-10 w-10 rounded-lg hover:bg-slate-900/10">Delete</button>
-                                         </form>
-                                     </td>
+                                        <a href="{{ route('pages.borrow', ['listing_id' => $event->id]) }}">
+                                            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                                Borrow
+                                            </button>
+                                        </a>
+                                    </td>
+                                    
+                                           
                                  </tr>
                              @empty
                                  <tr>

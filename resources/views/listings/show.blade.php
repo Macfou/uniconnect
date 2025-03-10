@@ -26,14 +26,18 @@
       <p>When: <strong>{{ \Carbon\Carbon::parse($listing->event_date)->format('F j, Y') }} at {{$listing->event_time}}</strong></p>
       <p>For: <x-listing-organizations :organizationsCsv="$listing->organization" /> </p> 
       <h1 class="font-bold text-lg text-gray-600"></h1>
-      <h1 class="text-lg text-gray-600 text-justify pt-2">{{$listing->description}}</h1>
-      <button class="mt-5 bg-gray-600 p-3 shadow-2xl rounded-xl text-white font-bold hover:bg-gray-800">Register Now</button>
+      <h1 class="text-lg text-gray-600 text-justify pt-2 p-10">{{$listing->description}}</h1>
+      <a href="{{ route('event.register', $listing->id) }}" class="mt-5 bg-blue-500 p-3 rounded-xl text-white font-bold hover:bg-blue-700">
+        Register Now
+    </a>
+    
     </div>
 
     <div class="hidden relative lg:block  lg:col-span-3">
       <img class="absolute inset-0 w-full h-full object-cover rounded object-center" src="{{$listing->image ? asset('storage/' . $listing->image) : asset('/images/no-image.png')}}" alt="Event Image">
     </div>
 </div>
+
        
 </x-layout>
 

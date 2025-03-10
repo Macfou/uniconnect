@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+    $user = Auth::guard('gso')->user();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,8 +52,16 @@
         <aside class="bg-gradient-to-br from-gray-800 to-gray-900 -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0">
           <div class="relative border-b border-white/20">
             <a class="flex items-center gap-4 py-6 px-8" href="#/">
-              <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">GSO </h6>
-            </a>
+              @if($user)
+                  <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">
+                      {{ $user->fname }} {{ $user->lname }}
+                  </h6>
+              @else
+                  <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">
+                      GSO
+                  </h6>
+              @endif
+          </a>
             <button class="middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-white hover:bg-white/10 active:bg-white/30 absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden" type="button">
               <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true" class="h-5 w-5 text-white">
@@ -73,9 +86,9 @@
                 <a  href="/gso/gso_pages/gso_category">
                     <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
-                        <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path>
-                        <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path>
-                      </svg>
+                        <path fill-rule="evenodd" d="M12 2 3 7v10l9 5 9-5V7l-9-5zm7 7.85V9l-7 3.89L5 9v.85L12 14l7-4.15zM5 17.69V11l7 3.89V20l-7-3.31zm9 3.31v-5.11L19 11v6.69l-5 3.31z" clip-rule="evenodd"/>
+                    </svg>
+                    
                       <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Inventory</p>
                     </button>
                   </a>
@@ -85,10 +98,20 @@
                   <a  href="/gso/gso_pages/gso_borrowed">
                     <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
-                        <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path>
-                        <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path>
-                      </svg>
+                        <path fill-rule="evenodd" d="M8 2h8a2 2 0 0 1 2 2v1h3v17H3V5h3V4a2 2 0 0 1 2-2zm0 2v1h8V4H8zm-2 5h12v2H6v-2zm0 4h12v2H6v-2zm0 4h8v2H6v-2z" clip-rule="evenodd"/>
+                    </svg>
+                    
                       <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Borrowed</p>
+                    </button>
+                  </a>
+
+                  <a  href="/gso/gso_pages/gso_returned">
+                    <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
+                        <path fill-rule="evenodd" d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-2.34-5.66L15 10h7V3l-2.69 2.69A9.97 9.97 0 0 0 12 2zm1 5h-2v6l5 3 .91-1.63-3.91-2.37V7z" clip-rule="evenodd"/>
+                    </svg>
+                    
+                      <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">History</p>
                     </button>
                   </a>
 
@@ -144,18 +167,19 @@
               
 
               <li>
-                <form id="logout-form" action="" method="POST" style="display: none;">
-                  @csrf
-              </form>
-              <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                  <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
-                          <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z" clip-rule="evenodd"></path>
-                      </svg>
-                      <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Logout</p>
-                  </button>
-              </a>
-              </li>
+                <form id="logout-form" action="{{ route('gso.logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
+                            <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z" clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Logout</p>
+                    </button>
+                </a>
+            </li>
+            
               
             </ul>
           </div>

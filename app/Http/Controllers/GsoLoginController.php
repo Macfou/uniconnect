@@ -15,23 +15,20 @@ class GsoLoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        $credentials = $request->only('email', 'password');
-
-        // Use the GSO guard for authentication
-        if (Auth::guard('gso')->attempt($credentials)) {
-            return redirect('/gso/gso_pages/gso_dashboard.blade.php');
+    
+        $user = Gso::where('email', $request->email)->first();
+    
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::guard('gso')->login($user);
+            return redirect('/gso/gso_pages/gso_dashboard');
         }
-        
-
-        return back()->withErrors([
-            'email' => 'Invalid email or password.',
-        ])->withInput();
+    
+        return back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
     }
-
+    
     public function logout()
     {
         Auth::guard('gso')->logout();
-        return redirect('/admin/admin_users/gsologin.blade.php');
+        return redirect('/gso/gso_pages/gsologin');
     }
 }

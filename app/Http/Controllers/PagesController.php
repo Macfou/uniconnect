@@ -13,6 +13,10 @@ use App\Models\Announcement;
         return view ('pages.home');
     }
 
+    public function borrow () {
+        return view ('pages.borrow');
+    }
+
     //venue
     public function facility()
     {

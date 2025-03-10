@@ -32,27 +32,50 @@
                 @csrf
                 <div class="flex space-x-4">
                     <input type="text" name="name" placeholder="Supply Name" class="px-4 py-2 border rounded-md w-full" required>
+                    <input type="number" name="quantity" placeholder="Quantity" class="px-4 py-2 border rounded-md w-24" min="0" required>
                     <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                        Add Supply 
+                        Add Supply
                     </button>
                 </div>
             </form>
+            
 
             <!-- Categories Table -->
             <table class="min-w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200 text-gray-700">
-                        <th class="px-4 py-2 text-left">#</th>
+                        <th class="px-4 py-2 text-left">quantity</th>
                         <th class="px-4 py-2 text-left">Supply Name</th>
-                        <th class="px-4 py-2 text-left">Created At</th>
+                        <th class="px-4 py-2 text-left">Availability</th>
+                        <th class="px-4 py-2 text-left">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($categories as $category)
                         <tr class="border-t">
-                            <td class="px-4 py-2">{{ $category->id }}</td>
+                            <td class="px-4 py-2">{{$category->quantity}}</td>
                             <td class="px-4 py-2">{{ $category->name }}</td>
-                            <td class="px-4 py-2">{{ $category->created_at->format('F j, Y') }}</td>
+                            <td class="px-4 py-2">
+                                
+                                 <button  class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                   Available 
+                                </button>          
+                                <button  class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 ml-2">
+                                    Unavailable
+                                </button>
+                            </td>
+                            <td class="px-4 py-2">
+                                <!-- Update Button -->
+                                <button  class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                    Update
+                                </button>
+                            
+                                <!-- Hide Button -->
+                                <button  class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 ml-2">
+                                    delete
+                                </button>
+                            </td>
+
                         </tr>
                     @endforeach
                 </tbody>

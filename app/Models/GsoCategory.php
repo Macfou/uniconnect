@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class GsoCategory extends Model
 {
     use HasFactory;
+
     protected $table = 'gsocategory'; 
 
-    protected $fillable = ['name'];  
+    protected $fillable = ['name', 'quantity']; // Ensure this is declared only once
 }

@@ -137,7 +137,7 @@
                               <div class="flex flex-col justify-between gap-3 px-4 py-2">
                                   <p><strong>{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }} at {{$event->event_time}}</strong></p>
                                   <h3 class="text-sm font-medium text-laravel">
-                                      <a href="/listings/{{ $event->id }}">See more Info...</a>
+                                      <a href="/listings/{{ $event->id }}/previous">See more Info...</a>
                                   </h3>
                               </div>
                           </li>

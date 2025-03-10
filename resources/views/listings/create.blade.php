@@ -37,13 +37,7 @@
                        
                       
                       <!-- Link Input (static, always visible) -->
-                      <div id="linkInput" class="lg:col-span-2">
-                          <label for="link" class="block text-sm font-medium text-gray-700">Link</label>
-                          <input type="url" id="link" name="link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                          @error('link')
-                              <span class="text-red-500 text-sm">{{ $message }}</span>
-                          @enderror
-                      </div>
+                    
                       
                         {{--title-------}}
                         <div class="md:col-span-5">

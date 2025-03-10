@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Gso extends Model
+class Gso extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasFactory;
 
     protected $table = 'gso';
 
@@ -16,7 +16,6 @@ class Gso extends Model
 
     protected $hidden = ['password', 'remember_token'];
 
-    // If needed, specify your custom primary key
-    protected $primaryKey = 'id'; // Defaul
-    
+    protected $primaryKey = 'id'; // Default primary key
 }
+

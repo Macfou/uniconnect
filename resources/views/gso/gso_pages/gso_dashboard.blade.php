@@ -30,7 +30,8 @@
                 </div>
                 <div class="p-4 text-right">
                   <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Pending Requests</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">21</h4>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $pendingRequests }}</h4>
+
               </div>
               
                 
@@ -43,7 +44,8 @@
                 </div>
                 <div class="p-4 text-right">
                   <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Approved Requests</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">21</h4>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $approvedRequests }}</h4>
+
                 </div>
                 
               </div>
@@ -55,7 +57,7 @@
                 </div>
                 <div class="p-4 text-right">
                   <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Cancelled Requests</p>
-                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">12</h4>
+                  <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ $cancelledRequests }}</h4>
                 </div>
                 
               </div>

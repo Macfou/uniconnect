@@ -164,6 +164,26 @@
                 <p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">auth pages</p>
               </li>
 
+              <a  href="{{ route('gso.adduser.create')}}">
+                <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-inherit">
+                    <path fill-rule="evenodd" d="M12 2a5 5 0 1 1-5 5 5 5 0 0 1 5-5zm0 2a3 3 0 1 0 3 3 3 3 0 0 0-3-3zm-7 16a7 7 0 0 1 14 0v2H5v-2zm2 0a5 5 0 0 1 10 0H7z" clip-rule="evenodd"/>
+                </svg> 
+                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Add User</p>
+                </button>
+              </a>
+
+              <a href="{{ route('gso.profile') }}">
+                <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-inherit">
+                        <path fill-rule="evenodd" d="M15 14a5 5 0 1 0-6 0 7 7 0 0 0-6 7h2a5 5 0 0 1 10 0h2a7 7 0 0 0-6-7zm-3-2a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm10-1h-2v-2h-2v2h-2v2h2v2h2v-2h2z" clip-rule="evenodd"/>
+                    </svg>
+                    <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Profile</p>
+                </button>
+            </a>
+            
+
+              
               
 
               <li>

@@ -11,8 +11,8 @@ class Gso extends Authenticatable
     use Notifiable, HasFactory;
 
     protected $table = 'gso';
-
-    protected $fillable = ['email', 'password'];
+    protected $fillable = ['fname', 'lname', 'email', 'password'];
+   
 
     protected $hidden = ['password', 'remember_token'];
 

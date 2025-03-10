@@ -437,6 +437,14 @@ Route::get('/gso/gso_pages/gso_returned', [BorrowEquipmentController::class, 'sh
     ->name('gso.returned');
 
 
+Route::get('/gso/gso_pages/gso_profile', [GsoController::class, 'profile'])->name('gso.profile');
+Route::post('/gso/gso_pages/gso_profile/update-password', [GsoController::class, 'updatePassword'])->name('gso.updatePassword');
+
+Route::get('/gso/gso_pages/gso_adduser', [GsoController::class, 'create'])->name('gso.adduser.create');
+Route::post('/gso/gso_pages/gso_adduser', [GsoController::class, 'store'])->name('gso.adduser.store');
+
+Route::get('/gso/gso_pages/gso_dashboard', [GsoController::class, 'dashboard'])->name('gso.dashboard');
+
 
  
 

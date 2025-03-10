@@ -13,10 +13,25 @@ class BorrowEquipmentController extends Controller
     {
         // Get the event details
         $event = Listing::findOrFail($listing_id);
-
-        // Get available equipment
-        $equipments = GsoCategory::all();
-
+    
+        // Get all equipment with calculated available quantity
+        $equipments = GsoCategory::all()->map(function ($equipment) {
+            // Calculate borrowed equipment quantity (Pending/Approved)
+            $borrowedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
+                ->whereIn('status', ['Pending', 'Approved'])
+                ->sum('quantity');
+    
+            // Calculate returned equipment quantity
+            $returnedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
+                ->where('status', 'Returned')
+                ->sum('quantity');
+    
+            // Adjust available quantity
+            $equipment->available_quantity = max(0, ($equipment->quantity - $borrowedQuantity) + $returnedQuantity);
+    
+            return $equipment;
+        });
+    
         return view('pages.borrow', compact('event', 'equipments'));
     }
 
@@ -31,21 +46,28 @@ class BorrowEquipmentController extends Controller
         // Fetch the equipment
         $equipment = GsoCategory::findOrFail($request->equipment_id);
     
+        // Calculate current available quantity
+        $borrowedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
+            ->whereIn('status', ['Pending', 'Approved'])
+            ->sum('quantity');
+    
+        $returnedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
+            ->where('status', 'Returned')
+            ->sum('quantity');
+    
+        $availableQuantity = max(0, ($equipment->quantity - $borrowedQuantity) + $returnedQuantity);
+    
         // Check if enough quantity is available
-        if ($equipment->quantity < $request->quantity) {
+        if ($availableQuantity < $request->quantity) {
             return redirect()->back()->with('error', 'Not enough equipment available.');
         }
     
-        // Subtract the borrowed quantity
-        $equipment->quantity -= $request->quantity;
-        $equipment->save();
-    
-        // Create the borrow request
+        // Create the borrow request (don't decrease equipment quantity here)
         BorrowRequest::create([
             'listing_id' => $request->listing_id,
             'equipment_id' => $request->equipment_id,
             'quantity' => $request->quantity,
-            'status' => 'pending',
+            'status' => 'Pending', // Initial status
             'user_id' => auth()->id(),
         ]);
     

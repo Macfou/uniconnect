@@ -16,10 +16,11 @@
                     <select name="equipment_id" class="w-full p-2 border rounded-lg">
                         @foreach($equipments as $equipment)
                             <option value="{{ $equipment->id }}">
-                                {{ $equipment->name }} (Available: {{ max(0, $equipment->quantity) }})
+                                {{ $equipment->name }} (Available: {{ $equipment->available_quantity }})
                             </option>
                         @endforeach
                     </select>
+                    
                 </div>
 
                 <div class="mb-4">

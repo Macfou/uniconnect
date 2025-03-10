@@ -12,7 +12,7 @@ import string
 # Set sys.stdout to use UTF-8 encoding
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# Download necessary NLTK resources
+# Download necessary NLTK resource
 nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
 nltk.download('vader_lexicon', quiet=True)

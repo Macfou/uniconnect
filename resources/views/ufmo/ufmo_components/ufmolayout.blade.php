@@ -47,8 +47,13 @@
         <aside class="bg-gradient-to-br from-gray-800 to-gray-900 -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0">
           <div class="relative border-b border-white/20">
             <a class="flex items-center gap-4 py-6 px-8" href="#/">
-              <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">Ufmo </h6>
-            </a>
+        
+        <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">
+           Ufmo
+        </h6>
+   
+          </a>
+          
             <button class="middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-white hover:bg-white/10 active:bg-white/30 absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden" type="button">
               <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" aria-hidden="true" class="h-5 w-5 text-white">
@@ -74,14 +79,28 @@
 
                   <a  href="/admin/admin_pages/facility">
                     <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
-                     
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" />
+                        <path d="M9 21V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v12" />
+                        <path d="M8 21h8" />
+                        <path d="M12 3v4" />
+                        <path d="M10 11h4" />
+                      </svg>
+                      
                       <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Facilities</p>
                     </button>
                   </a>
 
                   <a  href="/ufmo/ufmo_pages/ufmo_calendar">
                     <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
-                     
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M16 2v4" />
+                        <path d="M8 2v4" />
+                        <path d="M3 10h18" />
+                        <path d="M8 14h2v2H8z" />
+                      </svg>
+                      
                       <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Calendar</p>
                     </button>
                   </a>
@@ -135,7 +154,23 @@
                 <p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">auth pages</p>
               </li>
 
-              
+              <a  href="{{ route('ufmo.adduser.create')}}">
+                <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-inherit">
+                    <path fill-rule="evenodd" d="M12 2a5 5 0 1 1-5 5 5 5 0 0 1 5-5zm0 2a3 3 0 1 0 3 3 3 3 0 0 0-3-3zm-7 16a7 7 0 0 1 14 0v2H5v-2zm2 0a5 5 0 0 1 10 0H7z" clip-rule="evenodd"/>
+                </svg> 
+                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Add User</p>
+                </button>
+              </a>
+
+              <a href="{{ route('ufmo.profile') }}">
+                <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-inherit">
+                        <path fill-rule="evenodd" d="M15 14a5 5 0 1 0-6 0 7 7 0 0 0-6 7h2a5 5 0 0 1 10 0h2a7 7 0 0 0-6-7zm-3-2a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm10-1h-2v-2h-2v2h-2v2h2v2h2v-2h2z" clip-rule="evenodd"/>
+                    </svg>
+                    <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Profile</p>
+                </button>
+            </a>
 
               <li>
                 <form id="logout-form" action="" method="POST" style="display: none;">

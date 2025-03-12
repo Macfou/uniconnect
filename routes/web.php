@@ -23,6 +23,7 @@ use App\Http\Controllers\GsoPagesController;
 use App\Http\Controllers\MyEventsController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UfmoLoginController;
 use App\Http\Controllers\UfmoPagesController;
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AfterEventController;
@@ -312,7 +313,7 @@ Route::post('/feedback', [EventattendedController::class, 'submitFeedback'])->na
 //portal
 Route::get('admin/admin_users/portal', [PortalController::class, 'portal'])->name('admin.admin_users.portal');
 Route::get('admin/admin_users/gsologin', [PortalController::class, 'gso'])->name('admin.admin_users.gsologin');
-Route::get('admin.admin_users.ufmoLogin', [PortalController::class, 'ufmo'])->name('admin.admin_users.ufmologin');
+
 
 //gso
 Route::get('admin/admin_users/gsouser', [PagesController::class, 'gsouser'])->name('admin.admin_users.gsouser');
@@ -342,7 +343,10 @@ Route::get('/gso/gso_pages/gso_cancelled', [GsoPagesController::class, 'gsocance
 
 Route::get('/ufmo/ufmo_pages/ufmo_dashboard', [UfmoPagesController::class,'ufmodashboard'])->name('ufmo.ufmo_pages.ufmo_dashboard');
 Route::get('/ufmo/ufmo_pages/ufmo_pending', [UfmoPagesController::class,'ufmopending'])->name('ufmo.ufmo_pages.ufmo_pending');
-Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class,'ufmoapproved'])->name('ufmo.ufmo_pages.ufmo_approved');
+Route::patch('/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::class, 'approveEvent'])
+    ->name('ufmo.ufmo_pages.ufmo_approved');
+
+
 Route::get('/ufmo/ufmo_pages/ufmo_cancelled', [UfmoPagesController::class,'ufmocancelled'])->name('ufmo.ufmo_pages.ufmo_cancelled');
 Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoPagesController::class, 'ufmocalendar'])->name('ufmo.ufmo_pages.ufmo_calendar');
 
@@ -428,13 +432,12 @@ Route::get('/gso/gso_pages/gso_borrowed/{id}', [BorrowEquipmentController::class
 Route::get('/gso/gso_pages/gso_borrowed', [BorrowEquipmentController::class, 'showBorrowedRequests'])
     ->name('gso.borrowed');
 
-// Route to mark a borrowed request as "Returned"
 Route::get('/gso/gso_pages/gso_returned/{id}', [BorrowEquipmentController::class, 'markAsReturned'])
     ->name('borrow.markAsReturned');
 
-// Route to view all returned requests
 Route::get('/gso/gso_pages/gso_returned', [BorrowEquipmentController::class, 'showReturnedRequests'])
     ->name('gso.returned');
+
 
 
 Route::get('/gso/gso_pages/gso_profile', [GsoController::class, 'profile'])->name('gso.profile');
@@ -444,6 +447,23 @@ Route::get('/gso/gso_pages/gso_adduser', [GsoController::class, 'create'])->name
 Route::post('/gso/gso_pages/gso_adduser', [GsoController::class, 'store'])->name('gso.adduser.store');
 
 Route::get('/gso/gso_pages/gso_dashboard', [GsoController::class, 'dashboard'])->name('gso.dashboard');
+
+//ufmo
+Route::get('/ufmo/ufmo_pages/ufmologin', function () {
+    return view('ufmo.ufmo_pages.ufmologin'); 
+})->name('ufmo.ufmologin');
+
+Route::post('/ufmo/login', [UfmoLoginController::class, 'login'])->name('ufmo.login');
+Route::post('/ufmo/logout', [UfmoLoginController::class, 'logout'])->name('ufmo.logout');
+
+Route::get('/ufmo/ufmo_components/ufmo_layout', [DashboardController::class, 'userlayout'])->name('ufmo.ufmo_components.ufmo_layout');
+
+Route::get('/ufmo/ufmo_pages/ufmo_profile', [UfmoController::class, 'profile'])->name('ufmo.profile');
+Route::post('/ufmo/ufmo_pages/ufmo_profile/update-password', [UfmoController::class, 'updatePassword'])->name('ufmo.updatePassword');
+
+Route::get('/ufmo/ufmo_pages/ufmo_adduser', [UfmoController::class, 'create'])->name('ufmo.adduser.create');
+Route::post('/ufmo/ufmo_pages/ufmo_adduser', [UfmoController::class, 'store'])->name('ufmo.adduser.store');
+
 
 
  

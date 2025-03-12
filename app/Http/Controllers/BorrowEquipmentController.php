@@ -160,7 +160,7 @@ public function markAsBorrowed($id)
     $borrowRequest->save();
 
     // Redirect back to the list of borrowed equipment
-    return redirect()->route('gso.borrowed')->with('success', 'Equipment marked as borrowed.');
+    return redirect()->route('gso.gso_borrowed')->with('success', 'Equipment marked as borrowed.');
 }
 
 

@@ -43,11 +43,13 @@
                     <td class="p-4 border-b">{{ $event->venue }}</td>
                     <td class="p-4 border-b">
                         <!-- Approve Form -->
-                        <form action="{{ route('ufmo.ufmo_pages.ufmo_approved', $event->id) }}" method="POST">
+                        <form action="{{ route('ufmo.ufmo_pages.ufmo_approved', ['id' => $event->id]) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <button class="text-blue-500 hover:underline" type="submit">Approve</button>
                         </form>
+                        
+                        
                         <!-- Reject Form -->
                         <form action="{{ route('ufmo.ufmo_pages.ufmo_cancelled', $event->id) }}" method="POST">
                             @csrf

@@ -9,21 +9,18 @@ class UfmoRequestController extends Controller
 {
     public function approveEvent($id)
     {
-        // Find the event by id
+        // Find the event by ID
         $event = Listing::findOrFail($id);
-        
-        // Update the status to 'approved'
+    
+        // Update status to 'approved'
         $event->status = 'approved';  
         $event->save();
     
-        // Fetch the updated list of approved events (or pending ones, depending on where you're redirecting)
-        $approvedEvents = Listing::where('status', 'approved')->get(); // Adjust based on how you want to fetch
-    
-        // Redirect to the list of approved events (without the id) and pass data
+        // Redirect back with a success message
         return redirect()->route('ufmo.ufmo_pages.ufmo_approved')
-            ->with('message', 'Event approved!')
-            ->with('approvedEvents', $approvedEvents);
+            ->with('message', 'Event approved!');
     }
+    
     
     public function rejectEvent($id)
     {

@@ -42,10 +42,11 @@
                     <td class="p-4 border-b">{{ $request->equipment->name }}</td>
                     <td class="p-4 border-b">{{ $request->quantity }}</td>
                     <td class="p-4 border-b">
-                        <a href="{{ route('borrow.markAsBorrowed', $borrowRequest->id) }}" 
-                           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                            Pick Up
-                        </a>
+                        <a href="{{ route('borrow.markAsBorrowed', $request->id) }}" 
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                             Pick Up
+                         </a>
+                         
                     </td>
                     
                     

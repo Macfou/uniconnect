@@ -49,6 +49,13 @@ return [
             'driver' => 'session',
             'provider' => 'gsos',
         ],
+
+        'ufmo' => [
+            'driver' => 'session',
+            'provider' => 'ufmos', // ✅ Should match below
+        ],
+
+        
     ],
 
     /*
@@ -81,6 +88,11 @@ return [
         'gsos' => [ // Add this for GSO authentication
         'driver' => 'eloquent',
         'model' => App\Models\Gso::class,
+    ],
+
+   'ufmos' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Ufmo::class, // ✅ Correct model path
     ],
 
     ],

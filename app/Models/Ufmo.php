@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable; // ✅ Correct import
+use Illuminate\Notifications\Notifiable;
 
-class Ufmo extends Model
+class Ufmo extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
 
-    protected $table = 'ufmo'; // Table name
+    protected $table = 'ufmo';
 
-    protected $fillable = [
-        'fname',
-        'lname',
-        'email',
-        'password', // Should store hashed password
-    ];
+    protected $fillable = ['email', 'password']; // Adjust based on your columns
+
+    protected $hidden = ['password'];
 }

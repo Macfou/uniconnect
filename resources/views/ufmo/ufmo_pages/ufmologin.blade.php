@@ -32,16 +32,26 @@
 </head>
 <body>
     
-    <div class="min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12">
+      
+    
+    <div class="min-h-screen flex flex-col justify-center sm:py-12 bg-cover bg-center" style="background-image: url('/images/umakadmin.jpg');">
         <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
-            <h1 class="font-bold text-center text-2xl mb-5">UFMO Login</h1>
-            <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
+     
+        
+          
+            <div class="bg-laravel shadow w-full rounded-lg divide-y divide-gray-200">
+                
                 <div class="px-5 py-7">
-                    <form method="POST" action="{{ route('admin.admin_users.admin_login') }}">
+
+                    <h3 class="text-xl text-center font-bold uppercase mb-1 text-white">
+                        Ufmo Login
+                     </h3>
+                    <form method="POST" action="{{ route('ufmo.login') }}">
+
                         @csrf
                         
-                        <label for="email" class="font-semibold text-sm text-gray-600 pb-1 block">E-mail</label>
-                        <input id="email" type="email" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <label for="email" class="font-semibold text-sm text-white pb-1 block">E-mail</label>
+                        <input id="email" type="email" class="border bg-laravel text-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                         
                         @error('email')
                             <span class="invalid-feedback text-red-600 text-sm" role="alert">
@@ -49,8 +59,8 @@
                             </span>
                         @enderror
                         
-                        <label for="password" class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
-                        <input id="password" type="password" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <label for="password" class="font-semibold text-sm text-white pb-1 block">Password</label>
+                        <input id="password" type="password" class="border bg-laravel text-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                         
                         @error('password')
                             <span class="invalid-feedback text-red-600 text-sm" role="alert">
@@ -81,6 +91,7 @@
             </div>
         </div>
     </div>
+</div>
     
 </body>
 </html>  

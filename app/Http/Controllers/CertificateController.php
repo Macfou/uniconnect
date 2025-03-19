@@ -1,18 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-
-use App\Models\Certificate;
 use Illuminate\Http\Request;
+
 use Intervention\Image\ImageManager;
-use Intervention\Image\Facades\Image;
-
-use Illuminate\Support\Facades\Storage;
-
-
-use Intervention\Image\ImageServiceProvider;
-use Google\Cloud\Vision\V1\ImageAnnotatorClient;
 
 class CertificateController extends Controller
 {
@@ -23,97 +14,86 @@ class CertificateController extends Controller
 
     public function upload(Request $request)
 {
+    // Validate the uploaded image
     $request->validate([
-        'certificate' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    // Store uploaded file in storage/app/public/certificates
-    $file = $request->file('certificate');
-    $fileName = time() . '_' . $file->getClientOriginalName();
-    $path = $file->storeAs('certificates', $fileName, 'public');
+    // Create an instance of ImageManager
+    $manager = new ImageManager('gd');
 
-    // Google Vision credentials
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . storage_path('app/google/just-metric-442513-c5-078ddc6f8500.json'));
+    // Get the uploaded file
+    $imageFile = $request->file('image');
 
-    // Correct path to file
-    $imageContent = file_get_contents(storage_path('app/public/' . $path));
+    // Read and resize the image
+    $image = $manager->make($imageFile->getRealPath())->resize(300, null, function ($constraint) {
+        $constraint->aspectRatio();
+    });
 
-    // Detect text using Google Vision
-    $client = new ImageAnnotatorClient();
-    $response = $client->textDetection($imageContent);
-    $texts = $response->getTextAnnotations(); // This is a RepeatedField object
-    $client->close();
-
-    $detectedFirstName = '';
-    $detectedLastName = '';
-
-    // Loop through the detected texts (RepeatedField is iterable)
-    foreach ($texts as $text) {
-        $textDescription = $text->getDescription();
-
-        // Search for "First Name" and "Last Name" and capture the text next to them
-        if (strpos($textDescription, 'First Name') !== false) {
-            // Extract the next word (the actual name) from the next text block
-            $detectedFirstName = $this->getNextText($texts, $text);
-        }
-
-        if (strpos($textDescription, 'Last Name') !== false) {
-            // Extract the next word (the actual name) from the next text block
-            $detectedLastName = $this->getNextText($texts, $text);
-        }
+    // Ensure the upload directory exists
+    $uploadPath = public_path('uploads');
+    if (!file_exists($uploadPath)) {
+        mkdir($uploadPath, 0777, true);
     }
 
-    return view('pages.certificate_review', [
-        'image_path' => $path, // relative to public storage
-        'detected_first_name' => $detectedFirstName,
-        'detected_last_name' => $detectedLastName,
-    ]);
+    // Define the save path
+    $savePath = $uploadPath . '/resized_image.jpg';
+
+    // Save the image
+    $image->save($savePath);
+
+    return response()->json(['message' => 'Image uploaded and resized successfully!', 'path' => url('uploads/resized_image.jpg')]);
 }
+ 
 
-   
-public function save(Request $request)
-{
-    $manager = new ImageManager('gd'); // Corrected here
+    public function save(Request $request)
+    {
+        $request->validate([
+            'image_path' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+        ]);
     
-    $request->validate([
-        'image_path' => 'required|string',
-        'first_name' => 'required|string',
-        'last_name' => 'required|string',
-    ]);
+        // Get the original certificate image
+        $imagePath = storage_path('app/public/' . $request->image_path);
+        $firstName = $request->first_name;
+        $lastName = $request->last_name;
     
-    // Get the original certificate image
-    $imagePath = storage_path('app/public/' . $request->image_path);
+        // Create an instance of ImageManager
+        $manager = new ImageManager('gd');
     
-    // Edited first and last names
-    $firstName = $request->first_name;
-    $lastName = $request->last_name;
-
-    // Read the image and prepare to overlay text
-    $img = $manager->make($imagePath);
+        // Read the image
+        $img = $manager->read($imagePath);
     
-    // Add the first name at the defined position
-    $img->text($firstName, 200, 200, function ($font) {
-        $font->file(public_path('fonts/arial.ttf')); // Specify font
-        $font->size(48);
-        $font->color('#000000');
-    });
+        // Ensure the font file exists before using it
+        $fontPath = public_path('fonts/arial.ttf');
+        if (!file_exists($fontPath)) {
+            return back()->withErrors(['error' => 'Font file not found. Please add arial.ttf to public/fonts/']);
+        }
     
-    // Add the last name at another defined position
-    $img->text($lastName, 200, 300, function ($font) {
-        $font->file(public_path('fonts/arial.ttf')); // Specify font
-        $font->size(48);
-        $font->color('#000000');
-    });
-
-    // Convert the edited image to base64 for real-time preview
-    $base64Image = (string) $img->encode('data-url');
-
-    return view('pages.certificate_review', [
-        'image_path' => $request->image_path, // Pass the original image path
-        'detected_first_name' => $firstName,
-        'detected_last_name' => $lastName,
-        'edited_image' => $base64Image, // Pass the base64 encoded image for preview
-    ]);
-}
-
+        // Add first name at a specific position
+        $img->text($firstName, 200, 200, function ($font) use ($fontPath) {
+            $font->filename($fontPath);
+            $font->size(48);
+            $font->color('#000000');
+        });
+    
+        // Add last name at another position
+        $img->text($lastName, 200, 300, function ($font) use ($fontPath) {
+            $font->filename($fontPath);
+            $font->size(48);
+            $font->color('#000000');
+        });
+    
+        // Convert to base64 for preview
+        $base64Image = (string) $img->encode('jpg', 90);
+        $base64Image = 'data:image/jpeg;base64,' . base64_encode($base64Image);
+    
+        return view('pages.certificate_review', [
+            'image_path' => $request->image_path,
+            'detected_first_name' => $firstName,
+            'detected_last_name' => $lastName,
+            'edited_image' => $base64Image,
+        ]);
+    }
 }

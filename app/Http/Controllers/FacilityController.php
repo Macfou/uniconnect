@@ -26,19 +26,26 @@ class FacilityController extends Controller
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'sitting_capacity' => 'required|integer',
+            'classification' => 'required|array', // Fix: Allow multiple selections
+            'classification.*' => 'in:Class Events,College Events,Organization Events,Sports Events', // Fix: Validate each selected item
+            'status' => 'required|in:Available,Unavailable',
         ]);
-
-        // Handle the image upload if present
+    
+        // Convert classification array to JSON for storage
+        $validatedData['classification'] = json_encode($validatedData['classification']);
+    
+        // Handle image upload if present
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('facility_images', 'public');
             $validatedData['image'] = $imagePath;
         }
-
+    
         // Save the facility to the database
         Facility::create($validatedData);
-
+    
         return redirect()->back()->with('success', 'Facility added successfully!');
     }
+    
 
     public function update(Request $request, $id)
     {
@@ -83,6 +90,25 @@ class FacilityController extends Controller
     
         return redirect()->back()->with('success', 'Facility deleted successfully.');
     }
+
+    public function updateStatus(Request $request, $id)
+{
+    $facility = Facility::findOrFail($id);
+    $facility->update([
+        'status' => $request->status
+    ]);
+
+    return back()->with('success', 'Facility status updated successfully!');
+}
+
+public function toggleStatus($id)
+{
+    $facility = Facility::findOrFail($id);
+    $facility->status = $facility->status === 'Available' ? 'Unavailable' : 'Available';
+    $facility->save();
+
+    return response()->json(['success' => true, 'new_status' => $facility->status]);
+}
 
    
     

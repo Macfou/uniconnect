@@ -106,7 +106,16 @@
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">GSO</p>
               </button>
             </a>
-          </li>
+
+            <a class="" href="/admin/admin_users/spmouser">
+              <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12v8a2 2 0 002 2h14a2 2 0 002-2v-8M7 12V4h10v8M9 21V9m6 12V9M4 8h16M4 12h16M4 16h16" />
+                </svg>
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">SPMO</p>
+              </button>
+            </a>
+         
 
           
             <a class="" href="/admin/admin_users/ufmouser">
@@ -117,7 +126,7 @@
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">UFMO</p>
               </button>
             </a>
-          </li>
+          
         </ul>
             <ul class="mb-4 flex flex-col gap-1">
               <li class="mx-3.5 mt-4 mb-2">

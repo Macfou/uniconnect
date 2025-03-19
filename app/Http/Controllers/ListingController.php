@@ -11,7 +11,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Endroid\QrCode\Writer\PngWriter;
-
+use Illuminate\Support\Facades\DB;
 
 
 class ListingController extends Controller
@@ -105,65 +105,53 @@ class ListingController extends Controller
     // Store listing
     public function store(Request $request)
     {
-        // Map event time to time_id
-        $timeSlots = [
-            '8:00 AM - 10:00 AM' => 1,
-            '10:00 AM - 12:00 PM' => 2,
-            '12:00 PM - 2:00 PM' => 3,
-            '2:00 PM - 4:00 PM' => 4,
-            '4:00 PM - 6:00 PM' => 5,
-        ];
-    
-        // Now validate the incoming request data
+        // Validate the request
         $formFields = $request->validate([
-            'tags' => ['required', Rule::unique('listings', 'tags')],
+            'tags' => ['required', Rule::unique('listings', 'tags')],  
             'title' => 'required',
-            'venue' => 'required',
-            'event_date' => 'required', // validate it now after conversion
+            'venue' => 'required', // This is the facility_id
+            'event_date' => 'required',
             'event_time' => 'required',
             'organization' => 'required|array',
             'description' => 'required',
             'image' => 'required|image',
         ]);
     
-        // Convert the organization array into a comma-separated string
+        // Convert organization array to a comma-separated string
         $formFields['organization'] = implode(', ', $request->input('organization'));
     
-        // Handle the image upload
+        // Handle image upload
         if ($request->hasFile('image')) {
             $formFields['image'] = $request->file('image')->store('images', 'public');
         }
     
-        // Get the venue based on facility name
-        $facilityName = $formFields['venue']; // This should be the facility name
-        $facility = Facility::where('facility_name', $facilityName)->first();
+        // Fetch facility details using facility_id
+        $facility = Facility::find($formFields['venue']);
     
-        // Check if facility exists, and set the venue_id
-        if ($facility) {
-            $formFields['venue_id'] = $facility->id;  // Store the venue_id based on the facility_name
+        if (!$facility) {
+            return redirect()->back()->with('error', 'The selected facility does not exist.');
         }
     
-        // Map event time to the corresponding time_id
-        $formFields['time_id'] = $timeSlots[$request->input('event_time')] ?? null;
+        // Store facility details
+        $formFields['venue_id'] = $facility->id;
+        $formFields['venue'] = $facility->facility_name; // Store facility name instead of ID
     
-        // Check if the selected time slot for the given venue and event date is already booked
+        // Check if the event time slot is already booked
         $existingEvent = Listing::where('venue_id', $formFields['venue_id'])
                                 ->where('event_date', $formFields['event_date'])
-                                ->where('time_id', $formFields['time_id'])
+                                ->where('event_time', $formFields['event_time'])
                                 ->exists();
     
         if ($existingEvent) {
-            // If an event is already booked at the same time and venue, return an error message
             return redirect()->back()->with('error', 'This time slot is already booked for the selected venue and date.');
         }
     
-        // Add user_id to the form fields to associate the listing with the authenticated user
+        // Add user_id to the form fields
         $formFields['user_id'] = auth()->id();
     
-        // Create the listing with user_id and time_id, then save it to the database
+        // Create the listing and save it
         Listing::create($formFields);
     
-        // Redirect with a success message
         return redirect('/')->with('message', 'Event posted successfully!');
     }
     
@@ -266,14 +254,35 @@ class ListingController extends Controller
 
     ///////////////  start eventtt
 
-   // ListingController.php
+    public function getBookedTimes(Request $request)
+{
+    $year = $request->year;
+    $month = $request->month;
+    $facilityId = $request->facility;
 
-   
- 
-   
+    $bookedSlots = Listing::whereYear('event_date', $year)
+        ->whereMonth('event_date', $month)
+        ->where('facility_id', $facilityId)
+        ->get(['event_date', 'event_time', 'facility_id']);
 
-   
+    // Log the fetched booked slots
+    Log::info('Booked Slots:', ['data' => $bookedSlots]);
 
+    $formattedSlots = [];
+
+    foreach ($bookedSlots as $slot) {
+        $date = $slot->event_date;
+        $times = explode(' - ', $slot->event_time);
+
+        if (!isset($formattedSlots[$date])) {
+            $formattedSlots[$date] = [];
+        }
+
+        $formattedSlots[$date][] = $times;
+    }
+
+    return response()->json($formattedSlots);
+}
 
 
     

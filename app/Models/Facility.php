@@ -12,6 +12,6 @@ class Facility extends Model
 
     protected $table = 'facilities'; 
     
-    protected $fillable = ['facility_name', 'description', 'image', 'sitting_capacity'];
+    protected $fillable = ['facility_name', 'description', 'image', 'sitting_capacity', 'classification', 'status'];
 }
 

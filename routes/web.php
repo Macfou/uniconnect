@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GsoController;
 use App\Http\Controllers\OrcController;
+use App\Http\Controllers\SpmoController;
 use App\Http\Controllers\UfmoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
@@ -23,11 +24,14 @@ use App\Http\Controllers\GsoPagesController;
 use App\Http\Controllers\MyEventsController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SpmoLoginController;
+use App\Http\Controllers\SpmoPagesController;
 use App\Http\Controllers\UfmoLoginController;
 use App\Http\Controllers\UfmoPagesController;
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AfterEventController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\SpmoBorrowController;
 use App\Http\Controllers\StartEventController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\GsoCategoryController;
@@ -35,6 +39,7 @@ use App\Http\Controllers\UfmoRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\SpmoCategoryController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
 use App\Http\Controllers\BorrowEquipmentController;
@@ -464,9 +469,75 @@ Route::post('/ufmo/ufmo_pages/ufmo_profile/update-password', [UfmoController::cl
 Route::get('/ufmo/ufmo_pages/ufmo_adduser', [UfmoController::class, 'create'])->name('ufmo.adduser.create');
 Route::post('/ufmo/ufmo_pages/ufmo_adduser', [UfmoController::class, 'store'])->name('ufmo.adduser.store');
 
+//spmo
+Route::get('/spmo/spmo_pages/spmo_dashboard', [SpmoPagesController::class, 'spmodashboard'])->name('spmo.spmo_pages.spmo_dashboard');
 
+Route::get('/spmo/spmo_pages/spmo_category', [SpmoPagesController::class, 'spmocategory'])->name('spmo.spmo_pages.spmo_category');
+Route::get('/spmo/spmo_pages/spmo_category', [SpmoCategoryController::class, 'index'])->name('spmo.spmo_pages.spmo_category');
+Route::post('/spmo.spmo_pages.spmo_category', [SpmoCategoryController::class, 'store'])->name('spmo.spmo_pages.spmo_category.store');
+Route::get('/spmo/spmo_pages/spmo_inventory', [SpmoCategoryController::class, 'showInventory'])->name('spmo.spmo_pages.spmo_inventory');
+
+
+Route::get('/spmo/spmo_pages/spmo_borrowed', [SpmoPagesController::class, 'spmoborrowed'])->name('spmo.spmo_pages.spmo_borrowed');
+Route::get('/spmo/spmo_pages/spmo_pending', [SpmoPagesController::class, 'spmopending'])->name('spmo.spmo_pages.spmo_pending');
+Route::get('/spmo/spmo_pages/spmo_approved', [SpmoPagesController::class, 'spmoapproved'])->name('spmo.spmo_pages.spmo_approved');
+Route::get('/spmo/spmo_pages/spmo_cancelled', [SpmoPagesController::class, 'spmocancelled'])->name('spmo.spmo_pages.spmo_cancelled');
+
+//spmo borrow
+
+Route::get('/pages/borrow/{listing_id}', [SpmoBorrowController::class, 'borrow'])
+    ->name('pages.borrow');
+
+    Route::post('/borrow/store', [SpmoBorrowController::class, 'store'])->name('borrow.store');
+
+
+ Route::get('/spmo/spmo_pages/spmo_pending', [SpmoBorrowController::class, 'pendingRequests'])->name('spmo.spmo_pages.spmo_pending');
+ 
+ Route::patch('/borrow/reject/{id}', [SpmoBorrowController::class, 'reject'])->name('borrow.reject');
+ 
+ Route::patch('/spmo/spmo_pages/spmo_approved/{id}', [SpmoBorrowController::class, 'approve'])->name('spmo.spmo_pages.spmo_approved');
+ Route::get('/spmo/spmo_pages/spmo_approved', [SpmoBorrowController::class, 'approvedRequests'])->name('spmo.spmo_pages.spmo_approved');
+ 
+ Route::get('/pages/requestview/{id}', [SpmoBorrowController::class, 'requestView'])->name('pages.requestview');
+ Route::delete('/pages/requestview/{id}', [SpmoBorrowController::class, 'cancelRequest'])->name('pages.requestview.cancel');
+
+// Route to mark an approved request as "Borrowed"
+Route::get('/spmo/spmo_pages/spmo_borrowed/{id}', [SpmoBorrowController::class, 'markAsBorrowed'])
+    ->name('borrow.markAsBorrowed');
+
+// Route to view all borrowed requests
+Route::get('/spmo/spmo_pages/spmo_borrowed', [SpmoBorrowController::class, 'showBorrowedRequests'])
+    ->name('spmo.borrowed');
+
+Route::get('/spmo/spmo_pages/spmo_returned/{id}', [SpmoBorrowController::class, 'markAsReturned'])
+    ->name('borrow.markAsReturned');
+
+Route::get('/spmo/spmo_pages/spmo_returned', [SpmoBorrowController::class, 'showReturnedRequests'])
+    ->name('spmo.returned');
+
+//spmo login
+
+Route::get('/spmo/spmo_pages/spmologin', function () {
+    return view('spmo.spmo_pages.spmologin'); 
+})->name('spmo.spmologin');
+
+
+Route::post('/spmo/login', [SpmoLoginController::class, 'login'])->name('spmo.login');
+Route::get('/spmo/logout', [SpmoLoginController::class, 'logout'])->name('spmo.logout');
 
  
+Route::get('/admin/admin_users/spmouser', [SpmoController::class, 'index'])->name('admin.admin_users.spmouser');
+Route::post('admin/admin_users/spmouser', [SpmoController::class, 'store'])->name('admin.admin_users.spmouser.store');
+Route::put('/admin/admin_users/spmouser/{id}', [SpmoController::class, 'update'])->name('admin.admin_users.spmouser.update');
+Route::delete('/admin/admin_users/spmouser/{id}', [SpmoController::class, 'destroy'])->name('admin.admin_users.spmouser.destroy');
+
+//facility
+Route::put('/facility/{id}/update-status', [FacilityController::class, 'updateStatus'])->name('facility.updateStatus');
+Route::put('/facility/{id}/toggle-status', [FacilityController::class, 'toggleStatus'])->name('facility.toggleStatus');
+
+Route::get('/api/booked-times', [ListingController::class, 'getBookedTimes']);
+
+
 
 
 

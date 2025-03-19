@@ -44,6 +44,8 @@
                     <th class="p-4 border-b border-slate-200">Facility Name</th>
                     <th class="p-4 border-b border-slate-200">Description</th>
                     <th class="p-4 border-b border-slate-200">Sitting Capacity</th>
+                    <th class="p-4 border-b border-slate-200">Classification</th>
+                    <th class="p-4 border-b border-slate-200">Status</th>
                     <th class="p-4 border-b border-slate-200">Actions</th>
                 </tr>
             </thead>
@@ -53,6 +55,31 @@
                         <td class="p-4 border-b">{{ $facility->facility_name }}</td>
                         <td class="p-4 border-b">{{ $facility->description }}</td>
                         <td class="p-4 border-b">{{ $facility->sitting_capacity }}</td>
+                        <td class="p-4 border-b">{{ implode(', ', json_decode($facility->classification, true)) }}</td>
+                        <td class="p-4 border-b">
+                            <button onclick="toggleStatus({{ $facility->id }})"
+                                class="px-4 py-2 rounded text-white {{ $facility->status == 'Available' ? 'bg-green-500' : 'bg-red-500' }}">
+                                {{ $facility->status }}
+                            </button>
+                            <script>
+                                function toggleStatus(id) {
+                                    fetch(`/facility/${id}/toggle-status`, {
+                                        method: "PUT",
+                                        headers: {
+                                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                            "Content-Type": "application/json"
+                                        },
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.success) {
+                                            location.reload(); // Refresh page to show updated status
+                                        }
+                                    })
+                                    .catch(error => console.error('Error:', error));
+                                }
+                                </script>
+                        </td>
                         <td class="p-4 border-b">
                             <!-- Edit Button -->
                             <button
@@ -130,6 +157,69 @@
                     <label class="block text-sm font-medium">Sitting Capacity</label>
                     <input type="number" name="sitting_capacity" class="w-full border border-slate-300 rounded-lg p-2" required>
                 </div>
+                <!-- Classification Dropdown -->
+                <div>
+                    <label class="block text-sm font-medium">Classification</label>
+                    <div class="relative">
+                        <button type="button" id="classificationDropdownButton" class="w-full border border-slate-300 rounded-lg p-2 bg-white text-left">
+                            Select Classification
+                        </button>
+                        <div id="classificationDropdown" class="absolute hidden bg-white border border-slate-300 rounded-lg w-full mt-1 shadow-lg p-2 z-10">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="classification[]" value="Class Events" class="classification-checkbox">
+                                <span>Class Events</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="classification[]" value="College Events" class="classification-checkbox">
+                                <span>College Events</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="classification[]" value="Organization Events" class="classification-checkbox">
+                                <span>Organization Events</span>
+                            </label>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="classification[]" value="Sports Events" class="classification-checkbox">
+                                <span>Sports Events</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const dropdownButton = document.getElementById("classificationDropdownButton");
+                    const dropdown = document.getElementById("classificationDropdown");
+                    const checkboxes = document.querySelectorAll(".classification-checkbox");
+                
+                    dropdownButton.addEventListener("click", function () {
+                        dropdown.classList.toggle("hidden");
+                    });
+                
+                    document.addEventListener("click", function (event) {
+                        if (!dropdown.contains(event.target) && event.target !== dropdownButton) {
+                            dropdown.classList.add("hidden");
+                        }
+                    });
+                
+                    checkboxes.forEach((checkbox) => {
+                        checkbox.addEventListener("change", function () {
+                            let selected = Array.from(checkboxes)
+                                .filter((cb) => cb.checked)
+                                .map((cb) => cb.value);
+                            dropdownButton.textContent = selected.length ? selected.join(", ") : "Select Classification";
+                        });
+                    });
+                });
+                </script>
+                
+                <!-- Status Dropdown -->
+                <div>
+                    <label class="block text-sm font-medium">Status</label>
+                    <select name="status" class="w-full border border-slate-300 rounded-lg p-2" required>
+                        <option value="Available">Available</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                </div>
                 <div class="flex justify-end space-x-4 mt-4">
                     <a href="#" class="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-700">Cancel</a>
                     <button type="submit" class="py-2 px-4 bg-laravel text-white rounded hover:bg-red-700">Add</button>
@@ -137,6 +227,7 @@
             </form>
         </div>
     </div>
+    
 
    
 

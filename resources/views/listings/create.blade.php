@@ -1,7 +1,7 @@
 @php
-    $facility = request('facility');
-    $date = request('date');
-    $time = request('time');
+    $selectedFacility = request('facility');
+    $selectedDate = request('date');
+    $selectedTime = request('time');
 @endphp
 
 <x-layout>
@@ -89,19 +89,19 @@
                         @enderror
                     </div>
 
-                    @if ($facility && $date && $time)
+                    @if ($selectedFacility && $selectedDate && $selectedTime)
                     <div class="mb-6">
-                        <p class="text-gray-700">Selected Facility: <strong>{{ $facility }}</strong></p>
-                        <p class="text-gray-700">Selected Date: <strong>{{$date}}</strong></p>
-                        <p class="text-gray-700">Selected Time: <strong>{{ $time }}</strong></p>
+                        <p class="text-gray-700">Selected Facility: <strong>{{ $selectedFacility }}</strong></p>
+                        <p class="text-gray-700">Selected Date: <strong>{{$selectedDate}}</strong></p>
+                        <p class="text-gray-700">Selected Time: <strong>{{$selectedTime}}</strong></p>
                     </div>
                 @endif
         
                 
                    
-                <input type="hidden" name="venue" value="{{ $facility }}">
-                <input type="hidden" name="event_date" value="{{ $date }}">
-                <input type="hidden" name="event_time" value="{{ $time }}">
+                <input type="hidden" name="venue" value="{{ $selectedFacility }}">
+                <input type="hidden" name="event_date" value="{{ $selectedDate }}">
+                <input type="hidden" name="event_time" value="{{ $selectedTime }}">
 
                     
 

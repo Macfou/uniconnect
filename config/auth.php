@@ -55,6 +55,11 @@ return [
             'provider' => 'ufmos', // ✅ Should match below
         ],
 
+        'spmo' => [ // Add this for the SPMO guard
+            'driver' => 'session',
+            'provider' => 'spmos',
+        ],
+
         
     ],
 
@@ -93,6 +98,11 @@ return [
    'ufmos' => [
         'driver' => 'eloquent',
         'model' => App\Models\Ufmo::class, // ✅ Correct model path
+    ],
+
+    'spmos' => [ // Add this for SPMO authentication
+        'driver' => 'eloquent',
+        'model' => App\Models\Spmo::class,
     ],
 
     ],

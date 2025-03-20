@@ -223,7 +223,6 @@
     
         // Fetch booked times from server
         // Function to fetch booked slots
-// Fetch booked times from server
 async function fetchBookedTimes(year, month, facilityId) {
     try {
         const response = await fetch(`/api/booked-times?year=${year}&month=${month}&facility=${facilityId}`);
@@ -236,35 +235,17 @@ async function fetchBookedTimes(year, month, facilityId) {
     }
 }
 
-// Disable booked slots when selecting time
-function disableBookedSlots(date) {
-    const facilityId = document.getElementById("facilitySelector").value;
-    if (!facilityId || !bookedTimes[date]) return;
-
-    document.querySelectorAll(".time-btn").forEach(button => {
-        const timeRange = button.dataset.time; // Ensure this matches DB format
-        if (bookedTimes[date].includes(timeRange)) {
-            button.classList.add("bg-gray-300", "text-gray-500", "cursor-not-allowed");
-            button.disabled = true;
-        } else {
-            button.classList.remove("bg-gray-300", "text-gray-500", "cursor-not-allowed");
-            button.disabled = false;
-        }
-    });
+// Check if a specific time slot is booked
+function isTimeSlotBooked(facilityId, date, time) {
+    const dateKey = date.split('/').map(x => x.padStart(2, '0')).join('-');
+    
+    // Check if this date and facility combination exists in booked times
+    if (bookedTimes[dateKey] && bookedTimes[dateKey][facilityId]) {
+        return bookedTimes[dateKey][facilityId].includes(time);
+    }
+    
+    return false;
 }
-
-
-// Hook into modal opening to disable booked slots
-function openModal(date) {
-    document.getElementById('selectedDate').textContent = date;
-    document.getElementById('formDate').value = date;
-
-    disableBookedSlots(date);
-    document.getElementById('modalToggle').checked = true;
-}
-
-
-
 
 
 
@@ -318,23 +299,23 @@ function openModal(date) {
     
         // Open Modal with selected date and facility
         function openModal(date) {
-    const selectedFacility = document.getElementById('facilitySelector').value;
+    const facilityDropdown = document.getElementById('facilitySelector');
+    const selectedFacilityId = facilityDropdown.value;
     
-    if (!selectedFacility) {
+    if (!selectedFacilityId) {
         alert("Please select a facility first.");
         return;
     }
 
-    const selectedFacilityName = document.querySelector('#facilitySelector option:checked')?.textContent || '-';
+    // Get selected facility name
+    const selectedFacilityName = facilityDropdown.options[facilityDropdown.selectedIndex].text;
 
-    // Set selected values
     document.getElementById('selectedFacility').textContent = selectedFacilityName;
+    document.getElementById('formFacility').value = selectedFacilityName; // Store name instead of ID
+    document.getElementById('formVenueId').value = selectedFacilityId; // Store ID if needed
     document.getElementById('selectedDate').textContent = date;
     document.getElementById('formDate').value = date;
-    document.getElementById('formFacility').value = selectedFacility;
-    document.getElementById('formVenueId').value = selectedFacility;
 
-    // Open modal by checking the checkbox
     document.getElementById('modalToggle').checked = true;
 }
 

@@ -70,36 +70,17 @@
             </div>
         </div>
 
-         {{--- organization -----}}
+         {{--- status -----}}
          <div class="mb-6">
-            <label for="org" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-building pr-4"></i>Organization
-            </label>
-            <select name="org" class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white">
-                <option class="text-white" value="" disabled {{ old('org') ? '' : 'selected' }}>Select Organization</option>
-                @foreach($organizations as $organization)
-                    <option value="{{ $organization->orgNameAbbv }}" {{ old('org') == $organization->orgNameAbbv ? 'selected' : '' }}>
-                        {{ strtoupper($organization->orgNameAbbv) }} <!-- Display in uppercase -->
-                    </option>
-                @endforeach
-            </select>
-        
-            @error('org')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-
-        {{--- status -----}}
-        <div class="mb-6">
             <label for="status" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-id-card pr-4"></i>Status
+                <i class="fa-solid fa-id-card pr-4"></i>Account Type
             </label>
             <select
                 id="status"
                 name="status"
-                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
+                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white" onchange="toggleFields()"
                 onchange="toggleYearLevel()">
-                <option value="" disabled {{ old('status') ? '' : 'selected' }}>Select Status</option>
+                <option value="" disabled {{ old('status') ? '' : 'selected' }}>Select Account Type</option>
                 <option value="student" {{ old('status') == 'student' ? 'selected' : '' }}>Student</option>
                 <option value="faculty" {{ old('status') == 'faculty' ? 'selected' : '' }}>Faculty</option>
             </select>
@@ -109,41 +90,120 @@
             @enderror
         </div>
 
+        <script>
+            function toggleFields() {
+                const status = document.getElementById('status').value;
+                const yearLevelContainer = document.getElementById('yearLevelContainer');
+                const idNumberField = document.querySelector('[name="idnumber"]').parentElement;
+                const sectionField = document.querySelector('[name="section"]').parentElement;
+        
+                if (status === 'student') {
+                    yearLevelContainer.classList.remove('hidden');
+                    idNumberField.classList.remove('hidden');
+                    sectionField.classList.remove('hidden');
+                } else {
+                    yearLevelContainer.classList.add('hidden');
+                    idNumberField.classList.add('hidden');
+                    sectionField.classList.add('hidden');
+                }
+            }
+        
+            // Call the function on page load to handle form validation with old values
+            document.addEventListener('DOMContentLoaded', function () {
+                toggleFields();
+            });
+        </script>
+        
+
+         {{--- organization -----}}
+        <!-- Organization Dropdown -->
+<div class="mb-6">
+    <label for="org" class="inline-block text-lg mb-2 text-white">
+        <i class="fa-solid fa-building pr-4"></i>Organization
+    </label>
+    <select id="org" name="org" class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white">
+        <option value="" disabled selected>Select Organization</option>
+        @foreach($organizations as $organization)
+            <option value="{{ $organization->id }}">{{ strtoupper($organization->orgNameAbbv) }}</option>
+        @endforeach
+    </select>
+</div>
+
+<!-- Year Level Dropdown -->
+<div class="mb-6">
+    <label for="yearlevel" class="inline-block text-lg mb-2 text-white">
+        <i class="fa-solid fa-graduation-cap pr-4"></i>Year Level
+    </label>
+    <select id="yearlevel" name="yearlevel" class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white">
+        <option value="" disabled selected>Select Year Level</option>
+        <option value="1st Year">1st Year</option>
+        <option value="2nd Year">2nd Year</option>
+        <option value="3rd Year">3rd Year</option>
+        <option value="4th Year">4th Year</option>
+        <option value="5th Year">5th Year</option>
+    </select>
+</div>
+
+<!-- Section Dropdown (Populated Dynamically) -->
+<div class="mb-6">
+    <label for="section" class="inline-block text-lg mb-2 text-white">
+        <i class="fa-solid fa-list pr-4"></i> Section
+    </label>
+    <select id="section" name="section" class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white">
+        <option value="">Select Section</option>
+    </select>
+</div>
+
+<script>
+    document.getElementById('org').addEventListener('change', fetchSections);
+    document.getElementById('yearlevel').addEventListener('change', fetchSections);
+
+    function fetchSections() {
+        let orgId = document.getElementById('org').value;
+        let yearLevel = document.getElementById('yearlevel').value;
+
+        if (orgId && yearLevel) {
+            fetch(`/sections/filter?organization_id=${orgId}&year_level=${yearLevel}`)
+                .then(response => response.json())
+                .then(data => {
+                    let sectionDropdown = document.getElementById('section');
+                    sectionDropdown.innerHTML = '<option value="">Select Section</option>';
+
+                    if (data.length > 0) {
+                        data.forEach(section => {
+                            let option = `<option value="${section.section_name}">${section.section_name}</option>`;
+                            sectionDropdown.innerHTML += option;
+                        });
+                    } else {
+                        sectionDropdown.innerHTML = '<option value="">No sections available</option>';
+                    }
+                })
+                .catch(error => console.error('Error fetching sections:', error));
+        } else {
+            document.getElementById('section').innerHTML = '<option value="">Select Section</option>';
+        }
+    }
+</script>
+
+       
+
+       
+
          {{--- idnumber-----}}
          <div class="mb-6">
             <label for="idnumber" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-user pr-4"></i>Id Number
+                <i class="fa-solid fa-user pr-4"></i> ID Number
             </label>
-            <input
-                type="text"
+            <input type="text" name="idnumber"
                 class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
-                name="idnumber" value="{{old('idnumber')}}"/>
-
-                @error('idnumber')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-        </div>
-        
-        <!-- Year Level Dropdown (hidden by default) -->
-        <div id="yearLevelContainer" class="mb-6 hidden">
-            <label for="yearlevel" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-graduation-cap pr-4"></i>Year Level
-            </label>
-            <select
-                id="yearlevel"
-                name="yearlevel"
-                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white">
-                <option value="" disabled {{ old('status') ? '' : 'selected' }}>Select year level</option>
-                <option value="first-year" {{ old('yearLevel') == 'first-year' ? 'selected' : '' }}>First Year</option>
-                <option value="second-year" {{ old('yearLevel') == 'second-year' ? 'selected' : '' }}>Second Year</option>
-                <option value="third-year" {{ old('yearLevel') == 'third-year' ? 'selected' : '' }}>Third Year</option>
-                <option value="fourth-year" {{ old('yearLevel') == 'fourth-year' ? 'selected' : '' }}>Fourth Year</option>
-            </select>
-        
-            @error('yearlevel')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                value="{{ old('idnumber') }}" />
+            @error('idnumber')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
+        
+        
+       
         
         <script>
             function toggleYearLevel() {
@@ -166,19 +226,7 @@
 
         {{--- section -----}}
 
-        <div class="mb-6">
-            <label for="section" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-list pr-4"></i>Section
-            </label>
-            <input
-                type="text"
-                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
-                name="section" value="{{old('section')}}"/>
-
-                @error('section')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-        </div>
+       
         
         
 

@@ -11,7 +11,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Endroid\QrCode\Writer\PngWriter;
-use Illuminate\Support\Facades\DB;
+
 
 
 class ListingController extends Controller
@@ -106,6 +106,7 @@ class ListingController extends Controller
     public function store(Request $request)
     {
         // Validate the request
+        
         $formFields = $request->validate([
             'tags' => ['required', Rule::unique('listings', 'tags')],  
             'title' => 'required',
@@ -126,7 +127,8 @@ class ListingController extends Controller
         }
     
         // Fetch facility details using facility_id
-        $facility = Facility::find($formFields['venue']);
+        $facility = Facility::where('facility_name', $formFields['venue'])->first();
+
     
         if (!$facility) {
             return redirect()->back()->with('error', 'The selected facility does not exist.');
@@ -254,35 +256,7 @@ class ListingController extends Controller
 
     ///////////////  start eventtt
 
-    public function getBookedTimes(Request $request)
-{
-    $year = $request->year;
-    $month = $request->month;
-    $facilityId = $request->facility;
-
-    $bookedSlots = Listing::whereYear('event_date', $year)
-        ->whereMonth('event_date', $month)
-        ->where('facility_id', $facilityId)
-        ->get(['event_date', 'event_time', 'facility_id']);
-
-    // Log the fetched booked slots
-    Log::info('Booked Slots:', ['data' => $bookedSlots]);
-
-    $formattedSlots = [];
-
-    foreach ($bookedSlots as $slot) {
-        $date = $slot->event_date;
-        $times = explode(' - ', $slot->event_time);
-
-        if (!isset($formattedSlots[$date])) {
-            $formattedSlots[$date] = [];
-        }
-
-        $formattedSlots[$date][] = $times;
-    }
-
-    return response()->json($formattedSlots);
-}
+  
 
 
     

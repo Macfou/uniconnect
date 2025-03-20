@@ -16,6 +16,7 @@ use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OfficerController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FeedbackController;
@@ -57,7 +58,10 @@ Route::get('/pages/announcement', [PagesController::class, 'announcement']);
 
 //editaccount
 Route::get('/editaccount', [PagesController::class, 'editaccount']);
-
+Route::get('/pages/studentsattendance', [PagesController::class, 'studentsattendance']);
+Route::get('/pages/students', [PagesController::class, 'students']);
+Route::get('/pages/requests', [PagesController::class, 'requests']);
+Route::get('/pages/announce', [PagesController::class, 'announce']);
 
 //events upcomming
 Route::get('/', [ListingController::class, 'index'])->middleware('auth');
@@ -114,6 +118,8 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 //login user
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
+Route::get('/get-sections', [UserController::class, 'getSections']);
+
 
 
 
@@ -148,7 +154,8 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 
 // organization
 Route::get('/admin/admin_pages/organization', [AdminController::class, 'organization']);
-
+Route::get('/admin/admin_pages/section', [AdminController::class, 'section']);
+ 
 // facility
 Route::get('/admin/admin_pages/facility', [AdminController::class, 'facility']);
 
@@ -535,8 +542,12 @@ Route::delete('/admin/admin_users/spmouser/{id}', [SpmoController::class, 'destr
 Route::put('/facility/{id}/update-status', [FacilityController::class, 'updateStatus'])->name('facility.updateStatus');
 Route::put('/facility/{id}/toggle-status', [FacilityController::class, 'toggleStatus'])->name('facility.toggleStatus');
 
-Route::get('/api/booked-times', [ListingController::class, 'getBookedTimes']);
+///////
+Route::get('/admin/admin_pages/section', [SectionController::class, 'create'])->name('section.create');
+Route::post('/admin/admin_pages/section', [SectionController::class, 'store'])->name('section.store');
+Route::get('/sections/filter', [SectionController::class, 'filter'])->name('sections.filter');
 
+Route::get('/sections/filter', [UserController::class, 'filter']);
 
 
 

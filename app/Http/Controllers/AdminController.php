@@ -25,6 +25,9 @@ public function organization() {
    return view('admin.admin_pages.organization');
 }
 
+public function section() {
+    return view('admin.admin_pages.section');
+ }
 //facility
 public function facility() {
     return view('admin.admin_pages.facility');

@@ -39,6 +39,24 @@ use App\Models\Announcement;
         return view ('users.editaccount');
     }
 
+    public function studentsattendance () {
+        return view ('pages.studentsattendance');
+    }
+
+    public function students () {
+        return view ('pages.students');
+    }
+
+    public function announce () {
+        return view ('pages.announce');
+    }
+
+    public function requests () {
+        return view ('pages.requests');
+    }
+
+    
+
     // about us 
     public function aboutUs() {
         return view ('pages.about');

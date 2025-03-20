@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Section;
 use App\Models\AdminUser;
 use App\Models\Organization;
 use Illuminate\Http\Request;
@@ -89,12 +90,28 @@ class UserController extends Controller
     //tryy
 
     public function admin_user(){
+
+        
     $isAdmin = AdminUser::where('user_id', Auth::id())->exists();
 
     // Pass this value to the view
     return view('/components/layout', compact('isAdmin'));
     }
 
-    //get the organizations value
+    public function filter(Request $request)
+    {
+        $query = Section::query();
+    
+        if ($request->has('organization_id') && $request->organization_id) {
+            $query->where('organization_id', $request->organization_id);
+        }
+    
+        if ($request->has('year_level') && $request->year_level) {
+            $query->where('year_level', $request->year_level);
+        }
+    
+        return response()->json($query->get());
+    }
    
+    
 }

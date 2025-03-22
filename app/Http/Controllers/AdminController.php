@@ -88,7 +88,7 @@ public function events() {
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/admin/admin_users/admin_login');
+        return redirect('/admin_login');
     }
 
     //adding user

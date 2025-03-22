@@ -150,8 +150,8 @@ Route::get('/admin/admin_users/admin_signin', [AdminController::class, 'admin_si
 //admin registration
 Route::get('/admin/admin_users/admin_register', [AdminController::class, 'showRegistrationForm'])->name('admin.admin_users.admin_register');
 Route::post('/admin/admin_users/admin_register', [AdminController::class, 'admin_register']);
-Route::get('/admin/admin_users/admin_login', [AdminController::class, 'showLoginForm'])->name('admin.admin_users.admin_login');
-Route::post('/admin/admin_users/admin_login', [AdminController::class, 'admin_login']);
+Route::get('/admin_login', [AdminController::class, 'showLoginForm'])->name('admin.admin_users.admin_login');
+Route::post('/admin_login', [AdminController::class, 'admin_login']);
 
 Route::middleware(['auth:admin'])->group(function () {
     // Your admin routes here

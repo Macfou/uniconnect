@@ -11,6 +11,8 @@ class Listing extends Model
 
     
 
+    
+
     //protected $fillable = ['title', 'tags', 'venue', 'website', 'organizations', 'email', 'description'];
 
     public function scopeFilter($query, array $filters) {
@@ -31,7 +33,7 @@ class Listing extends Model
     }
 
     protected $casts = [
-        'event_date' => 'datetime',
+        'event_date' => 'date',
         
     ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Listing;
 use App\Models\Facility;
 use App\Models\Announcement;
 
@@ -54,6 +55,13 @@ use App\Models\Announcement;
     public function requests () {
         return view ('pages.requests');
     }
+
+    public function draft()
+    {
+        $drafts = Listing::where('is_draft', 1)->orderBy('created_at', 'desc')->get();
+        return view('listings.draft', compact('drafts'));
+    }
+    
 
     
 

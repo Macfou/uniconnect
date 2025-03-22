@@ -119,10 +119,10 @@
         <!-- Organization Dropdown -->
 <div class="mb-6">
     <label for="org" class="inline-block text-lg mb-2 text-white">
-        <i class="fa-solid fa-building pr-4"></i>Organization
+        <i class="fa-solid fa-building pr-4"></i>College
     </label>
     <select id="org" name="org" class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white">
-        <option value="" disabled selected>Select Organization</option>
+        <option value="" disabled selected>Select College</option>
         @foreach($organizations as $organization)
             <option value="{{ $organization->id }}">{{ strtoupper($organization->orgNameAbbv) }}</option>
         @endforeach
@@ -297,13 +297,166 @@
         </div>
         
 
+        
+        
         <div class="mb-6">
+            <!-- Data Privacy Agreement -->
+            <div class="flex items-center">
+                <input type="checkbox" id="dataPrivacyCheckbox" class="mr-2 bg-white" disabled>
+                <label for="dataPrivacyCheckbox" class="text-white font-semibold cursor-pointer underline" onclick="openPrivacyModal()">
+                    I agree to the Data Privacy Policy
+                </label>
+            </div>
+        
+            <!-- Data Privacy Modal -->
+            <div id="privacyModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg">
+                    <h2 class="text-xl font-semibold mb-4">Data Privacy Policy</h2>
+                    <p class="text-gray-700 text-sm mb-4">
+                        In compliance with the Data Privacy Act of 2012 (RA 10173) of the Philippines, we ensure that your personal data is collected, processed, and protected with the highest security standards. Your data will only be used for the intended purposes and will not be shared without your consent.
+                    </p>
+                    <div class="flex justify-end space-x-4">
+                        <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onclick="closePrivacyModal()">Disagree</button>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="agreePrivacy()">Agree</button>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Warning Modal (If checkbox is not checked) -->
+            <div id="warningModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg">
+                    <h2 class="text-xl font-semibold mb-4">Warning</h2>
+                    <p class="text-gray-700 text-sm mb-4">
+                        Please agree to the Data Privacy Policy before signing up.
+                    </p>
+                    <div class="flex justify-end">
+                        <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onclick="closeWarningModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Submit Button -->
             <button
-                type="submit"
-                class="border bg-gray-800 text-white rounded py-2 px-4 hover:underline">
+                type="button"
+                id="signUpButton"
+                class="border bg-gray-800 text-white rounded py-2 px-4 hover:underline mt-4"
+                onclick="validateSignUp()">
                 Sign Up
             </button>
         </div>
+
+        
+        
+        <script>
+            function openPrivacyModal() {
+                document.getElementById("privacyModal").classList.remove("hidden");
+            }
+        
+            function closePrivacyModal() {
+                document.getElementById("privacyModal").classList.add("hidden");
+            }
+        
+            function agreePrivacy() {
+                document.getElementById("dataPrivacyCheckbox").checked = true;
+                document.getElementById("dataPrivacyCheckbox").disabled = false;
+                closePrivacyModal();
+            }
+        
+            function openWarningModal() {
+                document.getElementById("warningModal").classList.remove("hidden");
+            }
+        
+            function closeWarningModal() {
+                document.getElementById("warningModal").classList.add("hidden");
+            }
+        
+            function validateSignUp() { 
+                if (!document.getElementById("dataPrivacyCheckbox").checked) {
+                    openWarningModal();
+                } else {
+                    // Submit the form (Replace with actual form submission if needed)
+                    alert("Form submitted successfully!");
+                }
+            }
+        </script>
+        
+            <!-- OTP Modal -->
+<div id="otpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Enter OTP</h2>
+        <p class="text-gray-700 text-sm mb-4">A One-Time Password has been sent to your email.</p>
+        <input type="text" id="otpInput" class="border border-gray-300 rounded p-2 w-full mb-4" placeholder="Enter OTP">
+        <p id="otpError" class="text-red-500 text-xs hidden">Invalid OTP. Try again.</p>
+        <div class="flex justify-end space-x-4">
+            <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onclick="closeOtpModal()">Cancel</button>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700" onclick="verifyOtp()">Verify</button>
+        </div>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md">
+        <h2 class="text-xl font-semibold mb-4 text-red-500">Error</h2>
+        <p class="text-gray-700 text-sm mb-4">Invalid OTP. Please try again.</p>
+        <div class="flex justify-end">
+            <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onclick="closeErrorModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function validateSignUp() {
+    if (!document.getElementById("dataPrivacyCheckbox").checked) {
+        openWarningModal();
+    } else {
+        // Send OTP to email
+        let email = document.querySelector('input[name="email"]').value;
+        fetch('/send-otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            body: JSON.stringify({ email: email })
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  document.getElementById("otpModal").classList.remove("hidden");
+              } else {
+                  alert(data.message);
+              }
+          });
+    }
+}
+
+function verifyOtp() {
+    let otp = document.getElementById("otpInput").value;
+    let email = document.querySelector('input[name="email"]').value;
+
+    fetch('/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        body: JSON.stringify({ email: email, otp: otp })
+    }).then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              window.location.href = '/dashboard'; // Redirect on success
+          } else {
+              document.getElementById("otpError").classList.remove("hidden");
+          }
+      });
+}
+
+
+function closeOtpModal() {
+    document.getElementById("otpModal").classList.add("hidden");
+}
+
+function closeErrorModal() {
+    document.getElementById("errorModal").classList.add("hidden");
+}
+</script>
+
+        
+        
 
         <div class="mt-8">
             <p class="text-white">

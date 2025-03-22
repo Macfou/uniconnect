@@ -5,220 +5,154 @@
 @endphp
 
 <x-layout>
-  @include('partials._myevents')
+    @include('partials._myevents')
 
-  {{----------triall------------------------------trial-----------------------}}
+    <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+        <div class="max-w-3xl w-full mx-auto pt-10 px-6">
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Create an Event</h2>
+                <p class="text-gray-600 mb-6">Fill out the form below to create an event.</p>
 
-  <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
-    <div class="max-w-full mx-auto pt-20 pl-6 pr-2 pl-2  lg:pl-32 lg:max-w-[1000px]">
-      <div>
-        <form method="POST" action="/listings" enctype="multipart/form-data">
-          @csrf
-          <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
-            <div class="container max-w-full sm:max-w-screen-lg mx-auto">
-              <div>
-                <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                  <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-600">
-                      <p class="font-bold text-black text-lg">Event Details</p>
-                      <p>Please fill out all the fields.</p>
+                <form method="POST" action="/listings" enctype="multipart/form-data">
+                    @csrf
+
+                    <!-- Event Title -->
+                    <div class="mb-4">
+                        <label for="tags" class="block font-semibold text-gray-700">Event Title</label>
+                        <input type="text" name="tags" id="tags" class="w-full mt-1 p-2 border rounded bg-gray-50" value="{{ old('tags') }}" />
                     </div>
 
-                  
+                    <!-- Organization -->
+                    <div class="mb-4">
+                        <label for="title" class="block font-semibold text-gray-700">Organization</label>
+                        <input type="text" name="title" id="title" class="w-full mt-1 p-2 border rounded bg-gray-50" />
+                    </div>
 
-                    {{---organization----}}
-
-                    <div class="lg:col-span-2">
-                      <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                        <div class="md:col-span-5">
-                          <label for="tags">Title</label>
-                          <input type="text" name="tags" id="tags" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="{{old('tags')}}" />
+                    <!-- Organizations Involved -->
+                    <div class="mb-4">
+                        <label class="block font-semibold text-gray-700">Organizations Involved</label>
+                        <button type="button" id="toggleDropdown" class="w-full mt-1 p-2 border rounded bg-gray-50 text-left">Select Organizations</button>
+                        <div id="organizationDropdown" class="hidden mt-1 border rounded bg-gray-50 p-2">
+                            <button type="button" id="selectAllButton" class="text-blue-500 underline">Select All</button>
+                            @foreach($organizations as $organization)
+                                <div class="mt-2">
+                                    <input type="checkbox" class="organization-checkbox" name="organization[]" id="org-{{ $organization->id }}" value="{{ strtoupper($organization->orgNameAbbv) }}" {{ in_array($organization->orgNameAbbv, old('organization', [])) ? 'checked' : '' }}>
+                                    <label for="org-{{ $organization->id }}">{{ strtoupper($organization->orgNameAbbv) }}</label>
+                                </div>
+                            @endforeach
                         </div>
-                       
-                      
-                      <!-- Link Input (static, always visible) -->
-                    
-                      
-                        {{--title-------}}
-                        <div class="md:col-span-5">
-                          <label for="title">Organization</label>
-                          <input type="text" name="title" id="title" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"  />
-                        </div>
+                    </div>
 
-                     
-
-                        {{----org involeve----------}}
-                        <div class="md:col-span-3">
-                          <label for="organization">Organizations Involved</label>
-
-                          <!-- Toggle Button or Label -->
-                          <button type="button" id="toggleDropdown" class="h-10 mt-1 px-4 border rounded bg-gray-50 w-full text-left">
-                              Select Organizations
-                          </button>
-
-                          <!-- Hidden Dropdown Container -->
-                          <div id="organizationDropdown" class="hidden h-auto mt-1 border rounded px-4 bg-gray-50">
-                              <!-- Select All Button -->
-                              <div class="mt-2">
-                                  <button type="button" id="selectAllButton" class="text-blue-500 underline">Select All</button>
-                              </div>
-
-                              @foreach($organizations as $organization)
-                                  <div class="mt-2">
-                                      <input type="checkbox" class="organization-checkbox" name="organization[]" id="organization-{{ $organization->id }}" value="{{ strtoupper($organization->orgNameAbbv) }}" {{ in_array($organization->orgNameAbbv, old('organization', [])) ? 'checked' : '' }}>
-                                      <label for="organization-{{ $organization->id }}">{{ strtoupper($organization->orgNameAbbv) }}</label>
-                                  </div>
-                              @endforeach
-                          </div>
-                      </div>
-
-                      {{----date------}}
-                      <div class="md:col-span-3">
-                        <label for="event_date">Select a Venue, Date and Time</label>
-                        <div class="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                            <button 
-                                type="button" 
-                                onclick="window.location.href='/pages/calendar'" 
-                                class="w-full text-gray-800 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
-                            >
-                                Select a Venue, Date and Time
-                            </button>
-                        </div>
-                        @error('event_date')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
+                    <!-- Venue, Date & Time -->
+                    <div class="mb-4">
+                        <label class="block font-semibold text-gray-700">Select Venue, Date & Time</label>
+                        <button type="button" onclick="window.location.href='/pages/calendar'" class="w-full mt-1 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Select</button>
                     </div>
 
                     @if ($selectedFacility && $selectedDate && $selectedTime)
-                    <div class="mb-6">
-                        <p class="text-gray-700">Selected Facility: <strong>{{ $selectedFacility }}</strong></p>
-                        <p class="text-gray-700">Selected Date: <strong>{{$selectedDate}}</strong></p>
-                        <p class="text-gray-700">Selected Time: <strong>{{$selectedTime}}</strong></p>
+                        <div class="mb-4 p-4 bg-gray-50 border rounded">
+                            <p class="text-gray-700"><strong>Facility:</strong> {{ $selectedFacility }}</p>
+                            <p class="text-gray-700"><strong>Date:</strong> {{ $selectedDate }}</p>
+                            <p class="text-gray-700"><strong>Time:</strong> {{ $selectedTime }}</p>
+                        </div>
+                    @endif
+
+                    <input type="hidden" name="venue" value="{{ $selectedFacility }}">
+                    <input type="hidden" name="event_date" value="{{ $selectedDate }}">
+                    <input type="hidden" name="event_time" value="{{ $selectedTime }}">
+
+                    <!-- Upload Image -->
+                    <div class="mb-4">
+                        <label for="image" class="block font-semibold text-gray-700">Upload Image</label>
+                        <input type="file" name="image" id="image" class="w-full mt-1 p-2 border rounded bg-gray-50" />
+                        @error('image')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-                @endif
-        
-                
-                   
-                <input type="hidden" name="venue" value="{{ $selectedFacility }}">
-                <input type="hidden" name="event_date" value="{{ $selectedDate }}">
-                <input type="hidden" name="event_time" value="{{ $selectedTime }}">
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label for="description" class="block font-semibold text-gray-700">Description</label>
+                        <textarea name="description" rows="4" class="w-full mt-1 p-2 border rounded bg-gray-50" placeholder="Event description...">{{ old('description') }}</textarea>
+                        @error('description')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
                     
-
-                      {{------image----}}
-
-                      <div class="md:col-span-5">
-                        <label for="image">Upload Image</label>
-                        <input type="file" name="image" id="image" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50"  value="{{old('image')}}" placeholder="" />
-
-                        @error('image')
-                        <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                        @enderror
-                      </div>
-                    </div>
-
-                    {{------contact----}}
-
-                    {{------description----}}
-
-                    <div class="md:col-span-5">
-                      <label for="description">Description</label>
-                      
-                      <textarea class="bg-gray-50 text-black border border-gray-200 rounded p-2 w-full" name="description" rows="10"  value="{{old('description')}}"
-                    placeholder="Description about event"></textarea>
-
-                    @error('description')
-                    <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                    @enderror
-                  </div>
-                </div>
-
+                    <!-- Submit Button -->
                     <div class="md:col-span-5 text-right">
                       <div class="inline-flex items-end">
-                        <button class="bg-laravel hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Post Event</button>
+                          <button type="submit" name="is_draft" value="0" class="bg-laravel  text-white font-bold py-2 px-4 rounded">
+                              Post Event
+                          </button>
+                          <button type="submit" name="is_draft" value="1" class="bg-white border border-laravel text-laravel font-bold py-2 px-4 rounded ml-2">
+                              Save as Draft
+                          </button>
                       </div>
-                    </div>
+                  </div>
+                  
+                  
+
+            @if(session('qr_code'))
+                <div class="mt-6 p-4 bg-white shadow-lg rounded-lg">
+                    <h4 class="font-bold text-gray-800">QR Code:</h4>
+                    <img src="{{ asset(session('qr_code')) }}" alt="QR Code" class="w-32 mt-2">
                 </div>
-              </div>
-            </div>
-
-          </form>
+            @endif
         </div>
-      </div>
     </div>
-    @if(session('qr_code')) <!-- Check if QR code path is present in the session -->
-    <div>
-        <h4>QR Code:</h4>
-        <img src="{{ asset(session('qr_code')) }}" alt="QR Code" />
-    </div>
-    @endif
 
-  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toggleDropdownButton = document.getElementById('toggleDropdown');
+            var organizationDropdown = document.getElementById('organizationDropdown');
+            var checkboxes = document.querySelectorAll('.organization-checkbox');
+            var selectAllButton = document.getElementById('selectAllButton');
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var toggleDropdownButton = document.getElementById('toggleDropdown');
-        var organizationDropdown = document.getElementById('organizationDropdown');
-        var checkboxes = document.querySelectorAll('.organization-checkbox');
-        var selectAllButton = document.getElementById('selectAllButton');
-
-        // Toggle the dropdown visibility
-        toggleDropdownButton.addEventListener('click', function() {
-            organizationDropdown.classList.toggle('hidden'); // Toggle the hidden class
-        });
-
-        // Update the button text with selected organizations
-        function updateSelectedOrganizations() {
-            var selectedOrganizations = [];
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    selectedOrganizations.push(checkbox.value);
-                }
-            });
-            toggleDropdownButton.textContent = selectedOrganizations.length > 0 ? selectedOrganizations.join(', ') : 'Select Organizations';
-        }
-
-        // Listen for checkbox changes
-        checkboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', updateSelectedOrganizations);
-        });
-
-        // Select/Deselect all checkboxes
-        selectAllButton.addEventListener('click', function() {
-            var allChecked = Array.from(checkboxes).every(function(checkbox) {
-                return checkbox.checked;
+            toggleDropdownButton.addEventListener('click', function() {
+                organizationDropdown.classList.toggle('hidden');
             });
 
+            function updateSelectedOrganizations() {
+                var selectedOrganizations = [];
+                checkboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        selectedOrganizations.push(checkbox.value);
+                    }
+                });
+                toggleDropdownButton.textContent = selectedOrganizations.length > 0 ? selectedOrganizations.join(', ') : 'Select Organizations';
+            }
+
             checkboxes.forEach(function(checkbox) {
-                checkbox.checked = !allChecked; // Select all if not all are checked, otherwise deselect all
+                checkbox.addEventListener('change', updateSelectedOrganizations);
+            });
+
+            selectAllButton.addEventListener('click', function() {
+                var allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+                checkboxes.forEach(checkbox => checkbox.checked = !allChecked);
+                updateSelectedOrganizations();
             });
 
             updateSelectedOrganizations();
         });
 
-        // Initial update of the button text
-        updateSelectedOrganizations();
-    });
+        function toggleLinkInput() {
+            const status = document.getElementById('status').value;
+            const linkInput = document.getElementById('linkInput');
+            const linkField = document.getElementById('link');
 
-    // Function to show/hide link input based on status selection
-    function toggleLinkInput() {
-        const status = document.getElementById('status').value;
-        const linkInput = document.getElementById('linkInput');
-        const linkField = document.getElementById('link');
-        
-        if (status === 'online') {
-            linkInput.classList.remove('hidden');
-            linkField.setAttribute('required', 'required');
-        } else {
-            linkInput.classList.add('hidden');
-            linkField.removeAttribute('required');
+            if (status === 'online') {
+                linkInput.classList.remove('hidden');
+                linkField.setAttribute('required', 'required');
+            } else {
+                linkInput.classList.add('hidden');
+                linkField.removeAttribute('required');
+            }
         }
-    }
 
-    // Initialize the form state on page load
-    window.onload = toggleLinkInput;
-
-  </script>
+        window.onload = toggleLinkInput;
+    </script>
 
 </x-layout>
 

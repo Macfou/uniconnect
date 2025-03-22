@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\OtpMail;
 use App\Models\Section;
 use App\Models\AdminUser;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -19,39 +21,76 @@ class UserController extends Controller
         return view('users.register', compact('organizations'));
     }
     
+    public function verifyOtp(Request $request) {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|numeric'
+        ]);
+    
+        if (session('otp') == $request->otp) {
+            $userData = session('pending_user');
+    
+            if (!$userData || $userData['email'] !== $request->email) {
+                return response()->json(['success' => false, 'message' => 'Session expired. Please register again.']);
+            }
+    
+            // Create the user in the database
+            $user = User::create($userData);
+            
+            // Log in the user
+            Auth::login($user);
+    
+            // Clear session
+            session()->forget(['otp', 'pending_user']);
+    
+            return response()->json(['success' => true, 'redirect' => url('/')]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Invalid OTP.']);
+    }
+    
 
     // Create New User
     public function store(Request $request) {
         $formFields = $request->validate([
             'lname' => ['required', 'string', 'min:2'],
             'fname' => ['required', 'string', 'min:2'],
-            'miname' => ['nullable', 'string', 'max:5'], // Middle Initial is optional
+            'miname' => ['nullable', 'string', 'max:5'],
             'org' => 'required',
-            'status' => ['required', 'string'], // Must be 'student' or 'faculty'
+            'status' => ['required', 'string'],
             'idnumber' => ['required', 'string'],
-            'yearlevel' => ['nullable', 'string'], // Only required if status is student
-            'section' => ['nullable', 'string', 'max:50'], // Optional for both status types
+            'yearlevel' => ['nullable', 'string'],
+            'section' => ['nullable', 'string', 'max:50'],
             'email' => [
                 'required',
                 'email',
                 Rule::unique('users', 'email'),
-                'regex:/^[a-zA-Z0-9._%+-]+@umak\.edu\.ph$/'
+                'regex:/^[a-zA-Z0-9._%+-]+@(gmail\.com|umak\.edu\.ph)$/'
             ],
             'password' => 'required|confirmed|min:6'
         ], [
-            'email.regex' => 'Please use your Umak email to register.',
+            'email.regex' => 'Please use a valid Gmail or Umak email to register.',
         ]);
     
-        // Hash Password
-        $formFields['password'] = bcrypt($formFields['password']);
+        $organization = Organization::where('id', $request->org)->first();
+        if ($organization) {
+            $formFields['org'] = $organization->orgNameAbbv;
+        } else {
+            return back()->withErrors(['org' => 'Invalid organization selected.']);
+        }
     
-        // Create User
-        $user = User::create($formFields);
+        // Store user data in session (without saving to database yet)
+        $formFields['password'] = bcrypt($formFields['password']); 
+        session(['pending_user' => $formFields]);
     
-        // Login
-        Auth::login($user);
+        // Generate OTP
+        $otp = rand(100000, 999999);
+        session(['otp' => $otp]);
     
-        return redirect('/')->with('message', 'User created and logged in');
+        // Send OTP to the user's email
+        Mail::to($request->email)->send(new OtpMail($otp));
+    
+        return response()->json(['success' => true, 'message' => 'OTP sent.']);
     }
     
     

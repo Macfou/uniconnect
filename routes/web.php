@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GsoController;
 use App\Http\Controllers\OrcController;
+
 use App\Http\Controllers\SpmoController;
 use App\Http\Controllers\UfmoController;
 use App\Http\Controllers\UserController;
@@ -17,6 +18,8 @@ use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OfficerController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FeedbackController;
@@ -40,6 +43,7 @@ use App\Http\Controllers\UfmoRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\SavedSectionController;
 use App\Http\Controllers\SpmoCategoryController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
@@ -63,6 +67,7 @@ Route::get('/pages/students', [PagesController::class, 'students']);
 Route::get('/pages/requests', [PagesController::class, 'requests']);
 Route::get('/pages/announce', [PagesController::class, 'announce']);
 
+
 //events upcomming
 Route::get('/', [ListingController::class, 'index'])->middleware('auth');
 
@@ -79,13 +84,18 @@ Route::post('/listings', [ListingController::class, 'store']);
 
 Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
 //show edit 
-Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth');
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])
+    ->middleware('auth')
+    ->name('listings.edit');
 
 //update submit
-Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth');
+Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth') ->name('listings.update');
 
 //delete listing
-Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->middleware('auth');
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('listings.destroy');
+    Route::get('/listings/draft', [PagesController::class, 'draft']) ->middleware('auth') ->name('listings.draft');
 
 //Manage listings upcomming
 Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
@@ -315,7 +325,8 @@ Route::get('/listings/{listing}/attendance', [AttendanceController::class, 'show
 Route::get('/pages/tryview', [PagesController::class, 'showTryView'])->name('tryview');
 
 //event attended
-Route::get('/pages/eventattended', [PagesController::class, 'eventattended'])->name('pages.eventattended');
+Route::post('/feedback', [EventattendedController::class, 'store'])->name('feedback.store');
+
 
 Route::get('/pages/eventattended', [EventattendedController::class, 'showEventsAttended'])->name('pages.eventattended');
 
@@ -324,7 +335,7 @@ Route::post('/feedback', [EventattendedController::class, 'submitFeedback'])->na
 
 //portal
 Route::get('admin/admin_users/portal', [PortalController::class, 'portal'])->name('admin.admin_users.portal');
-Route::get('admin/admin_users/gsologin', [PortalController::class, 'gso'])->name('admin.admin_users.gsologin');
+Route::get('gsologin', [PortalController::class, 'gso'])->name('admin.admin_users.gsologin');
 
 
 //gso
@@ -358,6 +369,10 @@ Route::get('/ufmo/ufmo_pages/ufmo_pending', [UfmoPagesController::class,'ufmopen
 Route::patch('/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::class, 'approveEvent'])
     ->name('ufmo.ufmo_pages.ufmo_approved');
 
+    Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class, 'ufmoapproved'])
+    ->name('ufmo.ufmo_pages.ufmo_approved');
+
+
 
 Route::get('/ufmo/ufmo_pages/ufmo_cancelled', [UfmoPagesController::class,'ufmocancelled'])->name('ufmo.ufmo_pages.ufmo_cancelled');
 Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoPagesController::class, 'ufmocalendar'])->name('ufmo.ufmo_pages.ufmo_calendar');
@@ -368,6 +383,7 @@ Route::get('about', [OrganizationController::class, 'showabout'])->name('about')
 
 //after event
 Route::get('/pages/afterevent', [PagesController::class, 'afterevent'])->name('pages.afterevent');
+Route::get('/pages/afterevent/{id}', [AfterEventController::class, 'showEventAttendees'])->name('pages.afterevent');
 
 Route::get('/pages/calendar', [PagesController::class, 'calendar'])->name('pages.calendar');
 
@@ -382,7 +398,7 @@ Route::get('/gso/gso_pages/gso_inventory', [GsoInventoryController::class, 'inde
 Route::post('/gso/gso_pages/gso_inventory/add', [GsoInventoryController::class, 'storeInventory'])->name('gso.gso_pages.gso_inventory.add');
 
 
-Route::get('/pages/afterevent/{id}', [AfterEventController::class, 'showEventAttendees'])->name('pages.afterevent');
+
 
 //
 Route::get('/pages/post_announcement', [AnnouncementController::class, 'create'])->name('pages.post_announcement');
@@ -411,7 +427,7 @@ Route::post('/listings/{id}/register', [EventRegistrationController::class, 'sto
 
 //gso login
 
-Route::get('/gso/gso_pages/gsologin', function () {
+Route::get('/gsologin', function () {
     return view('gso.gso_pages.gsologin'); 
 })->name('gso.gsologin');
 
@@ -461,7 +477,7 @@ Route::post('/gso/gso_pages/gso_adduser', [GsoController::class, 'store'])->name
 Route::get('/gso/gso_pages/gso_dashboard', [GsoController::class, 'dashboard'])->name('gso.dashboard');
 
 //ufmo
-Route::get('/ufmo/ufmo_pages/ufmologin', function () {
+Route::get('/ufmologin', function () {
     return view('ufmo.ufmo_pages.ufmologin'); 
 })->name('ufmo.ufmologin');
 
@@ -548,6 +564,29 @@ Route::post('/admin/admin_pages/section', [SectionController::class, 'store'])->
 Route::get('/sections/filter', [SectionController::class, 'filter'])->name('sections.filter');
 
 Route::get('/sections/filter', [UserController::class, 'filter']);
+
+//students
+Route::get('/pages/students', [StudentController::class, 'index']);
+Route::get('/pages/students/filter', [StudentController::class, 'filterStudents']);
+Route::get('/sections/filter', [StudentController::class, 'filterSections']);
+
+//save section
+Route::middleware(['auth'])->group(function () {
+    Route::get('/saved-sections', [SavedSectionController::class, 'index']);
+    Route::post('/saved-sections', [SavedSectionController::class, 'store']);
+    Route::delete('/saved-sections/{id}', [SavedSectionController::class, 'destroy']);
+});
+
+//
+
+Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
+
+Route::post('/send-otp', [OTPController::class, 'sendOtp']);
+Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
+
+
+  
+
 
 
 

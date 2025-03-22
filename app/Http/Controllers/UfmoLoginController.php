@@ -29,6 +29,6 @@ class UfmoLoginController extends Controller
     public function logout()
     {
         Auth::guard('ufmo')->logout();
-        return redirect('/ufmo/ufmo_pages/ufmologin');
+        return redirect('/ufmologin');
     }
 }

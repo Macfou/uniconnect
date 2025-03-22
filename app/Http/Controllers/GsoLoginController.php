@@ -29,6 +29,6 @@ class GsoLoginController extends Controller
     public function logout()
     {
         Auth::guard('gso')->logout();
-        return redirect('/gso/gso_pages/gsologin');
+        return redirect('/gsologin');
     }
 }

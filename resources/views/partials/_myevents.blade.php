@@ -34,6 +34,17 @@
 						<span class="ml-3 font-bold text-laravel">Manage Events</span>
 					</a>
 				</li>
+
+				<li>
+					<a href="/listings/draft"
+						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
+						<svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2a1 1 0 00-.447.105l-9 4a1 1 0 000 1.79l2.302 1.022-.735 4.407A1 1 0 005 14.923l6.276-2.509 6.275 2.509a1 1 0 001.18-1.207l-.734-4.407 2.302-1.022a1 1 0 000-1.79l-9-4A1 1 0 0012 2zm6.382 9.018L12 9.203l-6.382 1.815L12 12.733l6.382-1.715zM12 16a1 1 0 00-1 1v3H8v-3a1 1 0 00-2 0v3a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 00-2 0v3h-3v-3a1 1 0 00-1-1z"></path>
+                          </svg>
+                          
+						<span class="ml-3 font-bold text-laravel">Draft Events</span>
+					</a>
+				</li>
 				
 				{{------------ttry-----------------}}
 				<li>

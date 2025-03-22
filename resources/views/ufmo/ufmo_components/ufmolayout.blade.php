@@ -172,8 +172,8 @@
                 </button>
             </a>
 
-              <li>
-                <form id="logout-form" action="" method="POST" style="display: none;">
+            <li>
+              <form id="logout-form" action="{{ route('ufmo.logout') }}" method="POST" style="display: none;">
                   @csrf
               </form>
               <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -184,7 +184,7 @@
                       <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Logout</p>
                   </button>
               </a>
-              </li>
+          </li>
               
             </ul>
           </div>

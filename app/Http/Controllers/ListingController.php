@@ -106,7 +106,6 @@ class ListingController extends Controller
     public function store(Request $request)
     {
         // Validate the request
-        
         $formFields = $request->validate([
             'tags' => ['required', Rule::unique('listings', 'tags')],  
             'title' => 'required',
@@ -128,7 +127,6 @@ class ListingController extends Controller
     
         // Fetch facility details using facility_id
         $facility = Facility::where('facility_name', $formFields['venue'])->first();
-
     
         if (!$facility) {
             return redirect()->back()->with('error', 'The selected facility does not exist.');
@@ -138,61 +136,71 @@ class ListingController extends Controller
         $formFields['venue_id'] = $facility->id;
         $formFields['venue'] = $facility->facility_name; // Store facility name instead of ID
     
-        // Check if the event time slot is already booked
-        $existingEvent = Listing::where('venue_id', $formFields['venue_id'])
-                                ->where('event_date', $formFields['event_date'])
-                                ->where('event_time', $formFields['event_time'])
-                                ->exists();
+        // Check if the event time slot is already booked (only if it's not a draft)
+        if ($request->input('is_draft') != 1) {
+            $existingEvent = Listing::where('venue_id', $formFields['venue_id'])
+                                    ->where('event_date', $formFields['event_date'])
+                                    ->where('event_time', $formFields['event_time'])
+                                    ->exists();
     
-        if ($existingEvent) {
-            return redirect()->back()->with('error', 'This time slot is already booked for the selected venue and date.');
+            if ($existingEvent) {
+                return redirect()->back()->with('error', 'This time slot is already booked for the selected venue and date.');
+            }
         }
     
         // Add user_id to the form fields
         $formFields['user_id'] = auth()->id();
     
+        // Add is_draft (1 for drafts, 0 for published)
+        $formFields['is_draft'] = $request->input('is_draft', 0);
+    
         // Create the listing and save it
         Listing::create($formFields);
     
-        return redirect('/')->with('message', 'Event posted successfully!');
+        return redirect('/')->with('message', $formFields['is_draft'] ? 'Event saved as draft!' : 'Event posted successfully!');
     }
     
 
 
     // Show update form
-    public function edit(Listing $listing) {
-        return view('listings.edit', ['listing' => $listing]);
+    public function edit(Listing $listing)
+    {
+        return view('listings.edit', compact('listing'));
     }
+    
 
-    // Update listing
-    public function update(Request $request, Listing $listing) {
-        // make sure login user is owner
-        if($listing->user_id != auth()->id()) { // Use method call for id()
+       
+    public function update(Request $request, Listing $listing)
+    {
+        dd($request->all);
+        if ($listing->user_id != auth()->id()) {
             abort(403, 'Unauthorized Action');
         }
-
-        $formFields = $request->validate( [
-            'tags' => 'required',
-            'title' => 'required',
-            'venue' => 'required', 
-            
-            'event_date' => 'required',
-            'event_time' => 'required',
-            
-            'organization' => 'required',
+    
+        // Validate input fields
+        $formFields = $request->validate([
+            'tags' => 'required|string',
+            'organization' => 'required|string',
             'description' => 'required',
-            'image' => 'required'
+            'image' => 'nullable|image',
         ]);
-
-        if($request->hasFile('image')) {
+    
+        // Ensure read-only fields remain unchanged
+        $formFields['venue'] = $listing->venue;
+        $formFields['event_date'] = $listing->event_date;
+        $formFields['event_time'] = $listing->event_time;
+    
+        // Handle image upload if a new file is provided
+        if ($request->hasFile('image')) {
             $formFields['image'] = $request->file('image')->store('images', 'public');
         }
-
-        
+    
+        // Update the listing
         $listing->update($formFields);
-
-        return redirect('/')->with('message', 'Event updated successfully!');
+    
+        return redirect()->route('listings.draft')->with('message', 'Draft updated successfully!');
     }
+    
 
     // Delete listing
     public function destroy(Listing $listing) {
@@ -214,38 +222,40 @@ class ListingController extends Controller
 
 
     public function manageEvents()
-{
-    // Fetch all listings for the authenticated user
-    $events = auth()->user()->listings()->get();
-
-    // Get today's date
-    $today = Carbon::today();
-
-    // Initialize arrays to hold categorized events
-    $upcomingEvents = [];
-    $todaysEvents = [];
-    $previousEvents = [];
-
-    // Categorize events based on event_date
-    foreach ($events as $event) {
-        if ($event->event_date > $today) {
-            $upcomingEvents[] = $event;
-        } elseif ($event->event_date == $today) {
-            $todaysEvents[] = $event;
-        } else {
-            $previousEvents[] = $event;
+    {
+        // Fetch all listings for the authenticated user
+        $events = auth()->user()->listings()->get();
+    
+        // Get today's date as Carbon object (only date, no time)
+        $today = Carbon::today();
+    
+        // Initialize arrays to hold categorized events
+        $upcomingEvents = [];
+        $todaysEvents = [];
+        $previousEvents = [];
+    
+        // Categorize events based on event_date
+        foreach ($events as $event) {
+            // Convert event_date to Carbon instance for accurate comparison
+            $eventDate = Carbon::parse($event->event_date)->startOfDay();
+    
+            if ($eventDate->greaterThan($today)) {
+                $upcomingEvents[] = $event;
+            } elseif ($eventDate->equalTo($today)) {
+                $todaysEvents[] = $event;
+            } else {
+                $previousEvents[] = $event;
+            }
         }
+    
+        // Return view with categorized events
+        return view('listings.manage_all', [
+            'upcomingEvents' => $upcomingEvents,
+            'todaysEvents' => $todaysEvents,
+            'previousEvents' => $previousEvents,
+            'events' => $events, // Pass all events for use in the view
+        ]);
     }
-
-    // Return views with categorized events
-    return view('listings.manage_all', [
-        'upcomingEvents' => $upcomingEvents,
-        'todaysEvents' => $todaysEvents,
-        'previousEvents' => $previousEvents,
-        'events' => $events, // Pass all events for use in the view
-    ]);
-}
-
 
     
 // organization involve
@@ -255,7 +265,7 @@ class ListingController extends Controller
     }
 
     ///////////////  start eventtt
-
+ 
   
 
 

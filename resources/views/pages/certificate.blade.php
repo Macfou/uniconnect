@@ -1,28 +1,16 @@
-<x-layout>
-
-   
-
-    
-
-        
-   
-
-    <div class="pt-40">
-
-        
-        <h1>Upload Certificate</h1>
-
-        @if(session('success'))
-            <p style="color: green;">{{ session('success') }}</p>
-        @endif
-        <form action="{{ route('certificate.upload') }}" method="POST" enctype="multipart/form-data">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Upload Certificate</title>
+    @vite('resources/css/app.css')
+</head>
+<body>
+    <div class="container mx-auto p-6">
+        <form action="{{ route('process.certificate') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <label for="certificate">Upload Certificate:</label>
-            <input type="file" name="certificate" required>
-            <button type="submit">Upload</button>
+            <input type="file" name="file" required class="border p-2">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Upload</button>
         </form>
-        
-
-    </div>    
-</script>
-</x-layout>
+    </div>
+</body>
+</html>

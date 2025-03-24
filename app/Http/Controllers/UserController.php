@@ -52,6 +52,7 @@ class UserController extends Controller
 
     // Create New User
     public function store(Request $request) {
+        // Validate the incoming data
         $formFields = $request->validate([
             'lname' => ['required', 'string', 'min:2'],
             'fname' => ['required', 'string', 'min:2'],
@@ -72,6 +73,7 @@ class UserController extends Controller
             'email.regex' => 'Please use a valid Gmail or Umak email to register.',
         ]);
     
+        // Check if the organization exists
         $organization = Organization::where('id', $request->org)->first();
         if ($organization) {
             $formFields['org'] = $organization->orgNameAbbv;
@@ -79,18 +81,17 @@ class UserController extends Controller
             return back()->withErrors(['org' => 'Invalid organization selected.']);
         }
     
-        // Store user data in session (without saving to database yet)
-        $formFields['password'] = bcrypt($formFields['password']); 
-        session(['pending_user' => $formFields]);
+        // Hash the password before storing
+        $formFields['password'] = bcrypt($formFields['password']);
     
-        // Generate OTP
-        $otp = rand(100000, 999999);
-        session(['otp' => $otp]);
+        // Create the user and save to the database
+        $user = User::create($formFields);
     
-        // Send OTP to the user's email
-        Mail::to($request->email)->send(new OtpMail($otp));
+        // Log the user in
+        Auth::login($user);
     
-        return response()->json(['success' => true, 'message' => 'OTP sent.']);
+        // Redirect the user to the home page
+        return redirect('/home');
     }
     
     

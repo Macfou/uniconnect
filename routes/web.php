@@ -290,16 +290,6 @@ Route::get('/admin/admin_pages/events', [AdminController::class, 'showEvents'])-
 Route::post('/search-student', [StartEventController::class, 'searchStudent']);
 
 
-
-// certificate
-
-
-
-
-
-
-
-
 // dashboard
 
 Route::get('/admin/admin_pages/admin_index', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
@@ -417,9 +407,7 @@ Route::patch('/ufmo/ufmo_pages/ufmo_cancelled/{id}', [UfmoRequestController::cla
 Route::get('/ufmo/ufmo_components/ufmolayout', [UfmoController:: class, 'ufmolayout'])->name('ufmo.ufmo_components.ufmolayout');
 
 
-Route::get('/certificate', [CertificateController::class, 'uploadForm'])->name('certificate.form');
-Route::post('/certificate/upload', [CertificateController::class, 'upload'])->name('certificate.upload');
-Route::post('/certificate/save', [CertificateController::class, 'save'])->name('certificate.save');
+
 
 
 Route::get('/listings/{id}/register', [EventRegistrationController::class, 'create'])->name('event.register');
@@ -584,6 +572,11 @@ Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('lis
 Route::post('/send-otp', [OTPController::class, 'sendOtp']);
 Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
 
+//certificate
+
+Route::get('/certificate', [CertificateController::class, 'uploadForm'])->name('certificate.form');
+Route::post('/certificate/upload', [CertificateController::class, 'upload'])->name('certificate.upload');
+Route::post('/certificate/save', [CertificateController::class, 'save'])->name('certificate.save');
 
   
 

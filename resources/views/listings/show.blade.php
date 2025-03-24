@@ -13,7 +13,9 @@
     
       <div class="flex items-center">
         <!-- Organization Logo -->
-        <img class="h-10 mr-4" src="{{ asset('storage/' . $organization->orgLogo) }}" alt="{{ strtoupper($organization->orgNameAbbv) }} Logo">
+        
+        <img class="h-10 mr-4" src="{{ asset('storage/logos/' . $organization->orgLogo) }}" alt="{{ strtoupper($organization->orgNameAbbv) }} Logo">
+
     
         <!-- Organization Name -->
         <p class="text-lg font-semibold">{{ ucwords(strtolower($organization->orgName)) }}</p>

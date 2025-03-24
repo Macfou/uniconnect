@@ -35,6 +35,7 @@ use App\Http\Controllers\UfmoPagesController;
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AfterEventController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DocumentAIController;
 use App\Http\Controllers\SpmoBorrowController;
 use App\Http\Controllers\StartEventController;
 use App\Http\Controllers\CertificateController;
@@ -356,8 +357,9 @@ Route::get('/gso/gso_pages/gso_cancelled', [GsoPagesController::class, 'gsocance
 
 Route::get('/ufmo/ufmo_pages/ufmo_dashboard', [UfmoPagesController::class,'ufmodashboard'])->name('ufmo.ufmo_pages.ufmo_dashboard');
 Route::get('/ufmo/ufmo_pages/ufmo_pending', [UfmoPagesController::class,'ufmopending'])->name('ufmo.ufmo_pages.ufmo_pending');
-Route::patch('/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::class, 'approveEvent'])
+Route::match(['get', 'post', 'patch'], '/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::class, 'approveEvent'])
     ->name('ufmo.ufmo_pages.ufmo_approved');
+
 
     Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class, 'ufmoapproved'])
     ->name('ufmo.ufmo_pages.ufmo_approved');
@@ -574,9 +576,11 @@ Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
 
 //certificate
 
-Route::get('/certificate', [CertificateController::class, 'uploadForm'])->name('certificate.form');
-Route::post('/certificate/upload', [CertificateController::class, 'upload'])->name('certificate.upload');
-Route::post('/certificate/save', [CertificateController::class, 'save'])->name('certificate.save');
+Route::get('/upload-certificate', function () {
+    return view('pages.certificate');
+});
+
+Route::post('/process-certificate', [DocumentAIController::class, 'upload'])->name('process.certificate');
 
   
 

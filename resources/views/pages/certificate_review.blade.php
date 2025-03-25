@@ -1,17 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Review Certificate</title>
-    @vite('resources/css/app.css')
-</head>
-<body>
-    <div class="container mx-auto p-6">
-        <form action="{{ route('save.certificate') }}" method="POST">
+<x-layout>
+
+  
+    <head>
+        <meta charset="UTF-8">
+        <title>Review Certificate</title>
+    </head>
+    <body>
+        <h1>Review and Edit Detected Name</h1>
+    
+        <img src="{{ asset('storage/' . $image_path) }}" alt="Uploaded Certificate" style="max-width: 500px;"><br><br>
+    
+        <form action="{{ route('certificate.save') }}" method="POST">
             @csrf
-            <label>Name Extracted:</label>
-            <input type="text" name="name" value="{{ $text }}" class="border p-2 w-full">
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Save</button>
+            <input type="hidden" name="image_path" value="{{ $image_path }}">
+    
+            <label for="edited_name">Edit Name:</label>
+            <input type="text" name="edited_name" value="{{ $detected_name }}" required>
+    
+            <button type="submit">Save Edited Certificate</button>
         </form>
-    </div>
-</body>
-</html>
+    
+        @if(session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
+    </body>
+
+    
+</x-layout>

@@ -576,11 +576,17 @@ Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
 
 //certificate
 
-Route::get('/upload-certificate', function () {
-    return view('pages.certificate');
-});
 
-Route::post('/process-certificate', [DocumentAIController::class, 'upload'])->name('process.certificate');
+
+
+
+
+Route::get('/certificate', [CertificateController::class, 'certificate'])->name('certificate');
+
+Route::post('/certificate/store', [CertificateController::class, 'store'])->name('certificate.store');
+Route::delete('/certificate/{id}', [CertificateController::class, 'destroy'])->name('certificate.destroy');
+
+
 
   
 

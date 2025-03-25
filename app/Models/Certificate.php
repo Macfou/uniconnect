@@ -9,8 +9,10 @@ class Certificate extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'edited_file_path',
-        'edited_name',
-    ];
+    protected $fillable = ['event_id', 'file_path'];
+
+    public function event()
+    {
+        return $this->belongsTo(Listing::class, 'event_id');
+    }
 }

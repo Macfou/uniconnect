@@ -2,73 +2,64 @@
 
 namespace App\Http\Controllers;
 
-
-
-use Illuminate\Support\Str;
-
+use App\Models\Certificate;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Storage;
-use Google\Cloud\Core\Exception\ServiceException;
-use Google\Cloud\Vision\V1\Client\ImageAnnotatorClient;
+
+
+
 
 class CertificateController extends Controller
 {
-    public function uploadForm()
+    public function certificate(Request $request)
     {
-        return view('pages.certificate');
+        $selectedEvent = $request->input('selected_event');
+    $certificates = [];
+
+    if ($selectedEvent) {
+        $certificates = Certificate::where('event_id', $selectedEvent)->get();
     }
 
-    public function upload(Request $request)
+    return view('pages.certificate', compact('certificates'));
+    }
+
+    public function store(Request $request)
     {
+        // Validate input
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5048',
+            'event_id' => 'required|exists:listings,id',
+            'certificates' => 'required|array', // Ensure multiple files are received as an array
+            'certificates.*' => 'image|mimes:jpeg,png,jpg|max:20480', // 20MB limit (20480 KB)
         ]);
-
-        try {
-            // Save uploaded image
-            $imageFile = $request->file('image');
-            $imagePath = $imageFile->store('certificates', 'public');
-
-            // Run OCR
-            $detectedText = $this->detectText(storage_path("app/public/{$imagePath}"));
-
-            // Extract name (Assumption: First name and last name are in the detected text)
-            $extractedNames = $this->extractNames($detectedText);
-
-            return view('pages.certificate_review', [
-                'image_path' => $imagePath,
-                'detected_first_name' => $extractedNames['first_name'] ?? '',
-                'detected_last_name' => $extractedNames['last_name'] ?? '',
-            ]);
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error processing the image: ' . $e->getMessage());
-        }
-    }
-
-    private function detectText($imagePath)
-    {
-        try {
-            $imageAnnotator = new ImageAnnotatorClient();
-            $imageData = file_get_contents($imagePath);
-            $response = $imageAnnotator->documentTextDetection($imageData);
-            $texts = $response->getFullTextAnnotation();
-            $imageAnnotator->close();
-            return $texts ? $texts->getText() : '';
-        } catch (ServiceException $e) {
-            return 'Error in Google Cloud Vision API: ' . $e->getMessage();
-        }
-    }
-
-    private function extractNames($text)
-    {
-        // Split text into words
-        $words = explode("\n", $text);
         
-        // Assume first name is the first word and last name is the second word
-        return [
-            'first_name' => $words[0] ?? '',
-            'last_name' => $words[1] ?? '',
-        ];
+
+        // Process each uploaded file
+        if ($request->hasFile('certificates')) {
+            foreach ($request->file('certificates') as $file) {
+                $path = $file->store('certificates', 'public'); // Store file in "storage/app/public/certificates"
+
+                // Save file details in the database
+                Certificate::create([
+                    'event_id' => $request->event_id,
+                    'file_path' => $path,
+                ]);
+            }
+        }
+
+        return back()->with('success', 'Certificates uploaded successfully!');
     }
+
+    public function destroy($id)
+{
+    $certificate = Certificate::findOrFail($id);
+
+    // Delete the file from storage
+    Storage::delete('public/certificates/' . $certificate->filename);
+
+    // Delete from database
+    $certificate->delete();
+
+    return back()->with('success', 'Certificate deleted successfully.');
+}
+    
 }

@@ -381,6 +381,7 @@
         </script>
         
             <!-- OTP Modal -->
+<<!-- OTP Modal -->
 <div id="otpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-md">
         <h2 class="text-xl font-semibold mb-4">Enter OTP</h2>
@@ -394,66 +395,35 @@
     </div>
 </div>
 
-<!-- Error Modal -->
-<div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md">
-        <h2 class="text-xl font-semibold mb-4 text-red-500">Error</h2>
-        <p class="text-gray-700 text-sm mb-4">Invalid OTP. Please try again.</p>
-        <div class="flex justify-end">
-            <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onclick="closeErrorModal()">Close</button>
-        </div>
-    </div>
-</div>
-
 <script>
-function validateSignUp() {
-    if (!document.getElementById("dataPrivacyCheckbox").checked) {
-        openWarningModal();
-    } else {
-        // Send OTP to email
-        let email = document.querySelector('input[name="email"]').value;
-        fetch('/send-otp', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            body: JSON.stringify({ email: email })
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  document.getElementById("otpModal").classList.remove("hidden");
-              } else {
-                  alert(data.message);
-              }
-          });
-    }
+function openOtpModal() {
+    document.getElementById("otpModal").classList.remove("hidden");
 }
-
-function verifyOtp() {
-    let otp = document.getElementById("otpInput").value;
-    let email = document.querySelector('input[name="email"]').value;
-
-    fetch('/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-        body: JSON.stringify({ email: email, otp: otp })
-    }).then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              window.location.href = '/dashboard'; // Redirect on success
-          } else {
-              document.getElementById("otpError").classList.remove("hidden");
-          }
-      });
-}
-
 
 function closeOtpModal() {
     document.getElementById("otpModal").classList.add("hidden");
 }
 
-function closeErrorModal() {
-    document.getElementById("errorModal").classList.add("hidden");
+function verifyOtp() {
+    const otp = document.getElementById("otpInput").value;
+    const email = document.querySelector('input[name="email"]').value;
+
+    // Send OTP verification request
+    fetch('/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        body: JSON.stringify({ otp: otp, email: email })
+    }).then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              window.location.href = "/home"; // Redirect to home page or wherever you want
+          } else {
+              document.getElementById("otpError").classList.remove("hidden");
+          }
+      });
 }
 </script>
+
 
         
         

@@ -554,8 +554,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
 
-Route::post('/send-otp', [OTPController::class, 'sendOtp']);
-Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
+Route::post('/send-otp', [OtpController::class, 'sendOtp']);
+Route::post('/verify-otp', [OtpController::class, 'verifyOtp'])->name('verify-otp');
 
 //certificate
 

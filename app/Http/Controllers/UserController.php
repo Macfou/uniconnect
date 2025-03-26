@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Events\UserRegistered;
 
 class UserController extends Controller
 {
@@ -51,7 +52,8 @@ class UserController extends Controller
     
 
     // Create New User
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         // Validate the incoming data
         $formFields = $request->validate([
             'lname' => ['required', 'string', 'min:2'],
@@ -73,25 +75,26 @@ class UserController extends Controller
             'email.regex' => 'Please use a valid Gmail or Umak email to register.',
         ]);
     
-        // Check if the organization exists
-        $organization = Organization::where('id', $request->org)->first();
-        if ($organization) {
-            $formFields['org'] = $organization->orgNameAbbv;
-        } else {
-            return back()->withErrors(['org' => 'Invalid organization selected.']);
-        }
-    
         // Hash the password before storing
         $formFields['password'] = bcrypt($formFields['password']);
     
         // Create the user and save to the database
         $user = User::create($formFields);
     
-        // Log the user in
+        // Generate OTP
+        $otp = rand(100000, 999999); // You can generate OTP using any method
+    
+        // Store OTP in session or database to verify later
+        session(['otp' => $otp, 'otp_email' => $user->email]);
+    
+        // Send OTP via email
+        Mail::to($user->email)->send(new OtpMail($otp));
+    
+        // Log the user in (if you want to log them in after OTP verification)
         Auth::login($user);
     
-        // Redirect the user to the home page
-        return redirect('/home');
+        // Redirect the user to the OTP verification page
+        return redirect('/verify-otp');
     }
     
     

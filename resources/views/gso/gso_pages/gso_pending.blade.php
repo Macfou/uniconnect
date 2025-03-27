@@ -53,11 +53,12 @@
                         <td class="p-4 border-b">{{ $request->quantity }}</td>
                         <td class="p-4 border-b">
                             <!-- Approve Form -->
-                            <form action="{{ route('gso.gso_pages.gso_approved', ['id' => $request->id]) }}" method="POST">
+                            <form action="{{ route('gso_approved', ['id' => $request->id]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <button class="text-blue-500 hover:underline" type="submit">Approve</button>
                             </form>
+                            
                             <!-- Reject Form -->
                             <form action="{{ route('borrow.reject', $request->id) }}" method="POST">
                                 @csrf

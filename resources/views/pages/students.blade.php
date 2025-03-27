@@ -115,38 +115,39 @@
         document.getElementById('modal_filter_year').addEventListener('change', fetchSections);
 
         function saveSection() {
-            let organization = document.getElementById('modal_filter_organization').value;
-            let orgText = document.getElementById('modal_filter_organization').selectedOptions[0].text;
-            let yearLevel = document.getElementById('modal_filter_year').value;
-            let section = document.getElementById('modal_filter_section').value;
+    let organizationId = document.getElementById("modal_filter_organization").value;
+    let yearLevel = document.getElementById("modal_filter_year").value;
+    let sectionName = document.getElementById("modal_filter_section").value;
 
-            if (organization && yearLevel && section) {
-                savedSections.push({ organization, orgText, yearLevel, section });
-                updateSectionsTable();
-                closeModal();
-            } else {
-                alert("Please select all fields.");
-            }
-        }
+    if (!organizationId || !yearLevel || !sectionName) {
+        alert("Please select all fields before saving.");
+        return;
+    }
 
-        function updateSectionsTable() {
-            let tableBody = document.getElementById('saved_sections_table');
-            tableBody.innerHTML = '';
+    fetch("{{ route('saved-sections.store') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            organization_id: organizationId,
+            year_level: yearLevel,
+            section_name: sectionName
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        alert("Section saved successfully!");
+        location.reload(); // Refresh to see saved sections
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to save section.");
+    });
+}
 
-            savedSections.forEach((sec, index) => {
-                tableBody.innerHTML += `
-                    <tr>
-                        <td class="border p-2">${sec.orgText}</td>
-                        <td class="border p-2">${sec.yearLevel}</td>
-                        <td class="border p-2">${sec.section}</td>
-                        <td class="border p-2">
-                            <button onclick="viewStudents(${index})" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">View</button>
-                            <button onclick="removeSection(${index})" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Remove</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
 
         function removeSection(index) {
             savedSections.splice(index, 1);

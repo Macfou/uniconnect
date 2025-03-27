@@ -33,6 +33,14 @@ class UfmoPagesController extends Controller
     
     }
 
+    
+    public function ufmoreject() {
+        $rejectedEvents = Listing::where('status', 'rejected')->get();
+    
+        return view('ufmo.ufmo_pages.ufmo_rejected', compact('rejectedEvents'));
+    }
+    
+
     public function ufmocancelled() {
 
         $rejectedEvents = Listing::where('status', 'rejected')->get();

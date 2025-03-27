@@ -10,30 +10,31 @@ use App\Models\BorrowRequest;
 class BorrowEquipmentController extends Controller
 {
     public function borrow($listing_id)
-    {
-        // Get the event details
-        $event = Listing::findOrFail($listing_id);
-    
-        // Get all equipment with calculated available quantity
-        $equipments = GsoCategory::all()->map(function ($equipment) {
-            // Calculate borrowed equipment quantity (Pending/Approved)
-            $borrowedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
-                ->whereIn('status', ['Pending', 'Approved'])
-                ->sum('quantity');
-    
-            // Calculate returned equipment quantity
-            $returnedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
-                ->where('status', 'Returned')
-                ->sum('quantity');
-    
-            // Adjust available quantity
-            $equipment->available_quantity = max(0, ($equipment->quantity - $borrowedQuantity) + $returnedQuantity);
-    
-            return $equipment;
-        });
-    
-        return view('pages.borrow', compact('event', 'equipments'));
-    }
+{
+    // Get the event details
+    $event = Listing::findOrFail($listing_id);
+
+    // Get all equipment with calculated available quantity
+    $equipments = GsoCategory::all()->map(function ($equipment) {
+        // Calculate borrowed equipment quantity (Pending/Approved)
+        $borrowedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
+            ->whereIn('status', ['Pending', 'Approved'])
+            ->sum('quantity');
+
+        // Calculate returned equipment quantity
+        $returnedQuantity = BorrowRequest::where('equipment_id', $equipment->id)
+            ->where('status', 'Returned')
+            ->sum('quantity');
+
+        // Adjust available quantity
+        $equipment->available_quantity = max(0, ($equipment->quantity - $borrowedQuantity) + $returnedQuantity);
+
+        return $equipment;
+    });
+
+    return view('pages.borrow', compact('event', 'equipments'));
+}
+
 
     public function store(Request $request)
     {
@@ -87,15 +88,22 @@ public function pendingRequests()
 
 
 
-
 public function approve($id)
 {
     $borrowRequest = BorrowRequest::findOrFail($id);
-    $borrowRequest->status = 'approved';
+    $borrowRequest->status = 'Approved';
     $borrowRequest->save();
 
-    return redirect()->route('gso.gso_pages.gso_approved')->with('success', 'Borrow request approved.');
+    // Redirect to a GET route instead of PATCH
+    return redirect()->route('gso.gso_pages.gso_approved')
+        ->with('success', 'Borrow request approved.');
 }
+
+
+
+
+
+
 
 public function approvedRequests()
 {

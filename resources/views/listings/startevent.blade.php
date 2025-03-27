@@ -63,8 +63,9 @@
                         <div class="mb-4">
                             <button type="button" id="openModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Scan student Qr
-                            </button>    
-
+                            </button> 
+                            
+                           
                             <a href="{{ route('attendance.show', $listing->id) }}" class="pt-1 pb-1 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">
                                Show Attendance
                             </a>
@@ -98,7 +99,7 @@
                                 <!-- Div to display the scanned QR code result -->
                                 <p id="qrResult" class="mt-4 text-lg font-bold text-green-600"></p>
                 
-                                <button id="submitAttendance" class="btn hidden">Submit Attendance</button>
+                                <button id="submitAttendance" class="btn hidden ">Submit Attendance</button>
                                 <!-- Warning message -->
                                 <p id="qrWarning" class="mt-4 text-lg font-bold text-red-600 hidden">Cannot scan the QR code. Please try again.</p>
                             </div>
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 .catch(error => {
     console.error('Error:', error);
-    qrResultElement.innerHTML = `Student ID: ${studentId}<br>Student not found`;
+    qrResultElement.innerHTML = `Student ID: ${studentId}<br>Unregistered student`;
 });
 
             // Show the submit button once a QR code is scanned

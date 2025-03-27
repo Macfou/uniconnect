@@ -17,28 +17,40 @@ class UfmoRequestController extends Controller
         $event->save();
     
         // Redirect back with a success message
-        return redirect()->route('ufmo.ufmo_pages.ufmo_approved')
-            ->with('message', 'Event approved!');
+       
+      
+            return redirect()->route('ufmo.ufmo_pages.ufmo_approved')
+    ->with('message', 'Event approved!');
+
+
     }
     
     
-    public function rejectEvent($id)
+    public function reject(Request $request, $id)
     {
-        // Find the event by id
-        $event = Listing::findOrFail($id);
-        
-        // Update the status to 'rejected'
-        $event->status = 'rejected';  
-        $event->save();
+        // Validate the input
+        $request->validate([
+            'rejection_reason' => 'required|string',
+        ]);
     
-        // Fetch the updated list of cancelled events (or pending ones)
-        $cancelledEvents = Listing::where('status', 'rejected')->get(); // Adjust based on your logic
+        // Find the event
+        $event = Listing::find($id);
     
-        // Redirect to the list of cancelled events (without the id) and pass data
-        return redirect()->route('ufmo.ufmo_pages.ufmo_cancelled')
-            ->with('message', 'Event rejected!')
-            ->with('cancelledEvents', $cancelledEvents);
+        if (!$event) {
+            return redirect()->back()->with('error', 'Event not found.');
+        }
+    
+        // Update status and rejection reason
+        $event->update([
+            'status' => 'Rejected',
+            'rejection_reason' => $request->rejection_reason,
+        ]);
+    
+        return redirect()->back()->with('success', 'Event rejected successfully.');
     }
+    
+    
+    
     
     
 }

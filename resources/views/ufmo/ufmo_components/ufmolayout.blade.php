@@ -15,6 +15,8 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
     <script>
         tailwind.config = {
     theme: {
@@ -133,7 +135,7 @@
                             </li>
 
                             <li>
-                                <a href="/ufmo/ufmo_pages/ufmo_cancelled" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                <a href="/ufmo/ufmo_pages/ufmo_rejected" class="block p-2 hover:bg-gray-700 flex items-center text-white">
                                     
                                     Rejected Requests
                                 </a>

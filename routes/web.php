@@ -48,6 +48,7 @@ use App\Http\Controllers\SavedSectionController;
 use App\Http\Controllers\SpmoCategoryController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
+use App\Http\Controllers\MyCertificateController;
 use App\Http\Controllers\BorrowEquipmentController;
 use App\Http\Controllers\EventRegistrationController;
 
@@ -357,9 +358,8 @@ Route::get('/gso/gso_pages/gso_cancelled', [GsoPagesController::class, 'gsocance
 
 Route::get('/ufmo/ufmo_pages/ufmo_dashboard', [UfmoPagesController::class,'ufmodashboard'])->name('ufmo.ufmo_pages.ufmo_dashboard');
 Route::get('/ufmo/ufmo_pages/ufmo_pending', [UfmoPagesController::class,'ufmopending'])->name('ufmo.ufmo_pages.ufmo_pending');
-Route::match(['get', 'post', 'patch'], '/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::class, 'approveEvent'])
-    ->name('ufmo.ufmo_pages.ufmo_approved');
 
+Route::get('/ufmo/ufmo_pages/ufmo_rejected', [UfmoPagesController::class,'ufmoreject'])->name('ufmo.ufmo_pages.ufmo_rejected');
 
     Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class, 'ufmoapproved'])
     ->name('ufmo.ufmo_pages.ufmo_approved');
@@ -403,8 +403,12 @@ Route::get('/listings/getBookedTimes', [CalendarController::class, 'getBookedTim
 // ufmo pending approved
 
 
-Route::patch('/ufmo/ufmo_pages/ufmo_approved/{id}', [UfmoRequestController::class, 'approveEvent'])->name('ufmo.ufmo_pages.ufmo_approved');
-Route::patch('/ufmo/ufmo_pages/ufmo_cancelled/{id}', [UfmoRequestController::class, 'rejectEvent'])->name('ufmo.ufmo_pages.ufmo_cancelled');
+Route::patch('ufmo/approved/{id}', [UfmoRequestController::class, 'approveEvent'])->name('ufmo_approved');
+
+Route::patch('/ufmo/requests/rejected/{id}', [UfmoRequestController::class, 'reject'])
+    ->name('ufmo.requests.rejected');
+
+
 
 Route::get('/ufmo/ufmo_components/ufmolayout', [UfmoController:: class, 'ufmolayout'])->name('ufmo.ufmo_components.ufmolayout');
 
@@ -436,7 +440,9 @@ Route::get('/pages/borrow/{listing_id}', [BorrowEquipmentController::class, 'bor
  
  Route::patch('/borrow/reject/{id}', [BorrowEquipmentController::class, 'reject'])->name('borrow.reject');
  
- Route::patch('/gso/gso_pages/gso_approved/{id}', [BorrowEquipmentController::class, 'approve'])->name('gso.gso_pages.gso_approved');
+ Route::patch('gso_approved/{id}', [BorrowEquipmentController::class, 'approve'])
+    ->name('gso_approved');
+
  Route::get('/gso/gso_pages/gso_approved', [BorrowEquipmentController::class, 'approvedRequests'])->name('gso.gso_pages.gso_approved');
  
  Route::get('/pages/requestview/{id}', [BorrowEquipmentController::class, 'requestView'])->name('pages.requestview');
@@ -448,13 +454,15 @@ Route::get('/gso/gso_pages/gso_borrowed/{id}', [BorrowEquipmentController::class
 
 // Route to view all borrowed requests
 Route::get('/gso/gso_pages/gso_borrowed', [BorrowEquipmentController::class, 'showBorrowedRequests'])
-    ->name('gso.borrowed');
+    ->name('gso.gso_borrowed');
 
 Route::get('/gso/gso_pages/gso_returned/{id}', [BorrowEquipmentController::class, 'markAsReturned'])
     ->name('borrow.markAsReturned');
 
 Route::get('/gso/gso_pages/gso_returned', [BorrowEquipmentController::class, 'showReturnedRequests'])
     ->name('gso.returned');
+
+
 
 
 
@@ -498,35 +506,9 @@ Route::get('/spmo/spmo_pages/spmo_cancelled', [SpmoPagesController::class, 'spmo
 
 //spmo borrow
 
-Route::get('/pages/borrow/{listing_id}', [SpmoBorrowController::class, 'borrow'])
-    ->name('pages.borrow');
-
-    Route::post('/borrow/store', [SpmoBorrowController::class, 'store'])->name('borrow.store');
 
 
- Route::get('/spmo/spmo_pages/spmo_pending', [SpmoBorrowController::class, 'pendingRequests'])->name('spmo.spmo_pages.spmo_pending');
- 
- Route::patch('/borrow/reject/{id}', [SpmoBorrowController::class, 'reject'])->name('borrow.reject');
- 
- Route::patch('/spmo/spmo_pages/spmo_approved/{id}', [SpmoBorrowController::class, 'approve'])->name('spmo.spmo_pages.spmo_approved');
- Route::get('/spmo/spmo_pages/spmo_approved', [SpmoBorrowController::class, 'approvedRequests'])->name('spmo.spmo_pages.spmo_approved');
- 
- Route::get('/pages/requestview/{id}', [SpmoBorrowController::class, 'requestView'])->name('pages.requestview');
- Route::delete('/pages/requestview/{id}', [SpmoBorrowController::class, 'cancelRequest'])->name('pages.requestview.cancel');
 
-// Route to mark an approved request as "Borrowed"
-Route::get('/spmo/spmo_pages/spmo_borrowed/{id}', [SpmoBorrowController::class, 'markAsBorrowed'])
-    ->name('borrow.markAsBorrowed');
-
-// Route to view all borrowed requests
-Route::get('/spmo/spmo_pages/spmo_borrowed', [SpmoBorrowController::class, 'showBorrowedRequests'])
-    ->name('spmo.borrowed');
-
-Route::get('/spmo/spmo_pages/spmo_returned/{id}', [SpmoBorrowController::class, 'markAsReturned'])
-    ->name('borrow.markAsReturned');
-
-Route::get('/spmo/spmo_pages/spmo_returned', [SpmoBorrowController::class, 'showReturnedRequests'])
-    ->name('spmo.returned');
 
 //spmo login
 
@@ -563,7 +545,8 @@ Route::get('/sections/filter', [StudentController::class, 'filterSections']);
 //save section
 Route::middleware(['auth'])->group(function () {
     Route::get('/saved-sections', [SavedSectionController::class, 'index']);
-    Route::post('/saved-sections', [SavedSectionController::class, 'store']);
+    Route::post('/saved-sections', [SavedSectionController::class, 'store'])->name('saved-sections.store');
+
     Route::delete('/saved-sections/{id}', [SavedSectionController::class, 'destroy']);
 });
 
@@ -577,14 +560,16 @@ Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
 //certificate
 
 
+Route::get('/certificate', [CertificateController::class, 'showFeedback'])->name('certificate.feedback');
+Route::post('/certificate/send', [CertificateController::class, 'storeSentCertificate'])->name('certificate.send');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mycertificate', [CertificateController::class, 'myCertificates'])->name('certificate.my');
+});
 
 
 
 
-Route::get('/certificate', [CertificateController::class, 'certificate'])->name('certificate');
-
-Route::post('/certificate/store', [CertificateController::class, 'store'])->name('certificate.store');
-Route::delete('/certificate/{id}', [CertificateController::class, 'destroy'])->name('certificate.destroy');
 
 
 

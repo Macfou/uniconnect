@@ -11,6 +11,10 @@ class Listing extends Model
 
     
 
+    protected $fillable = [
+        
+        'rejection_reason'
+    ];
     
 
     //protected $fillable = ['title', 'tags', 'venue', 'website', 'organizations', 'email', 'description'];

@@ -18,6 +18,9 @@ class SavedSectionController extends Controller
     // Save a section
     public function store(Request $request)
     {
+
+        dd($request->all());
+        
         $request->validate([
             'organization_id' => 'required|exists:organizations,id',
             'year_level' => 'required|string',

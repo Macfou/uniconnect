@@ -54,7 +54,6 @@ class UserController extends Controller
     // Create New User
     public function store(Request $request)
     {
-        // Validate the incoming data
         $formFields = $request->validate([
             'lname' => ['required', 'string', 'min:2'],
             'fname' => ['required', 'string', 'min:2'],
@@ -68,35 +67,27 @@ class UserController extends Controller
                 'required',
                 'email',
                 Rule::unique('users', 'email'),
-                'regex:/^[a-zA-Z0-9._%+-]+@(gmail\.com|umak\.edu\.ph)$/'
+                
             ],
             'password' => 'required|confirmed|min:6'
         ], [
             'email.regex' => 'Please use a valid Gmail or Umak email to register.',
         ]);
     
-        // Hash the password before storing
         $formFields['password'] = bcrypt($formFields['password']);
     
-        // Create the user and save to the database
-        $user = User::create($formFields);
-    
         // Generate OTP
-        $otp = rand(100000, 999999); // You can generate OTP using any method
+        $otp = rand(100000, 999999);
     
-        // Store OTP in session or database to verify later
-        session(['otp' => $otp, 'otp_email' => $user->email]);
+        // Store OTP in session
+        session(['otp' => $otp, 'otp_email' => $formFields['email'], 'formFields' => $formFields]);
     
         // Send OTP via email
-        Mail::to($user->email)->send(new OtpMail($otp));
+        Mail::to($formFields['email'])->send(new OtpMail($otp));
     
-        // Log the user in (if you want to log them in after OTP verification)
-        Auth::login($user);
-    
-        // Redirect the user to the OTP verification page
-        return redirect('/verify-otp');
+        // Redirect to OTP verification page
+        return redirect('/verify-otp')->with('message', 'An OTP has been sent to your email.');
     }
-    
     
 
     // Logout

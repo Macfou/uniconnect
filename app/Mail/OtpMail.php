@@ -2,10 +2,14 @@
 
 namespace App\Mail;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 class OtpMail extends Mailable
 {
+    use Queueable, SerializesModels;
+
     public $otp;
 
     public function __construct($otp)
@@ -16,6 +20,8 @@ class OtpMail extends Mailable
     public function build()
     {
         return $this->subject('Your OTP Verification Code')
-                    ->view('emails.otp');
+                    ->view('emails.otp-mail')
+                    ->with(['otp' => $this->otp]);
     }
 }
+

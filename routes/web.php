@@ -50,6 +50,7 @@ use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
 use App\Http\Controllers\MyCertificateController;
 use App\Http\Controllers\BorrowEquipmentController;
+use App\Http\Controllers\OtpVerificationController;
 use App\Http\Controllers\EventRegistrationController;
 
 //home
@@ -571,6 +572,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/calendar', [CalendarController::class, 'calendarPage'])->name('calendar.page');
 Route::get('/get-booked-slots', [CalendarController::class, 'getBookedSlots']);
 
+
+Route::get('/verify-otp', [OtpVerificationController::class, 'showOtpForm'])->name('verify.otp.form');
+Route::post('/verify-otp', [OtpVerificationController::class, 'verifyOtp'])->name('verify.otp');
 
 
 

@@ -1,8 +1,5 @@
-@php
-    $selectedFacility = request('facility');
-    $selectedDate = request('date');
-    $selectedTime = request('time');
-@endphp
+
+
 
 <x-layout>
     @include('partials._myevents')
@@ -48,19 +45,16 @@
                         <label class="block font-semibold text-gray-700">Select Venue, Date & Time</label>
                         <button type="button" onclick="window.location.href='/pages/calendar'" class="w-full mt-1 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Select</button>
                     </div>
-
-                    @if ($selectedFacility && $selectedDate && $selectedTime)
-                        <div class="mb-4 p-4 bg-gray-50 border rounded">
-                            <p class="text-gray-700"><strong>Facility:</strong> {{ $selectedFacility }}</p>
-                            <p class="text-gray-700"><strong>Date:</strong> {{ $selectedDate }}</p>
-                            <p class="text-gray-700"><strong>Time:</strong> {{ $selectedTime }}</p>
-                        </div>
-                    @endif
-
-                    <input type="hidden" name="venue" value="{{ $selectedFacility }}">
-                    <input type="hidden" name="event_date" value="{{ $selectedDate }}">
-                    <input type="hidden" name="event_time" value="{{ $selectedTime }}">
-
+                  
+    <h3 class="text-lg font-semibold">Select Date: {{ request('date') }}</h3>
+    <h3 class="text-lg font-semibold">Classification: {{ request('classification') }}</h3>
+    <h3 class="text-lg font-semibold">Facility: {{ request('facility') }}</h3>
+    <h3 class="text-lg font-semibold">Selected Time: {{ request('time') }}</h3>
+                
+                    <input type="hidden" for="event_date" name="event_date" value="{{ request('date') }}">
+                    <input type="hidden" for="classifications" name="classifications" value="{{ request('classification') }}">
+                    <input type="hidden" for="venue" name="venue" value="{{ request('facility') }}">
+                    <input type="hidden" for="event_time" name="event_time" value="{{ request('time') }}">
                     <!-- Upload Image -->
                     <div class="mb-4">
                         <label for="image" class="block font-semibold text-gray-700">Upload Image</label>

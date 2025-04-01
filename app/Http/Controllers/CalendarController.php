@@ -11,39 +11,49 @@ class CalendarController extends Controller
 {
     public function calendarPage(Request $request)
     {
-        // Fetch all facilities
-        $facilities = Facility::all(); // Adjust query as needed
-        
-        // Get the year and month from the request, or use the current year and month as default
-        $year = $request->input('year', date('Y'));
-        $month = $request->input('month', date('m'));
-        
-        // Fetch events from listings based on the selected year, month, and venue
-        $events = DB::table('listings')
-            ->whereYear('event_date', $year)
-            ->whereMonth('event_date', $month)
-            ->get();
-        
-        // Check if a specific facility and date are selected
-        $selectedFacilityId = $request->input('facility_id');
-        $selectedDate = $request->input('date');
+        $selectedYear = $request->input('year', date('Y'));
+        $selectedMonth = $request->input('month', date('n'));
+        $selectedDate = $request->input('date', date('Y-m-d')); // Get the selected date
+        $selectedFacility = $request->input('facility'); 
+        $facilities = Facility::all(); // Fetch all facilities
     
-        // Fetch booked time slots for the selected facility and date
-        $bookedSlots = Listing::where('venue_id', $selectedFacilityId)
-        ->where('event_date', $selectedDate)
-        ->pluck('time_id')
-        ->toArray();
+        $bookedSlots = [];
     
+        if ($selectedFacility) {
+            // Get booked slots from ufmo_pending
+            $ufmoSlots = DB::table('ufmo_pending')
+                ->where('event_date', $selectedDate)
+                ->where('venue', $selectedFacility)
+                ->pluck('event_time') // Format: "7:00 AM - 9:00 AM"
+                ->toArray();
     
+            // Get booked slots from listings
+            $listingSlots = DB::table('listings')
+                ->where('event_date', $selectedDate)
+                ->where('venue', $selectedFacility)
+                ->pluck('event_time') // Format: "1:00 PM - 6:00 PM"
+                ->toArray();
     
-        // Pass the facilities, events, and booked slots data to the view
-        return view('pages.calendar', [
-            'facilities' => $facilities,
-            'events' => $events,
-            'bookedSlots' => $bookedSlots,
-            'selectedFacilityId' => $selectedFacilityId,
-            'selectedDate' => $selectedDate,
-        ]);
+            // Merge booked slots from both tables
+            $bookedSlots = array_merge($ufmoSlots, $listingSlots);
+        }
+    
+        return view('pages.calendar', compact('facilities', 'selectedYear', 'selectedMonth', 'selectedDate', 'bookedSlots'));
     }
+
+    public function getBookedSlots(Request $request)
+{
+    $venue = $request->input('venue');
+    $eventDate = $request->input('event_date');
+
+    $bookedSlots = Listing::where('venue', $venue)
+        ->where('event_date', $eventDate)
+        ->pluck('event_time') // Assuming event_time is stored as "7:00 AM - 3:00 PM"
+        ->toArray();
+
+    return response()->json($bookedSlots);
+}
+    
+  
     
 }

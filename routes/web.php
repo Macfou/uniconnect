@@ -567,6 +567,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mycertificate', [CertificateController::class, 'myCertificates'])->name('certificate.my');
 });
 
+// calendar
+Route::get('/calendar', [CalendarController::class, 'calendarPage'])->name('calendar.page');
+Route::get('/get-booked-slots', [CalendarController::class, 'getBookedSlots']);
 
 
 

@@ -105,6 +105,8 @@ class ListingController extends Controller
     // Store listing
     public function store(Request $request)
     {
+       
+       
         // Validate the request
         $formFields = $request->validate([
             'tags' => ['required', Rule::unique('listings', 'tags')],  
@@ -115,6 +117,7 @@ class ListingController extends Controller
             'organization' => 'required|array',
             'description' => 'required',
             'image' => 'required|image',
+            'classifications' => 'required'
         ]);
     
         // Convert organization array to a comma-separated string
@@ -183,6 +186,7 @@ class ListingController extends Controller
             'organization' => 'required|string',
             'description' => 'required',
             'image' => 'nullable|image',
+            
         ]);
     
         // Ensure read-only fields remain unchanged
@@ -213,7 +217,7 @@ class ListingController extends Controller
 
     // Manage function
   
-
+  
 
     ///ytytt
 

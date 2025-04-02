@@ -60,6 +60,11 @@
                         Sign In
                     </button>
                 </div>
+                <div class="flex justify-between items-center mt-2">
+                    <a href="{{ route('forgot.password.form') }}" class="text-blue-400 hover:underline text-sm">
+                        Forgot Password?
+                    </a>
+                </div>
                 <div class="mt-8">
                     <p class="text-white">
                         Create Account?

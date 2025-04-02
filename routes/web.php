@@ -578,6 +578,12 @@ Route::post('/verify-otp', [OtpVerificationController::class, 'verifyOtp'])->nam
 
 
 
+Route::post('/sendOtp', [UserController::class, 'sendOtp'])->name('sendOtp');
+Route::post('/verifyOtp', [UserController::class, 'verifyOtp'])->name('verifyOtp');
+
+Route::get('/forgot-password', [UserController::class, 'showForgotPasswordForm'])->name('forgot.password.form');
+Route::post('/forgot-password/send-otp', [UserController::class, 'sendOtpfp'])->name('forgot.password.sendOtp');
+Route::post('/forgot-password/verify-otp', [UserController::class, 'verifyOtpfp'])->name('forgot.password.verifyOtp');
 
 
   

@@ -137,7 +137,7 @@ public function destroy($id)
     $admin_users->delete();
 
     // Redirect to the organizations index page with a success message
-    return redirect()->route('admin.admin_users.admin_adduser.index')->with('success', 'an Admin User Remove successfully!');
+    return redirect()->route('admin.admin_users.admin_adduser')->with('success', 'an Admin User Remove successfully!');
 }
     
 

@@ -25,7 +25,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="/pages/studentsattendance"
+					<a href="/student_attendance"
 						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
 						<svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2a1 1 0 00-.447.105l-9 4a1 1 0 000 1.79l2.302 1.022-.735 4.407A1 1 0 005 14.923l6.276-2.509 6.275 2.509a1 1 0 001.18-1.207l-.734-4.407 2.302-1.022a1 1 0 000-1.79l-9-4A1 1 0 0012 2zm6.382 9.018L12 9.203l-6.382 1.815L12 12.733l6.382-1.715zM12 16a1 1 0 00-1 1v3H8v-3a1 1 0 00-2 0v3a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 00-2 0v3h-3v-3a1 1 0 00-1-1z"></path>
@@ -60,7 +60,7 @@
 					{{---announcement----------}}
 
 					<li>
-						<a href="/pages/announce"
+						<a href="/pages/adviserrequests"
 							class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
 							<svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 								fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +68,7 @@
 									d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
 								</path>
 							</svg>
-							<span class="flex-1 ml-3 whitespace-nowrap text-laravel font-bold">Post Announcement</span>
+							<span class="flex-1 ml-3 whitespace-nowrap text-laravel font-bold">Adviser Requests</span>
 							
 						</a>
 					</li>

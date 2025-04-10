@@ -1,3 +1,5 @@
+
+
 <x-admin-layout>
     <!-- component -->
     <div class="max-w-[720px] mx-auto">

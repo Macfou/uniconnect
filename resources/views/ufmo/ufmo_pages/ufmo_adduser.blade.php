@@ -26,7 +26,8 @@
             </div>
         @endif
 
-        <form action="{{ route('ufmo.adduser.store') }}" method="POST">
+        <form action="{{ route('ufmo.sendotp') }}" method="POST">
+
             @csrf
             <div class="mb-4">
                 <label class="block text-gray-700">First Name</label>

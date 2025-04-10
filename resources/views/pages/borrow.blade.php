@@ -1,9 +1,19 @@
 <x-layout>
-    @include('partials._myevents')
+
+    <div class="pt-28 pb-32 px-6 max-w-7xl mx-auto">
+    <div class="mb-6">
+        <a href="javascript:history.back()" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-500 transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Back
+        </a>
+    </div>
 
     <div class="pt-20">
-        <div class="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
-            <h2 class="text-xl font-bold text-gray-800">Borrow Equipment for: {{ $event->tags }}</h2>
+        <div class="max-w-6xl mx-auto  p-6 bg-white shadow-md rounded-lg">
+            <h2 class="text-xl font-bold text-gray-800">Request Equipment for: {{ $event->tags }}</h2>
             <p class="text-black font-bold"><span class="text-black font-semibold">Venue:</span> {{ $event->venue }}</p>
             <p class="text-black font-bold"><span class="text-black font-semibold">Date:</span> {{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</p>
 
@@ -39,4 +49,7 @@
             </form>
         </div>
     </div>
+</div>
+
+@include('partials._footer')
 </x-layout>

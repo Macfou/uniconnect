@@ -5,17 +5,51 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Section;
 use App\Models\Organization;
+use App\Models\SavedSection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
 
+
     public function index()
     {
+        $facultyId = Auth::id();
+    
+        // Retrieve saved sections associated with the faculty
+        $savedSections = SavedSection::with('organization')
+            ->where('faculty_id', $facultyId)
+            ->get();
+    
+        // Retrieve all organizations
         $organizations = Organization::select('id', 'orgNameAbbv')->get();
-      
-        return view('pages.students', compact('organizations'));
+    
+        // Pass data to the view
+        return view('pages.students', compact('savedSections', 'organizations'));
     }
+    
+    public function getStudentsByCriteria(Request $request)
+    {
+        $organizationId = $request->query('organization');
+        $yearLevel = $request->query('yearLevel');
+        $sectionName = $request->query('sectionName');
+    
+        $students = User::where('org', $organizationId)
+                        ->where('yearlevel', $yearLevel)
+                        ->where('section', $sectionName)
+                        ->get();
+    
+        return view('pages.students_table', compact('students'));
+    }
+    
+    
+    
+    
+    
+
+
+   
     
     public function filterStudents(Request $request)
     {

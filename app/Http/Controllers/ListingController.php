@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Listing;
 use App\Models\Facility;
 use Endroid\QrCode\QrCode;
 use App\Models\EventTiming;
+use App\Models\GsoCategory;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -105,11 +107,10 @@ class ListingController extends Controller
     // Store listing
     public function store(Request $request)
     {
-       
-       
         // Validate the request
+       
         $formFields = $request->validate([
-            'tags' => ['required', Rule::unique('listings', 'tags')],  
+            'tags' => ['required', Rule::unique('listings', 'tags')],
             'title' => 'required',
             'venue' => 'required', // This is the facility_id
             'event_date' => 'required',
@@ -117,51 +118,67 @@ class ListingController extends Controller
             'organization' => 'required|array',
             'description' => 'required',
             'image' => 'required|image',
-            'classifications' => 'required'
+            'classifications' => 'required',
+            'certificate' => 'nullable|boolean',
+            'attachPlan' => 'nullable|file|mimes:pdf|max:10240',
+            
         ]);
-    
+        
         // Convert organization array to a comma-separated string
         $formFields['organization'] = implode(', ', $request->input('organization'));
-    
+        
         // Handle image upload
         if ($request->hasFile('image')) {
             $formFields['image'] = $request->file('image')->store('images', 'public');
         }
-    
+        
+        // Handle attachPlan upload (PDF)
+        if ($request->hasFile('attachPlan')) {
+            $formFields['attachPlan'] = $request->file('attachPlan')->store('plans', 'public');
+        }
+        
+        // Set certificate value (default to 0 if not present)
+        $formFields['certificate'] = $request->input('certificate', 0);
+        
         // Fetch facility details using facility_id
         $facility = Facility::where('facility_name', $formFields['venue'])->first();
-    
+        
         if (!$facility) {
             return redirect()->back()->with('error', 'The selected facility does not exist.');
         }
-    
+        
         // Store facility details
         $formFields['venue_id'] = $facility->id;
-        $formFields['venue'] = $facility->facility_name; // Store facility name instead of ID
-    
+        $formFields['venue'] = $facility->facility_name;
+        
         // Check if the event time slot is already booked (only if it's not a draft)
         if ($request->input('is_draft') != 1) {
             $existingEvent = Listing::where('venue_id', $formFields['venue_id'])
                                     ->where('event_date', $formFields['event_date'])
                                     ->where('event_time', $formFields['event_time'])
                                     ->exists();
-    
+        
             if ($existingEvent) {
                 return redirect()->back()->with('error', 'This time slot is already booked for the selected venue and date.');
             }
         }
-    
-        // Add user_id to the form fields
+        
+        // Add user_id and is_draft
         $formFields['user_id'] = auth()->id();
-    
-        // Add is_draft (1 for drafts, 0 for published)
         $formFields['is_draft'] = $request->input('is_draft', 0);
+        
+        // Assign the adviser_id and dean_id if present
+       
     
-        // Create the listing and save it
-        Listing::create($formFields);
-    
+        // Create the listing
+        $listing = Listing::create($formFields);
+        
+        // If equipment is selected, associate it with the listing
+       
+        
         return redirect('/')->with('message', $formFields['is_draft'] ? 'Event saved as draft!' : 'Event posted successfully!');
     }
+    
     
 
 
@@ -265,11 +282,41 @@ class ListingController extends Controller
 // organization involve
     public function orgInvolve() {
         $organizations = Organization::all(); // Fetch all organizations
-        return view('listings.create', compact('organizations'));
+        $gsocategories = GsoCategory::all(); 
+        return view('listings.create', compact('organizations', 'gsocategories'));
     }
 
     ///////////////  start eventtt
- 
+   // In your controller, update the method to return more details
+// Controller Method
+public function searchUser(Request $request)
+{
+    // Get the email from the request
+    $email = $request->get('email');
+
+    // Find the user by email
+    $user = User::where('email', $email)->first();
+
+    // If the user is found, return the user data
+    if ($user) {
+        return response()->json([
+            'success' => true,
+            'user' => [
+                'id' => $user->id,      // Include user ID in the response
+                'email' => $user->email,
+                'fname' => $user->fname,
+                'lname' => $user->lname,
+            ]
+        ]);
+    } else {
+        // If no user is found, return a success flag with false
+        return response()->json(['success' => false]);
+    }
+}
+
+
+
+
   
 
 

@@ -71,52 +71,27 @@
         </div>
 
          {{--- status -----}}
-         <div class="mb-6">
-            <label for="status" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-id-card pr-4"></i>Account Type
-            </label>
-            <select
-                id="status"
-                name="status"
-                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white" onchange="toggleFields()"
-                onchange="toggleYearLevel()">
-                <option value="" disabled {{ old('status') ? '' : 'selected' }}>Select Account Type</option>
-                <option value="student" {{ old('status') == 'student' ? 'selected' : '' }}>Student</option>
-                <option value="faculty" {{ old('status') == 'faculty' ? 'selected' : '' }}>Faculty</option>
-            </select>
-        
-            @error('status')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-            @enderror
-        </div>
+        <!-- Account Type -->
+<div class="mb-6">
+    <label for="status" class="inline-block text-lg mb-2 text-white">
+        <i class="fa-solid fa-id-card pr-4"></i>Account Type
+    </label>
+    <select
+        id="status"
+        name="status"
+        class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
+        onchange="toggleFields()">
+        <option value="" disabled {{ old('status') ? '' : 'selected' }}>Select Account Type</option>
+        <option value="student" {{ old('status') == 'student' ? 'selected' : '' }}>Student</option>
+        <option value="faculty" {{ old('status') == 'faculty' ? 'selected' : '' }}>Faculty</option>
+    </select>
 
-        <script>
-            function toggleFields() {
-                const status = document.getElementById('status').value;
-                const yearLevelContainer = document.getElementById('yearLevelContainer');
-                const idNumberField = document.querySelector('[name="idnumber"]').parentElement;
-                const sectionField = document.querySelector('[name="section"]').parentElement;
-        
-                if (status === 'student') {
-                    yearLevelContainer.classList.remove('hidden');
-                    idNumberField.classList.remove('hidden');
-                    sectionField.classList.remove('hidden');
-                } else {
-                    yearLevelContainer.classList.add('hidden');
-                    idNumberField.classList.add('hidden');
-                    sectionField.classList.add('hidden');
-                }
-            }
-        
-            // Call the function on page load to handle form validation with old values
-            document.addEventListener('DOMContentLoaded', function () {
-                toggleFields();
-            });
-        </script>
-        
+    @error('status')
+        <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+    @enderror
+</div>
 
-         {{--- organization -----}}
-        <!-- Organization Dropdown -->
+<!-- Organization Dropdown -->
 <div class="mb-6">
     <label for="org" class="inline-block text-lg mb-2 text-white">
         <i class="fa-solid fa-building pr-4"></i>College
@@ -130,7 +105,7 @@
 </div>
 
 <!-- Year Level Dropdown -->
-<div class="mb-6">
+<div class="mb-6" id="yearLevelContainer">
     <label for="yearlevel" class="inline-block text-lg mb-2 text-white">
         <i class="fa-solid fa-graduation-cap pr-4"></i>Year Level
     </label>
@@ -144,8 +119,8 @@
     </select>
 </div>
 
-<!-- Section Dropdown (Populated Dynamically) -->
-<div class="mb-6">
+<!-- Section Dropdown -->
+<div class="mb-6" id="sectionContainer">
     <label for="section" class="inline-block text-lg mb-2 text-white">
         <i class="fa-solid fa-list pr-4"></i> Section
     </label>
@@ -154,7 +129,44 @@
     </select>
 </div>
 
+<!-- ID Number -->
+<div class="mb-6" id="idNumberContainer">
+    <label for="idnumber" class="inline-block text-lg mb-2 text-white">
+        <i class="fa-solid fa-user pr-4"></i> ID Number
+    </label>
+    <input type="text" name="idnumber"
+        class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
+        value="{{ old('idnumber') }}" />
+    @error('idnumber')
+        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+<!-- Scripts -->
 <script>
+    function toggleFields() {
+        const status = document.getElementById('status').value;
+        const yearLevelContainer = document.getElementById('yearLevelContainer');
+        const idNumberContainer = document.getElementById('idNumberContainer');
+        const sectionContainer = document.getElementById('sectionContainer');
+
+        if (status === 'student') {
+            yearLevelContainer.classList.remove('hidden');
+            idNumberContainer.classList.remove('hidden');
+            sectionContainer.classList.remove('hidden');
+        } else {
+            yearLevelContainer.classList.add('hidden');
+            idNumberContainer.classList.add('hidden');
+            sectionContainer.classList.add('hidden');
+        }
+    }
+
+    // Handle visibility on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleFields();
+    });
+
+    // Fetch sections dynamically
     document.getElementById('org').addEventListener('change', fetchSections);
     document.getElementById('yearlevel').addEventListener('change', fetchSections);
 
@@ -184,45 +196,6 @@
         }
     }
 </script>
-
-       
-
-       
-
-         {{--- idnumber-----}}
-         <div class="mb-6">
-            <label for="idnumber" class="inline-block text-lg mb-2 text-white">
-                <i class="fa-solid fa-user pr-4"></i> ID Number
-            </label>
-            <input type="text" name="idnumber"
-                class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white"
-                value="{{ old('idnumber') }}" />
-            @error('idnumber')
-                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-            @enderror
-        </div>
-        
-        
-       
-        
-        <script>
-            function toggleYearLevel() {
-                const status = document.getElementById('status').value;
-                const yearLevelContainer = document.getElementById('yearLevelContainer');
-                
-                // Show year level dropdown only if "Student" is selected
-                if (status === 'student') {
-                    yearLevelContainer.classList.remove('hidden');
-                } else {
-                    yearLevelContainer.classList.add('hidden');
-                }
-            }
-        
-            // Call the function on page load to handle form validation with old values
-            document.addEventListener('DOMContentLoaded', function () {
-                toggleYearLevel();
-            });
-        </script>
 
         {{--- section -----}}
 
@@ -314,6 +287,10 @@
                     <h2 class="text-xl font-semibold mb-4">Data Privacy Policy</h2>
                     <p class="text-gray-700 text-sm mb-4">
                         In compliance with the Data Privacy Act of 2012 (RA 10173) of the Philippines, we ensure that your personal data is collected, processed, and protected with the highest security standards. Your data will only be used for the intended purposes and will not be shared without your consent.
+                        Please read our 
+                        <a href="{{ route('pages.terms_and_condition') }}" class="text-blue-600 hover:underline">
+                            Terms and Conditions of the Data Privacy Policy
+                        </a>.
                     </p>
                     <div class="flex justify-end space-x-4">
                         <button class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700" onclick="closePrivacyModal()">Disagree</button>
@@ -321,6 +298,7 @@
                     </div>
                 </div>
             </div>
+            
         
             <!-- Warning Modal (If checkbox is not checked) -->
             <div id="warningModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">

@@ -10,4 +10,10 @@ class Organization extends Model
     use HasFactory;
 
     protected $fillable = ['orgNameAbbv', 'orgName', 'orgLogo'];
+
+    public function organization()
+{
+    return $this->belongsTo(Organization::class, 'org', 'id');
+}
+
 }

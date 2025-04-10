@@ -39,7 +39,13 @@
                                 data-description="{{ $event->description }}"
                                 data-date="{{ $event->event_date }}"
                                 data-time="{{ $event->event_time }}"
-                                data-tags="{{ $event->tags }}">
+                                data-tags="{{ $event->tags }}"
+                                data-gsoApproval="{{ $event->gsoApproval}}"
+                                data-deanApproval="{{ $event->deanApproval}}"
+                                data-uscApproval="{{ $event->uscApproval}}"
+                                data-permitTransfer="{{ $event->permitTransfer}}"
+                                data-PermitInOut="{{ $event->PermitInOut}}"
+                                >
                                 View
                             </button>
                         </td>
@@ -93,9 +99,16 @@
             <p class="mt-2">Event Description:</p>
              <p id="modalDescription" class="italic"></p>
 
-            <p class="mt-4">Sincerely,</p>
-            <p class="font-semibold" id="modalName"></p>
-            <p>Head, University Facility Management Office</p>
+            <p class="mt-2">For the Approval of the Following</p>
+            
+            <p>USC</p>
+            <p>Adviser:</p>
+            <p>College Dean:</p>
+            <p>Spmo:</p>
+            <p>Gso:</p>
+          
+
+           
         </div>
 
         <div class="flex justify-between mt-6">
@@ -180,6 +193,7 @@
             tags: document.getElementById("modalTags"),
             description: document.getElementById("modalDescription"),
             time: document.getElementById("modalTime"),
+            
         };
     
         // Function to open modal and set values

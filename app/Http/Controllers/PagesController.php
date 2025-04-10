@@ -5,13 +5,50 @@ namespace App\Http\Controllers;
 use App\Models\Listing;
 use App\Models\Facility;
 use App\Models\Announcement;
+use Illuminate\Support\Carbon;
 
  class PagesController extends Controller
 {
 
     //home
-    public function home () {
-        return view ('pages.home');
+    public function home()
+    {
+        // Fetch all listings for the authenticated user
+        $events = Listing::all();
+
+        // Get today's date
+        $today = Carbon::today();
+
+        /////////////try
+
+        
+        
+        
+        //////////////////////
+        $events = Listing::where('status', 'approved')->get();
+        // Initialize arrays to hold categorized events
+        $upcomingEvents = [];
+        $todaysEvents = [];
+        $previousEvents = Listing::orderBy('event_date', 'desc')->take(3)->get();
+
+        // Categorize events based on event_date
+        foreach ($events as $event) {
+            if ($event->event_date > $today) {
+                $upcomingEvents[] = $event;
+            } elseif ($event->event_date == $today) {
+                $todaysEvents[] = $event;
+            } else {
+                $previousEvents[] = $event;
+            }
+        }
+
+        // Return views with categorized events
+        return view('pages.home', [
+            'upcomingEvents' => $upcomingEvents,
+            'todaysEvents' => $todaysEvents,
+            'previousEvents' => $previousEvents,
+           
+        ]);
     }
 
     public function borrow () {
@@ -52,8 +89,16 @@ use App\Models\Announcement;
         return view ('pages.announce');
     }
 
+    public function contactUs () {
+        return view ('pages.contact');
+    }
+
     public function requests () {
         return view ('pages.requests');
+    }
+
+    public function adviserrequests () {
+        return view ('pages.requestadviser');
     }
 
     public function draft()
@@ -99,5 +144,10 @@ use App\Models\Announcement;
 
     public function calendar() {
         return view('pages.calendar');
+    }
+
+    public function termsAndCondition()
+    {
+        return view('pages.terms_and_condition');
     }
 }

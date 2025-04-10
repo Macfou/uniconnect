@@ -67,8 +67,16 @@ class User extends Authenticatable
         return $exists; // Make sure to return the $exists value
     }
 
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section', 'section_name');
+    }
     
-    
+    public function users()
+{
+    return $this->hasMany(User::class, 'org', 'id');
+}
+
     
     
 }

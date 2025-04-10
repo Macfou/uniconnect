@@ -120,18 +120,21 @@ public function reject($id)
     return back()->with('success', 'Request rejected.');
 }
 
-public function requestView()
+public function requestView($id)
 {
     if (auth()->user()->is_admin) {
-        // Admin can see all requests
-        $requests = BorrowRequest::with('equipment')->get();
+        $requests = BorrowRequest::with('equipment')->where('listing_id', $id)->get();
     } else {
-        // User can see only their requests
-        $requests = BorrowRequest::where('user_id', auth()->id())->with('equipment')->get();
+        $requests = BorrowRequest::where('user_id', auth()->id())
+                                 ->where('listing_id', $id)
+                                 ->with('equipment')
+                                 ->get();
     }
 
     return view('pages.requestview', compact('requests'));
 }
+
+
 
 public function cancelRequest($id)
 {

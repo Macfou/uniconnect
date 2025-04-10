@@ -13,6 +13,23 @@
                 <form method="POST" action="/listings" enctype="multipart/form-data">
                     @csrf
 
+                    
+                    <!-- Venue, Date & Time -->
+                    <div class="mb-4">
+                        <label class="block font-semibold text-gray-700">Select Venue, Date & Time</label>
+                        <button type="button" onclick="window.location.href='/pages/calendar'" class="w-full mt-1 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Select</button>
+                    </div>
+                  
+    <h3 class="text-lg font-semibold">Select Date: {{ request('date') }}</h3>
+    <h3 class="text-lg font-semibold">Classification: {{ request('classification') }}</h3>
+    <h3 class="text-lg font-semibold">Facility: {{ request('facility') }}</h3>
+    <h3 class="text-lg font-semibold">Selected Time: {{ request('time') }}</h3>
+                
+                    <input type="hidden" for="event_date" name="event_date" value="{{ request('date') }}">
+                    <input type="hidden" for="classifications" name="classifications" value="{{ request('classification') }}">
+                    <input type="hidden" for="venue" name="venue" value="{{ request('facility') }}">
+                    <input type="hidden" for="event_time" name="event_time" value="{{ request('time') }}">
+
                     <!-- Event Title -->
                     <div class="mb-4">
                         <label for="tags" class="block font-semibold text-gray-700">Event Title</label>
@@ -40,21 +57,19 @@
                         </div>
                     </div>
 
-                    <!-- Venue, Date & Time -->
-                    <div class="mb-4">
-                        <label class="block font-semibold text-gray-700">Select Venue, Date & Time</label>
-                        <button type="button" onclick="window.location.href='/pages/calendar'" class="w-full mt-1 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Select</button>
+                    <div class="flex items-center space-x-2">
+                        <input type="hidden" name="certificate" value="0"> <!-- Default value when unchecked -->
+                        <input
+                            type="checkbox"
+                            name="certificate"
+                            id="certificate"
+                            value="1"
+                            class="form-checkbox text-blue-600"
+                        >
+                        <label for="certificate" class="text-sm font-medium text-gray-700">With Certificate</label>
                     </div>
-                  
-    <h3 class="text-lg font-semibold">Select Date: {{ request('date') }}</h3>
-    <h3 class="text-lg font-semibold">Classification: {{ request('classification') }}</h3>
-    <h3 class="text-lg font-semibold">Facility: {{ request('facility') }}</h3>
-    <h3 class="text-lg font-semibold">Selected Time: {{ request('time') }}</h3>
-                
-                    <input type="hidden" for="event_date" name="event_date" value="{{ request('date') }}">
-                    <input type="hidden" for="classifications" name="classifications" value="{{ request('classification') }}">
-                    <input type="hidden" for="venue" name="venue" value="{{ request('facility') }}">
-                    <input type="hidden" for="event_time" name="event_time" value="{{ request('time') }}">
+                    
+
                     <!-- Upload Image -->
                     <div class="mb-4">
                         <label for="image" class="block font-semibold text-gray-700">Upload Image</label>
@@ -73,7 +88,23 @@
                         @enderror
                     </div>
 
+                 
+
+                    <div>
+                        <label for="attachPlan" class="block text-sm font-medium text-gray-700 mb-1">
+                            Attach your event Overview (PDF)
+                        </label>
+                        <input
+                            type="file"
+                            name="attachPlan"
+                            id="attachPlan"
+                            accept="application/pdf"
+                            class="block w-full text-sm py-2 pl-2 text-gray-900 border border-gray-300 rounded cursor-pointer bg-gray-50 focus:outline-none"
+                        >
+                        <p class="mt-1 text-xs text-gray-500">Only PDF files allowed (max: 10MB).</p>
+                    </div>
                     
+
                     <!-- Submit Button -->
                     <div class="md:col-span-5 text-right">
                       <div class="inline-flex items-end">
@@ -94,6 +125,7 @@
                     <img src="{{ asset(session('qr_code')) }}" alt="QR Code" class="w-32 mt-2">
                 </div>
             @endif
+            </form>
         </div>
     </div>
 

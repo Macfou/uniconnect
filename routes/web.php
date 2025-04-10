@@ -17,6 +17,7 @@ use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OfficerController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\Auth\OTPController;
@@ -35,11 +36,14 @@ use App\Http\Controllers\UfmoPagesController;
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AfterEventController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ChecklistsController;
 use App\Http\Controllers\DocumentAIController;
+use App\Http\Controllers\RequestUscController;
 use App\Http\Controllers\SpmoBorrowController;
 use App\Http\Controllers\StartEventController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\GsoCategoryController;
+use App\Http\Controllers\RequestDeanController;
 use App\Http\Controllers\UfmoRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\GsoInventoryController;
@@ -49,12 +53,19 @@ use App\Http\Controllers\SpmoCategoryController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
 use App\Http\Controllers\MyCertificateController;
+use App\Http\Controllers\PermitToBringController;
+use App\Http\Controllers\AdviserRequestController;
+use App\Http\Controllers\PermitTransferController;
+
+use App\Http\Controllers\RequestAdviserController;
 use App\Http\Controllers\BorrowEquipmentController;
 use App\Http\Controllers\OtpVerificationController;
 use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\StudentAttendanceController;
 
 //home
-Route::get('/home', [PagesController::class, 'home']);
+
+Route::get('home', [PagesController::class, 'home']);
 
 
 //facility
@@ -68,11 +79,13 @@ Route::get('/editaccount', [PagesController::class, 'editaccount']);
 Route::get('/pages/studentsattendance', [PagesController::class, 'studentsattendance']);
 Route::get('/pages/students', [PagesController::class, 'students']);
 Route::get('/pages/requests', [PagesController::class, 'requests']);
+Route::get('/pages/adviserrequests', [PagesController::class, 'adviserrequests']);
 Route::get('/pages/announce', [PagesController::class, 'announce']);
 
 
 //events upcomming
 Route::get('/', [ListingController::class, 'index'])->middleware('auth');
+
 
 
 
@@ -282,6 +295,7 @@ Route::get('/listings/{id}/times', [StartEventController::class, 'showTimes'])->
 // aboutus
 
 Route::get('/about', [PagesController::class, 'aboutUs']);
+Route::get('/contact', [PagesController::class, 'contactUs']);
 
 
 
@@ -434,7 +448,10 @@ Route::post('/gso/logout', [GsoLoginController::class, 'logout'])->name('gso.log
 Route::get('/pages/borrow/{listing_id}', [BorrowEquipmentController::class, 'borrow'])
     ->name('pages.borrow');
 
-    Route::post('/borrow/store', [BorrowEquipmentController::class, 'store'])->name('borrow.store');
+    Route::post('/borrow/store', [BorrowEquipmentController::class, 'store'])
+    ->middleware('auth')
+    ->name('borrow.store');
+
 
 
  Route::get('/gso/gso_pages/gso_pending', [BorrowEquipmentController::class, 'pendingRequests'])->name('gso.gso_pages.gso_pending');
@@ -542,15 +559,21 @@ Route::get('/sections/filter', [UserController::class, 'filter']);
 Route::get('/pages/students', [StudentController::class, 'index']);
 Route::get('/pages/students/filter', [StudentController::class, 'filterStudents']);
 Route::get('/sections/filter', [StudentController::class, 'filterSections']);
+Route::get('/pages/{sectionId}/students', [StudentController::class, 'showStudents'])->name('pages.students');
+
+Route::get('/students', [StudentController::class, 'getStudentsByCriteria']);
+
 
 //save section
 Route::middleware(['auth'])->group(function () {
     Route::get('/saved-sections', [SavedSectionController::class, 'index']);
+    
     Route::post('/saved-sections', [SavedSectionController::class, 'store'])->name('saved-sections.store');
-
     Route::delete('/saved-sections/{id}', [SavedSectionController::class, 'destroy']);
+    
+    // ✅ Moved this inside the auth group
+    Route::get('/saved-sections/students/{section}/{year}/{org}', [SavedSectionController::class, 'getStudents']);
 });
-
 //
 
 Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
@@ -585,13 +608,95 @@ Route::get('/forgot-password', [UserController::class, 'showForgotPasswordForm']
 Route::post('/forgot-password/send-otp', [UserController::class, 'sendOtpfp'])->name('forgot.password.sendOtp');
 Route::post('/forgot-password/verify-otp', [UserController::class, 'verifyOtpfp'])->name('forgot.password.verifyOtp');
 
+// ufmo forgot password
 
-  
+// Show OTP modal after form submit
+Route::post('/ufmo/send-otp', [UfmoController::class, 'sendOtp'])->name('ufmo.sendotp');
+
+// Verify OTP and finally create the user
+Route::post('/ufmo/verify-otp', [UfmoController::class, 'verifyOtp'])->name('ufmo.verifyotp');
 
 
+Route::get('/ufmo/forgot-password', [UfmoLoginController::class, 'showForgotPasswordForm'])->name('ufmo.forgot.password.form');
+Route::post('/ufmo/forgot-password/send-otp', [UfmoLoginController::class, 'sendOtpfp'])->name('ufmo.forgot.password.sendOtp');
+Route::post('/ufmo/forgot-password/verify-otp', [UfmoLoginController::class, 'verifyOtpfp'])->name('ufmo.forgot.password.verifyOtp');
+
+// student attendance
+Route::get('/student_attendance', [StudentAttendanceController::class, 'index'])->name('pages.student_attendance');
+// in routes/web.php
+Route::get('/event/{id}/attendees', [StudentAttendanceController::class, 'viewAttendees'])->name('attendees.view');
+
+Route::get('/terms-and-condition', [PagesController::class, 'termsAndCondition'])->name('pages.terms_and_condition');
+
+// In your routes file (web.php)
+Route::get('/search-user', [ListingController::class, 'searchUser']);
+
+// checklists
+Route::get('/checklists/{id}', [ChecklistsController::class, 'index'])->name('checklists');
+
+//adviser
+Route::get('/listings/checklists/{id}', [ChecklistsController::class, 'checkListsBorrow'])->name('listings.checklists');
+
+Route::prefix('listings')->group(function () {
+    Route::get('/request-adviser/{id}', [AdviserRequestController::class, 'showForm'])
+        ->name('request.adviser');
+    Route::post('/search-user', [AdviserRequestController::class, 'searchUser'])->name('searchadviser.user');
+    Route::post('/adviser-approval', [AdviserRequestController::class, 'store'])->name('adviser.approval.store');
+});
 
 
+//dean
+Route::get('/listings/request-dean/{id}', [RequestDeanController::class, 'showForm'])
+    ->name('request.dean');
 
+Route::post('/search-user', [RequestDeanController::class, 'searchUser'])->name('searchdean.user');
+Route::post('/dean-approval', [RequestDeanController::class, 'store'])->name('dean.approval.store');
+
+//usc
+Route::get('/listings/request-usc/{id}', [RequestUscController::class, 'showForm'])
+    ->name('request.usc');
+
+
+Route::post('/usc-approval', [RequestUscController::class, 'store'])->name('usc.approval.store');
+
+//bringin
+Route::get('/listings/bringin/{id}', [PermitToBringController::class, 'showForm'])
+    ->name('listings.bringin');
+
+    
+Route::post('/request-bringin', [RequestUscController::class, 'store'])->name('bringin.store');
+
+Route::post('/listings/bringin', [PermitToBringController::class, 'store'])
+    ->name('listings.bringin.store');
+
+//transfer
+
+Route::get('/listings/permit_transfer/{id}', [PermitTransferController::class, 'showForm'])
+    ->name('listings.permit_transfer');
+
+Route::post('/permit-transfer', [PermitTransferController::class, 'store'])->name('permit.transfer.store');
+
+//requests
+Route::get('/pages/requests', [RequestController::class, 'index'])->name('pages.requests');
+Route::get('/requests/check-email/{email}', [RequestController::class, 'checkEmail'])->name('requests.checkEmail');
+
+Route::patch('listings/approved/{id}', [RequestController::class, 'approveRequest'])->name('dean_approved');
+Route::get('/dean/approved-requests', [RequestController::class, 'showApproved'])->name('dean_approve');
+
+Route::patch('/requests/reject/{id}', [RequestController::class, 'rejectRequest'])->name('dean_reject');
+
+Route::get('/dean/rejected-requests', [RequestController::class, 'showRejected'])->name('dean_rejected');
+
+//adviser approval
+Route::get('/pages/adviserrequests', [RequestAdviserController::class, 'index'])->name('pages.requestsadviser');
+Route::get('/requests/check-email/{email}', [RequestAdviserController::class, 'checkEmail'])->name('requests.checkEmail');
+
+Route::patch('listings/approved/{id}', [RequestAdviserController::class, 'approveRequest'])->name('adviser_approved');
+Route::get('/adviser/approved-requests', [RequestAdviserController::class, 'showApproved'])->name('adviser_approve');
+
+Route::patch('/requests/reject/{id}', [RequestAdviserController::class, 'rejectRequest'])->name('adviser_reject');
+
+Route::get('/adviser/rejected-requests', [RequestAdviserController::class, 'showRejected'])->name('adviser_rejected');
 
 
 

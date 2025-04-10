@@ -20,5 +20,9 @@ class Section extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'section', 'section_name');
+    }
 }
 

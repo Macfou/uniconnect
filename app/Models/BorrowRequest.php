@@ -11,9 +11,7 @@ class BorrowRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'listing_id',
-        'equipment_id',
-        'quantity',
+        'listing_id', 'equipment_id', 'quantity', 'status', 'user_id',
     ];
 
     // Relationship with Listing (Event)

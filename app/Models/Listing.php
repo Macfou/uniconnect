@@ -63,5 +63,11 @@ public static function isFacilityBooked($venue, $date, $time)
                 ->exists();
 }
 
+public function uscApprovals()
+{
+    return $this->hasMany(UscApproval::class, 'listings_id');
+}
+
+
     
 }

@@ -25,6 +25,10 @@ public function organization() {
    return view('admin.admin_pages.organization');
 }
 
+public function eventrequests() {
+    return view('admin.admin_pages.eventrequests');
+ }
+
 public function section() {
     return view('admin.admin_pages.section');
  }

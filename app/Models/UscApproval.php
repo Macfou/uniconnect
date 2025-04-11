@@ -14,7 +14,9 @@ class UscApproval extends Model
     protected $fillable = [
          
         'user_id', 
-        'listings_id'
+        'listings_id',
+        'status',
+        'rejection_reason',
     ];
 
     // Optionally, define relationships if needed

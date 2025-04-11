@@ -45,6 +45,7 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\GsoCategoryController;
 use App\Http\Controllers\RequestDeanController;
 use App\Http\Controllers\UfmoRequestController;
+use App\Http\Controllers\UscApprovalController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
@@ -55,13 +56,14 @@ use App\Http\Controllers\EventScheduleController;
 use App\Http\Controllers\MyCertificateController;
 use App\Http\Controllers\PermitToBringController;
 use App\Http\Controllers\AdviserRequestController;
-use App\Http\Controllers\PermitTransferController;
 
+use App\Http\Controllers\PermitTransferController;
 use App\Http\Controllers\RequestAdviserController;
 use App\Http\Controllers\BorrowEquipmentController;
 use App\Http\Controllers\OtpVerificationController;
 use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\StudentAttendanceController;
+use App\Models\UscApproval;
 
 //home
 
@@ -180,6 +182,7 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 
 // organization
 Route::get('/admin/admin_pages/organization', [AdminController::class, 'organization']);
+
 Route::get('/admin/admin_pages/section', [AdminController::class, 'section']);
  
 // facility
@@ -697,6 +700,17 @@ Route::get('/adviser/approved-requests', [RequestAdviserController::class, 'show
 Route::patch('/requests/reject/{id}', [RequestAdviserController::class, 'rejectRequest'])->name('adviser_reject');
 
 Route::get('/adviser/rejected-requests', [RequestAdviserController::class, 'showRejected'])->name('adviser_rejected');
+
+// usc approval
+Route::get('/admin/eventrequests', [UscApprovalController::class, 'index'])->name('eventrequests.index');
+
+Route::patch('listings/approved/{id}', [UscApprovalController::class, 'approveRequest'])->name('usc_approved');
+Route::get('/usc/approved-requests', [UscApprovalController::class, 'showApproved'])->name('dean_approve');
+
+Route::patch('/requests/reject/{id}', [UscApprovalController::class, 'rejectRequest'])->name('usc_reject');
+
+Route::get('/usc/rejected-requests', [UscApprovalController::class, 'showRejected'])->name('dean_rejected');
+
 
 
 

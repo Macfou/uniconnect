@@ -81,6 +81,43 @@
                 </a>
               </li>
 
+              <ul class="w-64 bg-gray-900 rounded-md shadow-md">
+                <!-- Dropdown Parent -->
+                <li class="opcion-con-desplegable">
+                    <input type="checkbox" id="agendaToggle" class="peer hidden" />
+                    <label for="agendaToggle" class="middle  none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4">
+                        <div class="flex items-center  ">
+                            
+                            <span class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium  pr-20">Event Request</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs peer-checked:rotate-180 transition-transform"></i>
+                    </label>
+        
+                    <!-- Dropdown Menu -->
+                    <ul class="desplegable ml-4 hidden peer-checked:block">
+                        <li>
+                            <a href="/admin/eventrequests" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                
+                                Pending Requests
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/usc/approved-requests" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                
+                                Approved Requests
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/usc/rejected-requests" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                
+                                Rejected Requests
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
               <li>
                 <a class="" href="/admin/admin_pages/section">
                   <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 capitalize" type="button">

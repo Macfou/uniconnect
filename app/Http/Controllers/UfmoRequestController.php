@@ -13,7 +13,7 @@ class UfmoRequestController extends Controller
         $event = Listing::findOrFail($id);
     
         // Update status to 'approved'
-        $event->status = 'approved';  
+        $event->status = 'Approve';  
         $event->save();
     
         // Redirect back with a success message
@@ -42,7 +42,7 @@ class UfmoRequestController extends Controller
     
         // Update status and rejection reason
         $event->update([
-            'status' => 'Rejected',
+            'status' => 'Reject',
             'rejection_reason' => $request->rejection_reason,
         ]);
     

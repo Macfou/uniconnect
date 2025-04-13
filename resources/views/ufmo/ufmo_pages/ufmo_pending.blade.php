@@ -17,6 +17,7 @@
         <table class="w-full text-left table-auto border border-slate-200 rounded-lg">
             <thead class="bg-slate-50">
                 <tr>
+                    <th class="p-4 border-b">Request date</th>
                     <th class="p-4 border-b">Name</th>
                     <th class="p-4 border-b">College</th>
                     <th class="p-4 border-b">Venue</th>
@@ -27,6 +28,7 @@
             <tbody>
                 @foreach ($pendingEvents as $event)
                     <tr class="hover:bg-slate-100">
+                        <td class="p-4 border-b">{{ $event->created_at }}</td>
                         <td class="p-4 border-b">{{ strtoupper($event->user->fname) }} {{ strtoupper($event->user->lname) }}</td>
                         <td class="p-4 border-b">{{ $event->tags }}</td>
                         <td class="p-4 border-b">{{ $event->venue }}</td>

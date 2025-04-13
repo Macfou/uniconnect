@@ -25,16 +25,20 @@
             <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                 <thead class="bg-gray-100">
                     <tr>
+                        <th class="py-3 px-6 text-left font-semibold text-gray-700">Date Requested</th>
                         <th class="py-3 px-6 text-left font-semibold text-gray-700">Venue</th>
                         <th class="py-3 px-6 text-left font-semibold text-gray-700">Date</th>
                         <th class="py-3 px-6 text-left font-semibold text-gray-700">Time</th>
+                        <th class="py-3 px-6 text-left font-semibold text-gray-700">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="border-t">
+                        <td class="py-3 px-6">{{ \Carbon\Carbon::parse($event->created_at)->format('F j, Y') }}</td>
                         <td class="py-3 px-6">{{ $event->venue }}</td>
                         <td class="py-3 px-6">{{ \Carbon\Carbon::parse($event->date)->format('F j, Y') }}</td>
                         <td class="py-3 px-6">{{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}</td>
+                        <td class="py-3 px-6">{{$event->status }}</td>
                     </tr>
                 </tbody>
             </table>

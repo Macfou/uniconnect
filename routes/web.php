@@ -686,34 +686,33 @@ Route::post('/permit-transfer', [PermitTransferController::class, 'store'])->nam
 Route::get('/pages/requests', [RequestController::class, 'index'])->name('pages.requests');
 Route::get('/requests/check-email/{email}', [RequestController::class, 'checkEmail'])->name('requests.checkEmail');
 
-Route::patch('listings/approved/{id}', [RequestController::class, 'approveRequest'])->name('dean_approved');
+Route::patch('listings/dean_approved/{id}', [RequestController::class, 'approveRequest'])->name('dean_approved');
 Route::get('/dean/approved-requests', [RequestController::class, 'showApproved'])->name('dean_approve');
 
-Route::patch('/requests/reject/{id}', [RequestController::class, 'rejectRequest'])->name('dean_reject');
+Route::patch('/requests/dean_reject/{id}', [RequestController::class, 'rejectRequest'])->name('dean_reject');
 
 Route::get('/dean/rejected-requests', [RequestController::class, 'showRejected'])->name('dean_rejected');
 
 //adviser approval
-Route::controller(RequestAdviserController::class)->group(function () {
-    Route::get('/pages/adviserrequests', 'index')->name('pages.requestsadviser');
-    Route::get('/requests/check-email/{email}', 'checkEmail')->name('requests.checkEmail');
+Route::get('/pages/adviserrequests', [RequestAdviserController::class, 'index'])->name('pages.requestsadviser');
+Route::get('/requests/check-email/{email}', [RequestAdviserController::class, 'checkEmail'])->name('requests.checkEmail');
 
-    Route::patch('listings/approved/{id}', 'approveRequest')->name('adviser_approved');
-    Route::get('/adviser/approved-requests', 'showApproved')->name('adviser_approve');
+Route::patch('listings/adviser_approved/{id}', [RequestAdviserController::class, 'approveRequest'])->name('adviser_approved');
+Route::get('/adviser/approved-requests', [RequestAdviserController::class, 'showApproved'])->name('adviser_approve');
 
-    Route::patch('/requests/reject/{id}', 'rejectRequest')->name('adviser_reject');
-    Route::get('/adviser/rejected-requests', 'showRejected')->name('adviser_rejected');
-});
+Route::patch('/requests/adviser_reject/{id}', [RequestAdviserController::class, 'rejectRequest'])->name('adviser_reject');
+
+Route::get('/adviser/rejected-requests', [RequestAdviserController::class, 'showRejected'])->name('adviser_rejected');
 
 // usc approval
 Route::get('/admin/eventrequests', [UscApprovalController::class, 'index'])->name('eventrequests.index');
 
-Route::patch('listings/approved/{id}', [UscApprovalController::class, 'approveRequest'])->name('usc_approved');
-Route::get('/usc/approved-requests', [UscApprovalController::class, 'showApproved'])->name('dean_approve');
+Route::patch('listings/usc_approved/{id}', [UscApprovalController::class, 'approveRequest'])->name('usc_approved');
+Route::get('/usc/approved-requests', [UscApprovalController::class, 'showApproved'])->name('usc_approve');
 
-Route::patch('/requests/reject/{id}', [UscApprovalController::class, 'rejectRequest'])->name('usc_reject');
+Route::patch('/requests/usc_reject/{id}', [UscApprovalController::class, 'rejectRequest'])->name('usc_reject');
 
-Route::get('/usc/rejected-requests', [UscApprovalController::class, 'showRejected'])->name('dean_rejected');
+Route::get('/usc/rejected-requests', [UscApprovalController::class, 'showRejected'])->name('usc_rejected');
 
 //bring in
 

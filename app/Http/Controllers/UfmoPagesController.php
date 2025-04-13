@@ -22,12 +22,12 @@ class UfmoPagesController extends Controller
 
     public function ufmopending() {
 
-        $pendingEvents = Listing::where('status', 'pending')->get();
+        $pendingEvents = Listing::where('status', 'Pending')->get();
         return view('ufmo.ufmo_pages.ufmo_pending', compact('pendingEvents'));
     }
 
     public function ufmoapproved() {
-        $approvedEvents = Listing::where('status', 'approved')->get();
+        $approvedEvents = Listing::where('status', 'Approve')->get();
 
         return view('ufmo.ufmo_pages.ufmo_approved', compact('approvedEvents'));
     
@@ -35,7 +35,7 @@ class UfmoPagesController extends Controller
 
     
     public function ufmoreject() {
-        $rejectedEvents = Listing::where('status', 'rejected')->get();
+        $rejectedEvents = Listing::where('status', 'Reject')->get();
     
         return view('ufmo.ufmo_pages.ufmo_rejected', compact('rejectedEvents'));
     }

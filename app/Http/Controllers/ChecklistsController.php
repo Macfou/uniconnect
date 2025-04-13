@@ -23,6 +23,8 @@ class ChecklistsController extends Controller
         $uscRequest = UscApproval::where('listings_id', $id)->first();
         $bringInRequest = BringIn::where('listings_id', $id)->first();
         $transferRequest = PermitTransfer::where('listings_id', $id)->first();
+        $permitBorrow= BorrowRequest::where('listing_id', $id)->first();
+
     
         return view('listings.checklists', compact(
             'event',
@@ -30,7 +32,8 @@ class ChecklistsController extends Controller
             'deanRequest',
             'uscRequest',
             'bringInRequest',
-            'transferRequest'
+            'transferRequest',
+            'permitBorrow'
         ));
        
     }

@@ -3,11 +3,12 @@
 
 use  App\Models\Listing;
 use App\Models\Certificate;
+use App\Models\UscApproval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GsoController;
-use App\Http\Controllers\OrcController;
 
+use App\Http\Controllers\OrcController;
 use App\Http\Controllers\SpmoController;
 use App\Http\Controllers\UfmoController;
 use App\Http\Controllers\UserController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AddUserController;
+use App\Http\Controllers\BringInController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\OfficerController;
 use App\Http\Controllers\RequestController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\SpmoLoginController;
 use App\Http\Controllers\SpmoPagesController;
 use App\Http\Controllers\UfmoLoginController;
 use App\Http\Controllers\UfmoPagesController;
+use App\Http\Controllers\ViewVenueController;
 use App\Http\Controllers\AdminEventController;
 use App\Http\Controllers\AfterEventController;
 use App\Http\Controllers\AttendanceController;
@@ -51,19 +54,19 @@ use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SavedSectionController;
 use App\Http\Controllers\SpmoCategoryController;
+use App\Http\Controllers\ViewRequestsController;
 use App\Http\Controllers\EventattendedController;
+
 use App\Http\Controllers\EventScheduleController;
 use App\Http\Controllers\MyCertificateController;
 use App\Http\Controllers\PermitToBringController;
 use App\Http\Controllers\AdviserRequestController;
-
 use App\Http\Controllers\PermitTransferController;
 use App\Http\Controllers\RequestAdviserController;
 use App\Http\Controllers\BorrowEquipmentController;
 use App\Http\Controllers\OtpVerificationController;
 use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\StudentAttendanceController;
-use App\Models\UscApproval;
 
 //home
 
@@ -533,7 +536,7 @@ Route::get('/spmo/spmo_pages/spmo_cancelled', [SpmoPagesController::class, 'spmo
 
 //spmo login
 
-Route::get('/spmo/spmo_pages/spmologin', function () {
+Route::get('spmologin', function () {
     return view('spmo.spmo_pages.spmologin'); 
 })->name('spmo.spmologin');
 
@@ -691,15 +694,16 @@ Route::patch('/requests/reject/{id}', [RequestController::class, 'rejectRequest'
 Route::get('/dean/rejected-requests', [RequestController::class, 'showRejected'])->name('dean_rejected');
 
 //adviser approval
-Route::get('/pages/adviserrequests', [RequestAdviserController::class, 'index'])->name('pages.requestsadviser');
-Route::get('/requests/check-email/{email}', [RequestAdviserController::class, 'checkEmail'])->name('requests.checkEmail');
+Route::controller(RequestAdviserController::class)->group(function () {
+    Route::get('/pages/adviserrequests', 'index')->name('pages.requestsadviser');
+    Route::get('/requests/check-email/{email}', 'checkEmail')->name('requests.checkEmail');
 
-Route::patch('listings/approved/{id}', [RequestAdviserController::class, 'approveRequest'])->name('adviser_approved');
-Route::get('/adviser/approved-requests', [RequestAdviserController::class, 'showApproved'])->name('adviser_approve');
+    Route::patch('listings/approved/{id}', 'approveRequest')->name('adviser_approved');
+    Route::get('/adviser/approved-requests', 'showApproved')->name('adviser_approve');
 
-Route::patch('/requests/reject/{id}', [RequestAdviserController::class, 'rejectRequest'])->name('adviser_reject');
-
-Route::get('/adviser/rejected-requests', [RequestAdviserController::class, 'showRejected'])->name('adviser_rejected');
+    Route::patch('/requests/reject/{id}', 'rejectRequest')->name('adviser_reject');
+    Route::get('/adviser/rejected-requests', 'showRejected')->name('adviser_rejected');
+});
 
 // usc approval
 Route::get('/admin/eventrequests', [UscApprovalController::class, 'index'])->name('eventrequests.index');
@@ -710,6 +714,40 @@ Route::get('/usc/approved-requests', [UscApprovalController::class, 'showApprove
 Route::patch('/requests/reject/{id}', [UscApprovalController::class, 'rejectRequest'])->name('usc_reject');
 
 Route::get('/usc/rejected-requests', [UscApprovalController::class, 'showRejected'])->name('dean_rejected');
+
+//bring in
+
+    Route::get('/spmo_pending', [BringInController::class, 'pending'])->name('bringin.pending');
+    Route::get('/spmo_approved', [BringInController::class, 'approved'])->name('bringin.approved');
+    Route::get('/spmo_rejected', [BringInController::class, 'rejected'])->name('bringin.rejected');
+    Route::post('/update-status/{id}', [BringInController::class, 'updateStatus'])->name('bringin.updateStatus');
+
+//transfer
+    Route::get('/pending', [PermitTransferController::class, 'pending'])->name('permit.pending');
+    Route::get('/approved', [PermitTransferController::class, 'approved'])->name('permit.approved');
+    Route::get('/rejected', [PermitTransferController::class, 'rejected'])->name('permit.rejected');
+    Route::post('/update-status/{id}/{status}', [PermitTransferController::class, 'updateStatus'])->name('permit.updateStatus');
+
+// venue
+Route::get('/listings/venue/{id}', [ViewVenueController::class, 'showForm'])
+    ->name('listings.venue');
+ 
+// view rewuests
+Route::get('/pages/adviser/{id}', [ViewRequestsController::class, 'requestsadviser'])
+    ->name('view_adviser');
+
+Route::get('/pages/dean/{id}', [ViewRequestsController::class, 'requestsdean'])
+    ->name('view_dean');
+
+Route::get('/pages/usc/{id}', [ViewRequestsController::class, 'requestsusc'])
+    ->name('view_usc');
+
+Route::get('/pages/bringin/{id}', [ViewRequestsController::class, 'requestsbringin'])
+    ->name('view_bringin');
+
+Route::get('/pages/transfer/{id}', [ViewRequestsController::class, 'requeststransfer'])
+    ->name('view_transfer');
+
 
 
 

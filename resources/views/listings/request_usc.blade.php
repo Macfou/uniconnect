@@ -15,6 +15,11 @@
             <h2 class="text-xl font-semibold text-gray-800 mb-2">
                 Request Usc Approval for: <span class="text-blue-600">{{ $event->tags ?? 'Untitled Event' }}</span>
             </h2>
+
+            <a href="{{ route('view_usc', ['id' => $event->id]) }}" 
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                View Requests
+             </a>
             
             @if(session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">

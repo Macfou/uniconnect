@@ -17,6 +17,17 @@ protected $fillable = [
     'from',
     'to',
     'gso_id',
+    'status',
 ];
+
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+
+public function listings()
+{
+    return $this->belongsTo(Listing::class, 'listings_id');
+}
 
 }

@@ -40,26 +40,30 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
+                    
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">Adviser</td>
-                            <td class="px-6 py-4 text-yellow-500 font-semibold">Pending</td>
+                            <td class="px-6 py-4 text-yellow-500 font-semibold">
+                                {{ $adviserRequest->status ?? 'Pending' }}
+                            </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('request.adviser', ['id' => $event->id]) }}" 
                                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
                                     Request
-                                 </a>
-                                 
+                                </a>
                             </td>
                         </tr>
-                    
+                        
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">USC</td>
-                            <td class="px-6 py-4 text-yellow-500 font-semibold">Pending</td>
+                            <td class="px-6 py-4 text-yellow-500 font-semibold">
+                                {{ $uscRequest->status ?? 'Pending' }}
+                            </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('request.usc', ['id' => $event->id]) }}" 
                                     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
                                     Request
-                                 </a>
+                                </a>
                             </td>
                         </tr>
                     
@@ -107,14 +111,18 @@
                                         Request
                                     </button>
                                 </a>
-                            </td>
+                             </td>
                         </tr>
                     
                         <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4">UFMO</td>
+                            <td class="px-6 py-4">View</td>
                             <td class="px-6 py-4 text-yellow-500 font-semibold">Pending</td>
                             <td class="px-6 py-4">
-                              
+                                <a href="{{ route('listings.venue', ['id' => $event->id]) }}">
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                        View
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                     </tbody>

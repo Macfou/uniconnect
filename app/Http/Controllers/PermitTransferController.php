@@ -8,6 +8,7 @@ use App\Models\PermitTransfer;
 
 class PermitTransferController extends Controller
 {
+
     public function showForm($id)
     {
         // Retrieve the event by its ID
@@ -49,4 +50,31 @@ class PermitTransferController extends Controller
         return redirect()->back()->with('success', 'Permit transfer submitted!');
     }
 
+    
+    public function pending()
+    {
+        $requests = PermitTransfer::with('user')->where('status', 'Pending')->get();
+        return view('transfer.pending', compact('requests'));
+    }
+
+    public function approved()
+    {
+        $requests = PermitTransfer::with('user')->where('status', 'Approved')->get();
+        return view('transfer.approved', compact('requests'));
+    }
+
+    public function rejected()
+    {
+        $requests = PermitTransfer::with('user')->where('status', 'Rejected')->get();
+        return view('transfer.rejected', compact('requests'));
+    }
+
+    public function updateStatus($id, $status)
+    {
+        $request = PermitTransfer::findOrFail($id);
+        $request->status = $status;
+        $request->save();
+
+        return back()->with('success', 'Request ' . strtolower($status));
+    }
 }

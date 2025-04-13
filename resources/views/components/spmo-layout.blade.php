@@ -86,6 +86,44 @@
                     </button>
                   </a>
 
+                  <ul class="w-64 bg-gray-900 rounded-md shadow-md">
+                    <!-- Dropdown Parent -->
+                    <li class="opcion-con-desplegable">
+                        <input type="checkbox" id="agendaToggles" class="peer hidden" />
+                        <label for="agendaToggles" class="middle  none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4">
+                            <div class="flex items-center  ">
+                                
+                                <span class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium  pr-20">Bring In </span>
+                            </div>
+                            <i class="fas fa-chevron-down text-xs peer-checked:rotate-180 transition-transform"></i>
+                        </label>
+            
+                        <!-- Dropdown Menu -->
+                        <ul class="desplegable ml-4 hidden peer-checked:block">
+                            <li>
+                                <a href="/spmo_pending" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                    
+                                    Pending Requests
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/spmo_approved" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                    
+                                    Approved Requests
+                                </a>
+                            </li>
+  
+                            <li>
+                                <a href="/spmo_rejected" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                    
+                                    Cancelled Requests
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+  
+
                  
 
                   <a  href="/spmo/spmo_pages/spmo_borrowed">
@@ -108,42 +146,48 @@
                     </button>
                   </a>
 
-                <ul class="w-64 bg-gray-900 rounded-md shadow-md">
-                    <!-- Dropdown Parent -->
-                    <li class="opcion-con-desplegable">
-                        <input type="checkbox" id="agendaToggle" class="peer hidden" />
-                        <label for="agendaToggle" class="middle  none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4">
-                            <div class="flex items-center  ">
+                
                                 
-                                <span class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium  pr-20">Borrow Request</span>
-                            </div>
-                            <i class="fas fa-chevron-down text-xs peer-checked:rotate-180 transition-transform"></i>
-                        </label>
-            
-                        <!-- Dropdown Menu -->
-                        <ul class="desplegable ml-4 hidden peer-checked:block">
-                            <li>
-                                <a href="/spmo/spmo_pages/spmo_pending" class="block p-2 hover:bg-gray-700 flex items-center text-white">
-                                    
-                                    Pending Requests
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/spmo/spmo_pages/spmo_approved" class="block p-2 hover:bg-gray-700 flex items-center text-white">
-                                    
-                                    Approved Requests
-                                </a>
-                            </li>
+                 
 
-                            <li>
-                                <a href="/spmo/spmo_pages/spmo_cancelled" class="block p-2 hover:bg-gray-700 flex items-center text-white">
-                                    
-                                    Cancelled Requests
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+
+               
+              <ul class="w-64 bg-gray-900 rounded-md shadow-md">
+                <!-- Dropdown Parent -->
+                <li class="opcion-con-desplegable">
+                    <input type="checkbox" id="agendaToggle" class="peer hidden" />
+                    <label for="agendaToggle" class="middle  none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4">
+                        <div class="flex items-center  ">
+                            
+                            <span class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium  pr-20">Transfer</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs peer-checked:rotate-180 transition-transform"></i>
+                    </label>
+        
+                    <!-- Dropdown Menu -->
+                    <ul class="desplegable ml-4 hidden peer-checked:block">
+                        <li>
+                            <a href="/pending" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                
+                                Pending Requests
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/approved" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                
+                                Approved Requests
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/rejected" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                
+                                Cancelled Requests
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
                 
              
               

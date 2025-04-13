@@ -241,31 +241,49 @@ class UserController extends Controller
         return redirect()->route('forgot.password.form')->with('otp_sent', 'OTP sent to your email.');
     }
 
-    // Step 2: Verify OTP and Reset Password
-    public function verifyOtpfp (Request $request)
-    {
-        $request->validate([
-            'otp' => 'required',
-            'new_password' => 'required|min:8|confirmed',
-        ]);
+    public function verifyOtpfp(Request $request)
+{       
+    $request->validate([
+        'otp' => 'required',
+        'new_password' => [
+            'required',
+            'min:8',
+            'regex:/[a-z]/',
+            'regex:/[A-Z]/',
+            'regex:/[0-9]/',
+            'regex:/[@$!%*#?&]/',
+            'confirmed'
+        ]
+    ], [
+        'new_password.regex' => 'Password must include uppercase, lowercase, number, and special character.',
+        'new_password.confirmed' => 'Passwords do not match.'
+    ]);
 
-        if (!Session::has('otp') || now()->greaterThan(Session::get('otp_expires_at'))) {
-            return back()->withErrors(['otp' => 'The OTP has expired. Request a new one.']);
-        }
-
-        if ($request->otp != Session::get('otp')) {
-            return back()->withErrors(['otp' => 'Invalid OTP.']);
-        }
-
-        $user = User::where('email', Session::get('otp_email'))->first();
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        // Clear OTP session
-        Session::forget(['otp', 'otp_email', 'otp_expires_at']);
-
-        return redirect('/login')->with('success', 'Password reset successfully. You can now log in.');
+    if (!Session::has('otp') || now()->greaterThan(Session::get('otp_expires_at'))) {
+        return back()->with('error', 'The OTP has expired. Request a new one.');
     }
+
+    if ($request->otp != Session::get('otp')) {
+        // OTP is wrong, stay on OTP form
+        return back()->with('error', 'Wrong OTP entered.');
+    }
+
+    $user = User::where('email', Session::get('otp_email'))->first();
+
+    if (!$user) {
+        return back()->with('error', 'User not found.');
+    }
+
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    // Clear OTP session
+    Session::forget(['otp', 'otp_email', 'otp_expires_at']);
+
+    return redirect('/login')->with('success', 'Password reset successfully. You can now log in.');
+}
+
+
 }
 
 

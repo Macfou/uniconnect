@@ -2,16 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BringIn;
 use App\Models\Listing;
+use App\Models\UscApproval;
+use App\Models\DeanApproval;
 use Illuminate\Http\Request;
 use App\Models\BorrowRequest;
+use App\Models\PermitTransfer;
+use App\Models\AdviserApproval;
 
 class ChecklistsController extends Controller
 {
     public function index($id)
     {
-        $event = Listing::findOrFail($id); // Fetch specific event
-        return view('listings.checklists', compact('event'));
+      
+        $event = Listing::findOrFail($id);
+
+        $adviserRequest = AdviserApproval::where('listings_id', $id)->first();
+        $deanRequest = DeanApproval::where('listings_id', $id)->first();
+        $uscRequest = UscApproval::where('listings_id', $id)->first();
+        $bringInRequest = BringIn::where('listings_id', $id)->first();
+        $transferRequest = PermitTransfer::where('listings_id', $id)->first();
+    
+        return view('listings.checklists', compact(
+            'event',
+            'adviserRequest',
+            'deanRequest',
+            'uscRequest',
+            'bringInRequest',
+            'transferRequest'
+        ));
+       
     }
     
     public function checkListsBorrow($id)

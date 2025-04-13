@@ -16,6 +16,11 @@
             Event Checklist: <span class="text-blue-600">{{ $event->tags ?? 'Untitled Event' }}</span>
         </h2>
 
+        <a href="{{ route('view_transfer', ['id' => $event->id]) }}" 
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+            View Requests
+         </a>
+
         @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
@@ -61,6 +66,8 @@
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow">Submit</button>
             </div>
+
+          
         </form>
     </div>
     </div>

@@ -19,6 +19,8 @@
                 <tr>
                     <th class="p-4 border-b">Request date</th>
                     <th class="p-4 border-b">Name</th>
+                    <th class="p-4 border-b">For Approval</th>
+                   
                     <th class="p-4 border-b">College</th>
                     <th class="p-4 border-b">Venue</th>
                     <th class="p-4 border-b">View</th>
@@ -30,7 +32,18 @@
                     <tr class="hover:bg-slate-100">
                         <td class="p-4 border-b">{{ $event->created_at }}</td>
                         <td class="p-4 border-b">{{ strtoupper($event->user->fname) }} {{ strtoupper($event->user->lname) }}</td>
-                        <td class="p-4 border-b">{{ $event->tags }}</td>
+                        <td class="p-4 border-b">
+                            <a href="{{ route('ufmo.approval', ['id' => $event->id]) }}">
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    View Approval Status
+                                </button>
+                            </a>
+                        </td>
+                        
+                        
+                      
+                        
+                        <td class="p-4 border-b">{{ $event->title }}</td>
                         <td class="p-4 border-b">{{ $event->venue }}</td>
                         <td class="p-4 border-b">
                             <button class="view-btn bg-blue-500 text-white px-4 py-2 rounded shadow-md hover:bg-blue-700" 
@@ -71,7 +84,7 @@
 
   <!-- Modal -->
 <div id="eventModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
-    <div class="bg-white p-6 w-[600px] rounded-lg shadow-lg border border-gray-300 max-h-screen overflow-y-auto">
+    <div class="bg-white p-6 w-[900px] rounded-lg shadow-lg border border-gray-300 max-h-screen overflow-y-auto">
         <div id="modalContent">
             <div class="text-center">
                 <h2 class="text-xl font-bold">University Of Makati</h2>
@@ -101,13 +114,7 @@
             <p class="mt-2">Event Description:</p>
              <p id="modalDescription" class="italic"></p>
 
-            <p class="mt-2">For the Approval of the Following</p>
-            
-            <p>USC</p>
-            <p>Adviser:</p>
-            <p>College Dean:</p>
-            <p>Spmo:</p>
-            <p>Gso:</p>
+           
           
 
            

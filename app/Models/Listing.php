@@ -68,6 +68,14 @@ public function uscApprovals()
     return $this->hasMany(UscApproval::class, 'listings_id');
 }
 
+public function deanapproval()
+{
+    return $this->hasOne(DeanApproval::class, 'listings_id');
+}
 
-    
+public function adviserapproval()
+{
+    return $this->hasOne(AdviserApproval::class, 'listings_id');
+}
+
 }

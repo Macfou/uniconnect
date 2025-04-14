@@ -41,6 +41,7 @@ use App\Http\Controllers\AfterEventController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ChecklistsController;
 use App\Http\Controllers\DocumentAIController;
+use App\Http\Controllers\EventAdminController;
 use App\Http\Controllers\RequestUscController;
 use App\Http\Controllers\SpmoBorrowController;
 use App\Http\Controllers\StartEventController;
@@ -55,8 +56,8 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SavedSectionController;
 use App\Http\Controllers\SpmoCategoryController;
 use App\Http\Controllers\ViewRequestsController;
-use App\Http\Controllers\EventattendedController;
 
+use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventScheduleController;
 use App\Http\Controllers\MyCertificateController;
 use App\Http\Controllers\PermitToBringController;
@@ -378,12 +379,16 @@ Route::get('/gso/gso_pages/gso_cancelled', [GsoPagesController::class, 'gsocance
 //ufmo route
 
 Route::get('/ufmo/ufmo_pages/ufmo_dashboard', [UfmoPagesController::class,'ufmodashboard'])->name('ufmo.ufmo_pages.ufmo_dashboard');
+
 Route::get('/ufmo/ufmo_pages/ufmo_pending', [UfmoPagesController::class,'ufmopending'])->name('ufmo.ufmo_pages.ufmo_pending');
 
 Route::get('/ufmo/ufmo_pages/ufmo_rejected', [UfmoPagesController::class,'ufmoreject'])->name('ufmo.ufmo_pages.ufmo_rejected');
 
     Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class, 'ufmoapproved'])
     ->name('ufmo.ufmo_pages.ufmo_approved');
+
+    Route::get('ufmo/ufmo_pages/ufmo_approval/{id}', [UfmoPagesController::class, 'approval'])->name('ufmo.approval');
+
 
 
 
@@ -747,7 +752,8 @@ Route::get('/pages/bringin/{id}', [ViewRequestsController::class, 'requestsbring
 Route::get('/pages/transfer/{id}', [ViewRequestsController::class, 'requeststransfer'])
     ->name('view_transfer');
 
-
+    Route::get('/event-admin/create', [EventAdminController::class, 'create'])->name('eventadmin.create');
+    Route::post('/event-admin/store', [EventAdminController::class, 'store'])->name('eventadmin.store');
 
 
 

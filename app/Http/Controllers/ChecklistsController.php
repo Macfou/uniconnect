@@ -15,17 +15,17 @@ class ChecklistsController extends Controller
 {
     public function index($id)
     {
-      
         $event = Listing::findOrFail($id);
-
+    
+        // Get the approval records for each type, if they exist
         $adviserRequest = AdviserApproval::where('listings_id', $id)->first();
         $deanRequest = DeanApproval::where('listings_id', $id)->first();
         $uscRequest = UscApproval::where('listings_id', $id)->first();
         $bringInRequest = BringIn::where('listings_id', $id)->first();
         $transferRequest = PermitTransfer::where('listings_id', $id)->first();
-        $permitBorrow= BorrowRequest::where('listing_id', $id)->first();
-
+        $permitBorrow = BorrowRequest::where('listing_id', $id)->first();
     
+        // Pass these to the view
         return view('listings.checklists', compact(
             'event',
             'adviserRequest',
@@ -35,8 +35,8 @@ class ChecklistsController extends Controller
             'transferRequest',
             'permitBorrow'
         ));
-       
     }
+    
     
     public function checkListsBorrow($id)
     {
@@ -50,7 +50,7 @@ class ChecklistsController extends Controller
         }
     
         // Debugging to ensure requests are fetched
-        dd($requests);  // This will dump the $requests variable and stop the execution
+      
     
         return view('listings.checklists', compact('requests'));
     }

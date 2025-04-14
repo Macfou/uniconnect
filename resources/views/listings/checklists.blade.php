@@ -45,14 +45,32 @@
                             <td class="px-6 py-4">Adviser</td>
                             <td class="px-6 py-4 font-semibold
                                 {{ 
-                                    $adviserRequest->status == 'Approve' ? 'text-green-500' : 
-                                    ($adviserRequest->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
+                                    optional($adviserRequest)->status == 'Approve' ? 'text-green-500' : 
+                                    (optional($adviserRequest)->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
                                 }}">
-                                {{ $adviserRequest->status ?? 'Pending' }}
+                                {{ optional($adviserRequest)->status ?? 'Pending' }}
                             </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('request.adviser', ['id' => $event->id]) }}" 
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    Request
+                                </a>
+                            </td>
+                        </tr>
+                        
+                        
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">Dean</td>
+                            <td class="px-6 py-4 font-semibold
+                                {{ 
+                                    optional($deanRequest)->status == 'Approve' ? 'text-green-500' : 
+                                    (optional($deanRequest)->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
+                                }}">
+                                {{ optional($deanRequest)->status ?? 'Pending' }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ route('request.dean', ['id' => $event->id]) }}" 
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
                                     Request
                                 </a>
                             </td>
@@ -62,49 +80,31 @@
                             <td class="px-6 py-4">USC</td>
                             <td class="px-6 py-4 font-semibold
                                 {{ 
-                                    $uscRequest->status == 'Approve' ? 'text-green-500' : 
-                                    ($uscRequest->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
+                                    optional($uscRequest)->status == 'Approve' ? 'text-green-500' : 
+                                    (optional($uscRequest)->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
                                 }}">
-                                {{ $uscRequest->status ?? 'Pending' }}
+                                {{ optional($uscRequest)->status ?? 'Pending' }}
                             </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('request.usc', ['id' => $event->id]) }}" 
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
                                     Request
                                 </a>
                             </td>
                         </tr>
                     
                         <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4">College/Dean</td>
+                            <td class="px-6 py-4">Permit Borrow</td>
                             <td class="px-6 py-4 font-semibold
                                 {{ 
-                                    $deanRequest->status == 'Approve' ? 'text-green-500' : 
-                                    ($deanRequest->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
+                                    optional($permitBorrow)->status == 'Approve' ? 'text-green-500' : 
+                                    (optional($permitBorrow)->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
                                 }}">
-                                {{ $deanRequest->status ?? 'Pending' }}
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('request.dean', ['id' => $event->id]) }}" 
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
-                                    Request
-                                </a>
-                            </td>
-                        </tr>
-                        
-                    
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4">Permit to Borrow</td>
-                            <td class="px-6 py-4 font-semibold
-                                {{ 
-                                    $permitBorrow->status == 'Approved' ? 'text-green-500' : 
-                                    ($permitBorrow->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
-                                }}">
-                                {{ $permitBorrow->status ?? 'Pending' }}
+                                {{ optional($permitBorrow)->status ?? 'Pending' }}
                             </td>
                             <td class="px-6 py-4">
                                 <a href="{{ route('pages.borrow', ['listing_id' => $event->id]) }}" 
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
                                     Request
                                 </a>
                             </td>
@@ -112,50 +112,47 @@
                         
                     
                         <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4">Permit Bring In</td>
+                            <td class="px-6 py-4">Bring In</td>
                             <td class="px-6 py-4 font-semibold
-                            {{ 
-                                $bringInRequest->status == 'Approved' ? 'text-green-500' : 
-                                ($bringInRequest->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
-                            }}">
-                            {{ $bringInRequest->status ?? 'Pending' }}
-                        </td>
+                                {{ 
+                                    optional($bringInRequest)->status == 'Approve' ? 'text-green-500' : 
+                                    (optional($bringInRequest)->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
+                                }}">
+                                {{ optional($bringInRequest)->status ?? 'Pending' }}
+                            </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('listings.bringin', ['id' => $event->id]) }}">
-                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                        Request
-                                    </button>
+                                <a href="{{ route('listings.bringin', ['id' => $event->id]) }}" 
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    Request
                                 </a>
                             </td>
                         </tr>
-                    
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4">Permit Transfer</td>
-                            <td class="px-6 py-4 font-semibold 
-    {{ 
-        $transferRequest->status == 'Approved' ? 'text-green-500' : 
-        ($transferRequest->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
-    }}">
-    {{ $transferRequest->status ?? 'Pending' }}
-</td>
 
-                            <td class="px-6 py-4">
-                                <a href="{{ route('listings.permit_transfer', ['id' => $event->id]) }}">
-                                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                        Request
-                                    </button>
-                                </a>
-                             </td>
-                        </tr>
+                       <tr class="hover:bg-gray-50 transition">
+    <td class="px-6 py-4">Transfer</td>
+    <td class="px-6 py-4 font-semibold
+        {{ 
+            optional($transferRequest)->status == 'Approve' ? 'text-green-500' : 
+            (optional($transferRequest)->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
+        }}">
+        {{ optional($transferRequest)->status ?? 'Pending' }}
+    </td>
+    <td class="px-6 py-4">
+        <a href="{{ route('listings.permit_transfer', ['id' => $event->id]) }}" 
+           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+            Request
+        </a>
+    </td>
+</tr>
                     
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">View</td>
                             <td class="px-6 py-4 font-semibold 
-                            {{ 
-                                $event->status == 'Approve' ? 'text-green-500' : 
-                                ($event->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
-                            }}">
-                            {{ $event->status ?? 'Pending' }}
+                             {{ 
+            optional($permitBorrow)->status == 'Approve' ? 'text-green-500' : 
+            (optional($permitBorrow)->status == 'Reject' ? 'text-red-500' : 'text-yellow-500') 
+        }}">
+        {{ optional($permitBorrow)->status ?? 'Pending' }}
                         </td>
                         
                             <td class="px-6 py-4">

@@ -107,6 +107,21 @@
                     </button>
                   </a>
 
+                  
+                  <a  href="/event-admin/create">
+                    <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M16 2v4" />
+                        <path d="M8 2v4" />
+                        <path d="M3 10h18" />
+                        <path d="M8 14h2v2H8z" />
+                      </svg>
+                      
+                      <p class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">Add Events</p>
+                    </button>
+                  </a>
+
                 <ul class="w-64 bg-gray-900 rounded-md shadow-md">
                     <!-- Dropdown Parent -->
                     <li class="opcion-con-desplegable">

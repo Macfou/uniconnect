@@ -20,11 +20,38 @@ class UfmoPagesController extends Controller
         return view('ufmo.ufmo_pages.ufmo_dashboard', compact('pendingCount', 'approvedCount', 'rejectedCount', 'feedbacks'));
     }
 
-    public function ufmopending() {
+   public function ufmopending() {
+    $pendingEvents = Listing::with([
+        'adviserapproval.adviser', 
+        'deanapproval.dean'
+    ])
+    ->where('status', 'Pending')
+    ->get();
 
-        $pendingEvents = Listing::where('status', 'Pending')->get();
-        return view('ufmo.ufmo_pages.ufmo_pending', compact('pendingEvents'));
-    }
+    return view('ufmo.ufmo_pages.ufmo_pending', compact('pendingEvents'));
+}
+
+public function approval($id)
+{
+    // Get the Listing based on the listing_id
+    $listing = Listing::findOrFail($id);
+
+    // Get the related AdviserApproval and DeanApproval, including their status and loading adviser/dean if available
+    $adviserApproval = $listing->adviserapproval ? $listing->adviserapproval->load('adviser') : null;  
+    $deanApproval = $listing->deanapproval ? $listing->deanapproval->load('dean') : null;  
+
+    // Get the status of both approvals
+    $adviserStatus = $adviserApproval ? $adviserApproval->status : null;
+    $deanStatus = $deanApproval ? $deanApproval->status : null;
+
+    // Return the view with all the data, including the status and the names of adviser and dean
+    return view('ufmo.ufmo_pages.ufmo_approval', compact('listing', 'adviserApproval', 'deanApproval', 'adviserStatus', 'deanStatus'));
+}
+
+
+
+
+    
 
     public function ufmoapproved() {
         $approvedEvents = Listing::where('status', 'Approve')->get();
@@ -32,6 +59,8 @@ class UfmoPagesController extends Controller
         return view('ufmo.ufmo_pages.ufmo_approved', compact('approvedEvents'));
     
     }
+
+
 
     
     public function ufmoreject() {

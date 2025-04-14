@@ -12,6 +12,7 @@ use App\Models\GsoCategory;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Endroid\QrCode\Writer\PngWriter;
 
 
@@ -32,7 +33,12 @@ class ListingController extends Controller
         
         
         //////////////////////
-        $events = Listing::where('status', 'approved')->get();
+        $events = DB::table('listings')
+        ->join('uscapproval', 'listings.id', '=', 'uscapproval.listings_id')
+        ->where('uscapproval.status', 'Approve')
+        ->select('listings.*') // Get only listing columns
+        ->get();
+
         // Initialize arrays to hold categorized events
         $upcomingEvents = [];
         $todaysEvents = [];

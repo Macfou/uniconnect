@@ -77,6 +77,11 @@ class User extends Authenticatable
     return $this->hasMany(User::class, 'org', 'id');
 }
 
+public function attendedEvents()
+{
+    return $this->hasMany(EventAttendee::class, 'attendee_id');
+}
+
     
     
 }

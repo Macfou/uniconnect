@@ -78,4 +78,6 @@ public function adviserapproval()
     return $this->hasOne(AdviserApproval::class, 'listings_id');
 }
 
+
+
 }

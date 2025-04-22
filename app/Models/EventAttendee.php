@@ -14,11 +14,13 @@ class EventAttendee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'event_id'];
+    protected $fillable = ['user_id', 'event_id', 'attendee_id'];
+
+   
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'attendee_id');
     }
 
     public function event()

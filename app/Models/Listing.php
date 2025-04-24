@@ -14,7 +14,9 @@ class Listing extends Model
     
    
     protected $fillable = [
-         'rejection_reason'
+         'rejection_reason',
+         'tags',
+         'event_date'
     ];
 
 
@@ -76,6 +78,11 @@ public function deanapproval()
 public function adviserapproval()
 {
     return $this->hasOne(AdviserApproval::class, 'listings_id');
+}
+
+public function ratings()
+{
+    return $this->hasMany(\App\Models\Rating::class, 'listings_id');
 }
 
 

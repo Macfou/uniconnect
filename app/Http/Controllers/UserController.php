@@ -282,7 +282,22 @@ class UserController extends Controller
 
     return redirect('/login')->with('success', 'Password reset successfully. You can now log in.');
 }
+public function uploadPhoto(Request $request)
+{
+    $request->validate([
+        'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
 
+    $user = Auth::user();
+
+    $file = $request->file('photo');
+    $path = $file->store('user_photos', 'public');
+
+    $user->photo = $path;
+    $user->save();
+
+    return back()->with('success', 'Profile photo updated.');
+}
 
 }
 

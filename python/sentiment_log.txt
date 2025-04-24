@@ -1,0 +1,245 @@
+Script started
+Arguments: ['python/sentiment.py', "Amazing experience, can't wait for the next one."]
+Raw feedback: Amazing experience, can't wait for the next one.
+Cleaned feedback: amazing experience ca n't wait next one
+Compound score: 0.5859
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', "Amazing experience, can't wait for the next one."]
+Raw feedback: Amazing experience, can't wait for the next one.
+Cleaned feedback: amazing experience ca n't wait next one
+Compound score: 0.5859
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', "Amazing experience, can't wait for the next one."]
+Raw feedback: Amazing experience, can't wait for the next one.
+Cleaned feedback: amazing experience ca n't wait next one
+Compound score: 0.5859
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', "Amazing experience, can't wait for the next one."]
+Raw feedback: Amazing experience, can't wait for the next one.
+Cleaned feedback: amazing experience ca n't wait next one
+Compound score: 0.5859
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', "Amazing experience, can't wait for the next one."]
+Raw feedback: Amazing experience, can't wait for the next one.
+Cleaned feedback: amazing experience ca n't wait next one
+Compound score: 0.5859
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', 'Napakagaling ng mga organizer, mahusay na trabaho.']
+Raw feedback: Napakagaling ng mga organizer, mahusay na trabaho.
+Cleaned feedback: napakagaling ng mga organizer mahusay na trabaho
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', 'The event was acceptable, neither here nor there.']
+Raw feedback: The event was acceptable, neither here nor there.
+Cleaned feedback: event acceptable neither
+Compound score: 0.3182
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', 'Unprofessional handling, left very dissatisfied.']
+Raw feedback: Unprofessional handling, left very dissatisfied.
+Cleaned feedback: unprofessional handling left dissatisfied
+Compound score: -0.7096
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\umak_event\\python\\sentiment.py', 'Hinding-hindi na ako dadalo ulit, napaka-dismayado.']
+Raw feedback: Hinding-hindi na ako dadalo ulit, napaka-dismayado.
+Cleaned feedback: hinding-hindi na ako dadalo ulit napaka-dismayado
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['python/sentiment.py', 'medyo magaling sila']
+Raw feedback: medyo magaling sila
+Cleaned feedback: medyo magaling sila
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['python/sentiment.py', 'napaka pangit']
+Raw feedback: napaka pangit
+Cleaned feedback: napaka pangit
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['python/sentiment.py', 'ang pangit ng ginawa nila ']
+Raw feedback: ang pangit ng ginawa nila 
+Cleaned feedback: ang pangit ng ginawa nila
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['sentiment.py', 'i will not attend anymore']
+Raw feedback: i will not attend anymore
+Cleaned feedback: attend anymore
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['sentiment.py', 'ang pangit naman nito']
+Raw feedback: ang pangit naman nito
+Cleaned feedback: ang pangit naman nito
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Arguments: ['sentiment.py', 'It was poorly organized and disappointing']
+Raw feedback: It was poorly organized and disappointing
+Cleaned feedback: poorly organized disappointing
+Compound score: -0.4939
+Predicted sentiment: -1
+Script started
+Arguments: ['sentiment.py', 'It was just okay']
+Raw feedback: It was just okay
+Cleaned feedback: okay
+Compound score: 0.2263
+Predicted sentiment: 1
+Script started
+Arguments: ['sentiment.py', 'It was an amazing experience']
+Raw feedback: It was an amazing experience
+Cleaned feedback: amazing experience
+Compound score: 0.5859
+Predicted sentiment: 1
+Script started
+Arguments: ['sentiment.py', 'napakagandang experience nito']
+Raw feedback: napakagandang experience nito
+Cleaned feedback: napakagandang experience nito
+Compound score: 0.0
+Predicted sentiment: 0
+Script started
+Exception: 'model'
+Script started
+Raw feedback: Napakagandang experience nito
+Cleaned feedback: napakagandang experience nito
+Predicted sentiment: -1 (Neutral)
+Script started
+Raw feedback: Napaka pangit ang aking naranasan
+Cleaned feedback: napaka pangit ang aking naranasan
+Predicted sentiment: -1 (Neutral)
+Script started
+Arguments: ['sentiment.py', 'Napaka pangit ang aking naranasan']
+Raw feedback: Napaka pangit ang aking naranasan
+Cleaned feedback: napaka pangit ang aking naranasan
+Predicted sentiment: 1
+Script started
+Raw feedback: Napaka pangit ang aking naranasan
+Cleaned feedback: napaka pangit ang aking naranasan
+Exception: Expected 2D array, got 1D array instead:
+array=['napaka pangit ang aking naranasan'].
+Reshape your data either using array.reshape(-1, 1) if your data has a single feature or array.reshape(1, -1) if it contains a single sample.
+Script started
+Raw feedback: Napaka pangit ang aking naranasan
+Cleaned feedback: napaka pangit ang aking naranasan
+Exception: dtype='numeric' is not compatible with arrays of bytes/strings.Convert your data to numeric values explicitly instead.
+MNB Sentiment Script Started
+Arguments: ['sentiment.py', 'Napaka pangit ang aking naranasan']
+Raw Feedback: Napaka pangit ang aking naranasan
+Cleaned Feedback: napaka pangit ang aking naranasan
+Error: invalid load key, '\x0b'.
+Script started
+Arguments: ['sentiment.py', 'Napaka pangit ang aking naranasan']
+Raw feedback: Napaka pangit ang aking naranasan
+Cleaned feedback: napaka pangit ang aking naranasan
+Predicted sentiment: 1
+MNB Sentiment Script Started
+Arguments: ['sentiment.py', 'Napaka pangit ang aking naranasan']
+Raw Feedback: Napaka pangit ang aking naranasan
+Cleaned Feedback: napaka pangit ang aking naranasan
+Raw Prediction: 1
+Final Mapped Sentiment: 0
+Script started
+Arguments: ['sentiment.py', 'Napaka pangit ang aking naranasan']
+Raw feedback: Napaka pangit ang aking naranasan
+Cleaned feedback: napaka pangit ang aking naranasan
+Predicted sentiment: 1
+Script started
+Arguments: ['sentiment.py', 'Napaka pangit ang aking naranasan']
+Raw feedback: Napaka pangit ang aking naranasan
+Cleaned feedback: napaka pangit ang aking naranasan
+Predicted sentiment: 1
+Script started
+Arguments: ['sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Predicted sentiment: -1
+Script started
+Arguments: ['sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Predicted sentiment: -1
+Script started
+Arguments: ['sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Predicted sentiment: -1
+Script started
+Arguments: ['sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sayang lang ang oras, hindi ko ito irerekomenda.']
+Raw feedback: Sayang lang ang oras, hindi ko ito irerekomenda.
+Cleaned feedback: sayang lang ang oras hindi ko ito irerekomenda
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'ito ay aking inirerekomenda']
+Raw feedback: ito ay aking inirerekomenda
+Cleaned feedback: ito ay aking inirerekomenda
+Predicted sentiment: 0
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'I just wanted to say that the event was absolutely fantastic from start to finish. The organization was seamless, and every part of the program felt thoughtfully planned out. The speakers were engaging and delivered valuable insights that kept everyone interested throughout. I especially appreciated how interactive the sessions were — it really helped create a sense of connection and community among attendees. The venue was comfortable and well-equipped, and everything ran on schedule, which is always a big plus. Overall, it was a genuinely enriching experience, and I’m looking forward to attending again in the future. Kudos to the whole team behind the event — you all did an amazing job ']
+Raw feedback: I just wanted to say that the event was absolutely fantastic from start to finish. The organization was seamless, and every part of the program felt thoughtfully planned out. The speakers were engaging and delivered valuable insights that kept everyone interested throughout. I especially appreciated how interactive the sessions were — it really helped create a sense of connection and community among attendees. The venue was comfortable and well-equipped, and everything ran on schedule, which is always a big plus. Overall, it was a genuinely enriching experience, and I’m looking forward to attending again in the future. Kudos to the whole team behind the event — you all did an amazing job 
+Cleaned feedback: wanted say event absolutely fantastic start finish organization seamless every part program felt thoughtfully planned speakers engaging delivered valuable insights kept everyone interested throughout especially appreciated interactive sessions really helped create sense connection community among attendees venue comfortable wellequipped everything ran schedule always big plus overall genuinely enriching experience looking forward attending future kudos whole team behind event amazing job
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'I just wanted to say that the event was absolutely fantastic from start to finish. The organization was seamless, and every part of the program felt thoughtfully planned out. The speakers were engaging and delivered valuable insights that kept everyone interested throughout. I especially appreciated how interactive the sessions were — it really helped create a sense of connection and community among attendees. The venue was comfortable and well-equipped, and everything ran on schedule, which is always a big plus. Overall, it was a genuinely enriching experience, and I’m looking forward to attending again in the future. Kudos to the whole team behind the event — you all did an amazing job ']
+Raw feedback: I just wanted to say that the event was absolutely fantastic from start to finish. The organization was seamless, and every part of the program felt thoughtfully planned out. The speakers were engaging and delivered valuable insights that kept everyone interested throughout. I especially appreciated how interactive the sessions were — it really helped create a sense of connection and community among attendees. The venue was comfortable and well-equipped, and everything ran on schedule, which is always a big plus. Overall, it was a genuinely enriching experience, and I’m looking forward to attending again in the future. Kudos to the whole team behind the event — you all did an amazing job 
+Cleaned feedback: wanted say event absolutely fantastic start finish organization seamless every part program felt thoughtfully planned speakers engaging delivered valuable insights kept everyone interested throughout especially appreciated interactive sessions really helped create sense connection community among attendees venue comfortable wellequipped everything ran schedule always big plus overall genuinely enriching experience looking forward attending future kudos whole team behind event amazing job
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sobrang ganda ng event mula simula hanggang matapos. Maayos ang pagkakaorganisa at halatang pinag-isipan ang bawat bahagi ng programa. Magagaling at kapana-panabik ang mga speaker — nakaka-inspire talaga ang mga ibinahagi nilang kaalaman at karanasan. Nagustuhan ko rin na naging interactive ang mga sessions, kaya mas naging engaging at hindi boring ang buong event. Maaliwalas at kumpleto ang venue, at nasunod ang schedule nang maayos. Sa kabuuan, napaka-memorable at nakaka-inspire ng experience na ito. Talagang sulit ang oras at pagdalo ko. Saludo ako sa buong team na nag-organisa — mahusay kayong lahat ']
+Raw feedback: Sobrang ganda ng event mula simula hanggang matapos. Maayos ang pagkakaorganisa at halatang pinag-isipan ang bawat bahagi ng programa. Magagaling at kapana-panabik ang mga speaker — nakaka-inspire talaga ang mga ibinahagi nilang kaalaman at karanasan. Nagustuhan ko rin na naging interactive ang mga sessions, kaya mas naging engaging at hindi boring ang buong event. Maaliwalas at kumpleto ang venue, at nasunod ang schedule nang maayos. Sa kabuuan, napaka-memorable at nakaka-inspire ng experience na ito. Talagang sulit ang oras at pagdalo ko. Saludo ako sa buong team na nag-organisa — mahusay kayong lahat 
+Cleaned feedback: sobrang ganda ng event mula simula hanggang matapos maayos ang pagkakaorganisa halatang pinagisipan ang bawat bahagi ng programa magagaling kapanapanabik ang mga speaker nakakainspire talaga ang mga ibinahagi nilang kaalaman karanasan nagustuhan ko rin na naging interactive ang mga sessions kaya mas naging engaging hindi boring ang buong event maaliwalas kumpleto ang venue nasunod ang schedule nang maayos sa kabuuan napakamemorable nakakainspire ng experience na ito talagang sulit ang oras pagdalo ko saludo ako sa buong team na nagorganisa mahusay kayong lahat
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sobrang ganda ng event mula simula hanggang matapos. Maayos ang pagkakaorganisa at halatang pinag-isipan ang bawat bahagi ng programa. Magagaling at kapana-panabik ang mga speaker — nakaka-inspire talaga ang mga ibinahagi nilang kaalaman at karanasan. Nagustuhan ko rin na naging interactive ang mga sessions, kaya mas naging engaging at hindi boring ang buong event. Maaliwalas at kumpleto ang venue, at nasunod ang schedule nang maayos. Sa kabuuan, napaka-memorable at nakaka-inspire ng experience na ito. Talagang sulit ang oras at pagdalo ko. Saludo ako sa buong team na nag-organisa — mahusay kayong lahat ']
+Raw feedback: Sobrang ganda ng event mula simula hanggang matapos. Maayos ang pagkakaorganisa at halatang pinag-isipan ang bawat bahagi ng programa. Magagaling at kapana-panabik ang mga speaker — nakaka-inspire talaga ang mga ibinahagi nilang kaalaman at karanasan. Nagustuhan ko rin na naging interactive ang mga sessions, kaya mas naging engaging at hindi boring ang buong event. Maaliwalas at kumpleto ang venue, at nasunod ang schedule nang maayos. Sa kabuuan, napaka-memorable at nakaka-inspire ng experience na ito. Talagang sulit ang oras at pagdalo ko. Saludo ako sa buong team na nag-organisa — mahusay kayong lahat 
+Cleaned feedback: sobrang ganda ng event mula simula hanggang matapos maayos ang pagkakaorganisa halatang pinagisipan ang bawat bahagi ng programa magagaling kapanapanabik ang mga speaker nakakainspire talaga ang mga ibinahagi nilang kaalaman karanasan nagustuhan ko rin na naging interactive ang mga sessions kaya mas naging engaging hindi boring ang buong event maaliwalas kumpleto ang venue nasunod ang schedule nang maayos sa kabuuan napakamemorable nakakainspire ng experience na ito talagang sulit ang oras pagdalo ko saludo ako sa buong team na nagorganisa mahusay kayong lahat
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'event is very good i like it very much']
+Raw feedback: event is very good i like it very much
+Cleaned feedback: event good like much
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'ang event at napaka gandasobrang nagustuhan ko']
+Raw feedback: ang event at napaka gandasobrang nagustuhan ko
+Cleaned feedback: ang event napaka gandasobrang nagustuhan ko
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'i dont like it its very not good']
+Raw feedback: i dont like it its very not good
+Cleaned feedback: dont like good
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'hindi ko ito gusto pangit']
+Raw feedback: hindi ko ito gusto pangit
+Cleaned feedback: hindi ko ito gusto pangit
+Predicted sentiment: -1

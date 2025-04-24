@@ -14,23 +14,23 @@ class EventattendedController extends Controller
     public function showEventsAttended()
     {
         $user = Auth::user(); // Get the authenticated user
-        $fname = $user->fname; // Replace with your user model's first name field
-        $lname = $user->lname; // Replace with your user model's last name field
-
-        $events = Listing::all();
+        $fname = $user->fname;
+        $lname = $user->lname;
     
-        $eventsAttended = EventAttendee::with(['event'])
+        $eventsAttended = EventAttendee::with('event')
             ->where('fname', $fname)
             ->where('lname', $lname)
             ->get();
     
-        return view('pages.eventattended', compact('eventsAttended'));
+        return view('pages.eventattended', compact('eventsAttended', 'user'));
     }
+    
+    
+    
 
     
     public function submitFeedback(Request $request)
     {
-        // Validate the request data
         $request->validate([
             'event_id' => 'required|exists:listings,id',
             'feedback' => 'required|string|max:1000',
@@ -38,65 +38,52 @@ class EventattendedController extends Controller
             'feedback_speaker' => 'required|string|max:1000',
             'feedback_time' => 'required|string|max:1000',
         ]);
-    
+
         $userId = Auth::id();
-    
-        // Check if the user has already submitted feedback for the event
+
         $existingFeedback = Feedback::where('listing_id', $request->event_id)
             ->where('user_id', $userId)
             ->first();
-    
+
         if ($existingFeedback) {
             return response()->json(['message' => 'You have already submitted feedback for this event.'], 400);
         }
-    
-        // Get the feedback data from the request
-        $feedback = $request->feedback;
-        $venueFeedback = $request->feedback_venue;
-        $speakerFeedback = $request->feedback_speaker;
-        $timeFeedback = $request->feedback_time;
-    
-        // Function to run sentiment analysis on a given text
+
+        // Analyze using your trained model
         function analyzeSentiment($text)
         {
-            $command = escapeshellcmd("python " . base_path("python/sentiment.py") . " " . escapeshellarg($text));
-            Log::info("Executing command: " . $command);
-    
-            $sentiment = shell_exec($command);
-            Log::info("Shell Output: " . $sentiment);
-            Log::info("Last Error: " . print_r(error_get_last(), true));
-            Log::info("Sentiment raw output: " . $sentiment);
-    
-            // Check if sentiment output is empty
-            if (empty($sentiment)) {
-                Log::error("Sentiment analysis failed: No output from Python script.");
-                return null;
-            }
-    
-            // Convert the sentiment output to an integer
-            return (int) trim($sentiment);
+            // Correct path and safe argument
+            $pythonScript = "C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py";
+            $escapedText = escapeshellarg($text); // safely quotes and escapes
+            $command = "python {$pythonScript} {$escapedText}";
+
+            Log::info("Sentiment command: " . $command);
+
+            $output = shell_exec($command);
+
+            Log::info("Output: " . $output);
+
+            return is_null($output) || trim($output) === '' ? 0 : (int) trim($output);
         }
-    
-        // Analyze sentiment for each feedback field
-        $sentimentMain = analyzeSentiment($feedback);
-        $sentimentVenue = analyzeSentiment($venueFeedback);
-        $sentimentSpeaker = analyzeSentiment($speakerFeedback);
-        $sentimentTime = analyzeSentiment($timeFeedback);
-    
-        // Save the feedback along with its sentiment analysis results
+
+        $sentimentMain = analyzeSentiment($request->feedback);
+        $sentimentVenue = analyzeSentiment($request->feedback_venue);
+        $sentimentSpeaker = analyzeSentiment($request->feedback_speaker);
+        $sentimentTime = analyzeSentiment($request->feedback_time);
+
         Feedback::create([
             'listing_id' => $request->event_id,
             'user_id' => $userId,
-            'feedback' => $feedback,
-            'feedback_venue' => $venueFeedback,
-            'feedback_speaker' => $speakerFeedback,
-            'feedback_time' => $timeFeedback,
+            'feedback' => $request->feedback,
+            'feedback_venue' => $request->feedback_venue,
+            'feedback_speaker' => $request->feedback_speaker,
+            'feedback_time' => $request->feedback_time,
             'sentiment' => $sentimentMain,
             'sentiment_venue' => $sentimentVenue,
             'sentiment_speaker' => $sentimentSpeaker,
             'sentiment_time' => $sentimentTime,
         ]);
-    
+
         return response()->json(['message' => 'Feedback submitted successfully.'], 200);
     }
     

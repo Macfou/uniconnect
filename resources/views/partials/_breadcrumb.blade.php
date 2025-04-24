@@ -24,6 +24,16 @@
                 <span class="mx-2">Certificates</span>
             </a>
 
+
+            <span class="mx-5 text-gray-500 dark:text-gray-300"></span>
+
+            <a href="/event-registered" class="flex items-center text-gray-600 -px-2 dark:text-gray-200 hover:underline">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 3 3 0 00-2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                </svg>
+                <span class="mx-2">Registered Events</span>
+            </a>
+
             <span class="mx-5 text-gray-500 dark:text-gray-300"></span>
 
             <a href="{{ $attendanceRoute }}" class="flex items-center text-gray-600 -px-2 dark:text-gray-200 hover:underline">

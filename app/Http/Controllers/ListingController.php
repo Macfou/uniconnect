@@ -126,6 +126,7 @@ class ListingController extends Controller
             'image' => 'required|image',
             'classifications' => 'required',
             'certificate' => 'nullable|boolean',
+            'registration' => 'nullable|boolean',
             'attachPlan' => 'nullable|file|mimes:pdf|max:10240',
             
         ]);
@@ -145,6 +146,7 @@ class ListingController extends Controller
         
         // Set certificate value (default to 0 if not present)
         $formFields['certificate'] = $request->input('certificate', 0);
+        $formFields['registration'] = $request->input('registration', 0);
         
         // Fetch facility details using facility_id
         $facility = Facility::where('facility_name', $formFields['venue'])->first();

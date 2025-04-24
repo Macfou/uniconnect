@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'is_admin',
         'idnumber',
+        'photo',
     ];
 
     protected $hidden = [
@@ -81,6 +82,12 @@ public function attendedEvents()
 {
     return $this->hasMany(EventAttendee::class, 'attendee_id');
 }
+
+public function ratings()
+{
+    return $this->hasMany(\App\Models\Rating::class, 'users_id');
+}
+
 
     
     

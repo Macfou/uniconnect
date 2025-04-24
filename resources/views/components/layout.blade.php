@@ -25,6 +25,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -68,12 +70,42 @@
                         <a href="/editaccount" class="font-normal block px-4 py-2 text-black hover:bg-gray-100 hover:!text-white dark:text-white dark:hover:bg-gray-700">
                           <i class="fa-solid fa-gear pr-4"></i> Manage Account
                         </a>
-                        <form class="inline" method="POST" action="/logout">
-    @csrf
-    <button type="submit" class="font-normal block px-4 py-2 text-black hover:bg-gray-100 hover:!text-white dark:text-white dark:hover:bg-gray-700">
-        <i class="fa-solid fa-door-closed pr-4"></i>Logout
-    </button>
-</form>
+      <!-- Logout Button (opens modal) -->
+<button type="button" onclick="openLogoutModal()" class="font-normal block px-4 py-2 text-black hover:bg-gray-100 hover:!text-white dark:text-white dark:hover:bg-gray-700">
+  <i class="fa-solid fa-door-closed pr-4"></i>Logout
+</button>
+
+<!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-sm">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Are you sure you want to logout?</h2>
+     
+      
+      <div class="flex justify-end gap-4">
+          <button onclick="closeLogoutModal()" class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded hover:bg-gray-400 dark:hover:bg-gray-700">
+              Cancel
+          </button>
+          <form method="POST" action="/logout">
+              @csrf
+              <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                  Yes, Logout
+              </button>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+  function openLogoutModal() {
+      document.getElementById('logoutModal').classList.remove('hidden');
+  }
+
+  function closeLogoutModal() {
+      document.getElementById('logoutModal').classList.add('hidden');
+  }
+</script>
+
 
                     </div>
                 </div>

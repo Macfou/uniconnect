@@ -28,4 +28,13 @@ class EventAttendee extends Model
     return $this->belongsTo(Listing::class, 'event_id');
 }
 
+public function feedback()
+{
+    return $this->hasOne(Feedback::class, 'event_id', 'event_id')
+        ->where('user_id', auth()->id()); // match using user_id!
+}
+
+
+
+
 }

@@ -61,6 +61,18 @@
                         <input type="hidden" name="certificate" value="0"> <!-- Default value when unchecked -->
                         <input
                             type="checkbox"
+                            name="registration"
+                            id="registration"
+                            value="1"
+                            class="form-checkbox text-blue-600"
+                        >
+                        <label for="registration" class="text-sm font-medium text-gray-700">With Registration</label>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <input type="hidden" name="certificate" value="0"> <!-- Default value when unchecked -->
+                        <input
+                            type="checkbox"
                             name="certificate"
                             id="certificate"
                             value="1"

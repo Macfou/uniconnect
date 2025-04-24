@@ -26,12 +26,25 @@
       <p>What: <strong>{{$listing->tags}}</strong></p>
       <p>Where: <strong>{{$listing->venue}}</strong></p>
       <p>When: <strong>{{ \Carbon\Carbon::parse($listing->event_date)->format('F j, Y') }} at {{$listing->event_time}}</strong></p>
+      @if ($listing->certificate === 1)
+      <p class="font-bold">With Certificate</p>
+      @endif
       <p>For: <x-listing-organizations :organizationsCsv="$listing->organization" /> </p> 
       <h1 class="font-bold text-lg text-gray-600"></h1>
       <h1 class="text-lg text-gray-600 text-justify pt-2 p-10">{{$listing->description}}</h1>
-      <a href="{{ route('event.register', $listing->id) }}" class="mt-5 bg-blue-500 p-3 rounded-xl text-white font-bold hover:bg-blue-700">
-        Register Now
-    </a>
+     
+      @if ($listing->registration === 1)
+      <div class="mt-5 bg-laravel p-3 rounded-xl text-white font-bold text-center cursor-not-allowed">
+          Already Registered
+      </div>
+  @else
+      <a href="{{ route('event.register', $listing->id) }}" class="mt-5 bg-blue-500 p-3 rounded-xl text-white font-bold hover:bg-blue-700 text-center">
+          Register Now
+      </a>
+  @endif
+  
+
+
     
     </div>
 

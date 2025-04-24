@@ -28,6 +28,11 @@
                           </p>
                       </th>
                       <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
+                        <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">
+                        View Feedback
+                        </p>
+                    </th>
+                      <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
                           <p class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">
                               Feedback
                           </p>
@@ -54,14 +59,51 @@
                               {{ $attendance->created_at->format('F j, Y') }}
                           </p>
                       </td>
+
                       <td class="py-3 px-5 border-b border-blue-gray-50">
-                          <button 
-                              class="flex items-center px-4 py-2 text-white bg-laravel hover:bg-gray-700 rounded-lg shadow-md focus:outline-none"
-                              id="openModal{{ $attendance->event->id }}" 
-                              data-event-id="{{ $attendance->event->id }}">
-                              Review
-                          </button>
-                      </td>
+                        @php
+                            // Check if there is feedback for this event and this user
+                            $hasFeedback = \App\Models\Feedback::where('listing_id', $attendance->event->id)
+                                            ->where('user_id', auth()->id()) // better to use auth()->id()
+                                            ->exists();
+                        @endphp
+                
+                        @if($hasFeedback)
+                        <a href="{{ route('view.feedback', ['listing_id' => $attendance->event->id]) }}" 
+                            class="flex items-center px-4 py-2 text-white bg-laravel hover:bg-gray-700 rounded-lg shadow-md focus:outline-none">
+                            View
+                        </a>
+                        
+                        @else
+                            <span class="text-gray-500">No submitted feedback</span>
+                        @endif
+                    </td>
+                  
+                    
+                    
+                    
+                  
+                    <td class="py-3 px-5 border-b border-blue-gray-50">
+                        @php
+                            $hasFeedback = \App\Models\Feedback::where('listing_id', $attendance->event->id)
+                                            ->where('user_id', auth()->id())
+                                            ->exists();
+                        @endphp
+                    
+                        @if($hasFeedback)
+                            <span class="flex items-center px-2 py-2 text-white bg-gray-400 rounded-lg shadow-md cursor-not-allowed">
+                                You have already sent feedback
+                            </span>
+                        @else
+                            <a href="{{ route('submit.feedbacks', ['listings_id' => $attendance->event->id]) }}"
+                                class="flex items-center justify-center px-4 py-2 text-white bg-laravel hover:bg-gray-700 rounded-lg shadow-md focus:outline-none">
+                                Review
+                            </a>
+                        @endif
+                    </td>
+                    
+                    
+                    
                   </tr>
 
                   <!-- Modal for this specific event -->
@@ -233,5 +275,10 @@ document.querySelectorAll('[id^="submitFeedback"]').forEach(submitFeedback => {
 
 
   </script>
+<script>
+    function submitFeedback(attendanceId) {
+        document.getElementById('submit-feedback-' + attendanceId).submit();
+    }
+</script>
 
 </x-layout>

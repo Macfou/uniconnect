@@ -55,5 +55,6 @@ class ChecklistsController extends Controller
         return view('listings.checklists', compact('requests'));
     }
     
+    
 
 }

@@ -44,7 +44,10 @@
                                  <tr>
                                      <td class="p-4 border-b border-slate-200">{{ $event->tags }}</td>
                                      <td class="p-4 border-b border-slate-200">{{ $event->venue }}</td>
-                                     <td class="p-4 border-b border-slate-200">{{ $event->event_date }}</td>
+                                     <td class="p-4 border-b border-slate-200">
+                                        {{ \Carbon\Carbon::parse($event->event_date)->format('F d, Y') }}
+                                    </td>
+                                    
                                      <td class="p-4 border-b border-slate-200">
                                          <a href="{{ route('pages.afterevent', ['id' => $event->id]) }}" class="pt-1 pb-1 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">View Details</a>
                                         
@@ -80,7 +83,10 @@
                                  <tr>
                                      <td class="p-4 border-b border-slate-200">{{ $event->tags }}</td>
                                      <td class="p-4 border-b border-slate-200">{{ $event->venue }}</td>
-                                     <td class="p-4 border-b border-slate-200">{{ $event->event_date }}</td>
+                                     <td class="p-4 border-b border-slate-200">
+                                        {{ \Carbon\Carbon::parse($event->event_date)->format('F d, Y') }}
+                                    </td>
+                                    
                                      <td class="p-4 border-b border-slate-200">
                                         <a href="{{ route('checklists', ['id' => $event->id]) }}">
                                             <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">

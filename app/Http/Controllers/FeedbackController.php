@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rating;
 use App\Models\Listing;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
@@ -37,7 +38,20 @@ class FeedbackController extends Controller
     return response()->json(['message' => 'Feedback submitted successfully.'], 200);
 }
 
+public function viewFeedback($listing_id)
+    {
+        // Fetch the listing by ID
+        $listing = Listing::findOrFail($listing_id);
 
+        // Fetch the feedback associated with the listing
+        $feedbacks = Feedback::where('listing_id', $listing_id)->get();
+
+        // Fetch the ratings associated with the listing
+        $ratings = Rating::where('listings_id', $listing_id)->get();
+
+        // Pass the data to the view
+        return view('pages.viewfeedback', compact('listing', 'feedbacks', 'ratings'));
+    }
 
 
 }

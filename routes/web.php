@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PortalController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\BringInController;
 use App\Http\Controllers\ListingController;
@@ -55,9 +56,10 @@ use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SavedSectionController;
 use App\Http\Controllers\SpmoCategoryController;
-use App\Http\Controllers\ViewRequestsController;
 
+use App\Http\Controllers\ViewRequestsController;
 use App\Http\Controllers\EventattendedController;
+use App\Http\Controllers\EventFeedbackController;
 use App\Http\Controllers\EventScheduleController;
 use App\Http\Controllers\MyCertificateController;
 use App\Http\Controllers\PermitToBringController;
@@ -67,6 +69,7 @@ use App\Http\Controllers\RequestAdviserController;
 use App\Http\Controllers\BorrowEquipmentController;
 use App\Http\Controllers\OtpVerificationController;
 use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\FeedbackQuestionsController;
 use App\Http\Controllers\StudentAttendanceController;
 
 //home
@@ -444,6 +447,8 @@ Route::get('/ufmo/ufmo_components/ufmolayout', [UfmoController:: class, 'ufmolay
 
 Route::get('/listings/{id}/register', [EventRegistrationController::class, 'create'])->name('event.register');
 Route::post('/listings/{id}/register', [EventRegistrationController::class, 'store'])->name('event.store');
+Route::get('/event-registered', [EventRegistrationController::class, 'myRegistrations'])->name('event.registered');
+
 
 //gso login
 
@@ -754,6 +759,33 @@ Route::get('/pages/transfer/{id}', [ViewRequestsController::class, 'requeststran
 
     Route::get('/event-admin/create', [EventAdminController::class, 'create'])->name('eventadmin.create');
     Route::post('/event-admin/store', [EventAdminController::class, 'store'])->name('eventadmin.store');
+
+//feedback
+Route::get('/feedbacks/submit/{listings_id}', [EventFeedbackController::class, 'showForm'])->name('submit.feedbacks');
+Route::post('/submit-feedback', [EventFeedbackController::class, 'submitFeedback'])->name('submit.feedback');
+Route::post('/submit-comment/{listings_id}', [EventFeedbackController::class, 'showForm_comment'])->name('event.comments');
+
+//Route::get('/feedbacks/comment/{listings_id}', [EventFeedbackController::class, 'showForm_comment'])->name('submit.feedbacks.comments');
+
+Route::post('/upload-photo', [UserController::class, 'uploadPhoto'])->name('upload.photo');
+
+// survey
+Route::get('/create-survey/{id}', [SurveyController::class, 'showForm'])->name('create.survey');
+
+ 
+Route::post('/survey/store', [SurveyController::class, 'store'])->name('survey.store');
+ 
+Route::get('/survey/edit/{id}', [SurveyController::class, 'edit'])->name('survey.edit');
+Route::post('/survey/update/{id}', [SurveyController::class, 'update'])->name('survey.update');
+
+//ratings
+Route::get('/create-rating/{id}', [FeedbackQuestionsController::class, 'create'])->name('feedback.create');
+Route::post('/store-rating', [FeedbackQuestionsController::class, 'store'])->name('feedback.store');
+Route::get('/edit-rating/{id}', [FeedbackQuestionsController::class, 'edit'])->name('feedback.edit');
+Route::post('/update-rating/{id}', [FeedbackQuestionsController::class, 'update'])->name('feedback.update');
+
+//
+Route::get('/viewfeedback/{listing_id}', [FeedbackController::class, 'viewFeedback'])->name('view.feedback');
 
 
 

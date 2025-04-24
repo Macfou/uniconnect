@@ -19,19 +19,19 @@
     
                 <!-- Slide 2 -->
                 <div x-show="current === 1" x-transition:enter="transition-opacity duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0">
-                    <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ asset('images/welcome_herons.jpg') }}');"></div>
+                    <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ asset('images/umak_event1.jpg') }}');"></div>
                     <div class="absolute inset-0 bg-black/30 "></div>
                 </div>
     
                 <!-- Slide 3 -->
                 <div x-show="current === 2" x-transition:enter="transition-opacity duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0">
-                    <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ asset('images/welcome_herons.jpg') }}');"></div>
+                    <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ asset('images/umak_event2.jpg') }}');"></div>
                     <div class="absolute inset-0 bg-black/30 "></div>
                 </div>
     
                 <!-- Slide 4 -->
                 <div x-show="current === 3" x-transition:enter="transition-opacity duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0">
-                    <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ asset('images/welcome_herons.jpg') }}');"></div>
+                    <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ asset('images/umak_event3.jpg') }}');"></div>
                     <div class="absolute inset-0 bg-black/30 "></div>
                 </div>
             </div>

@@ -34,12 +34,38 @@
                 <table class="min-w-full text-sm text-left text-gray-700">
                     <thead class="bg-gray-100 text-gray-600 uppercase tracking-wider text-xs border-b">
                         <tr>
-                            <th class="px-6 py-3">For Approval</th>
+                            <th class="px-6 py-3">Checklists for event</th>
                             <th class="px-6 py-3">Status</th>
                             <th class="px-6 py-3">Request</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
+
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">Survey Question</td>
+                            <td class="px-6 py-4 font-semibold}">
+                                create
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ route('create.survey', ['id' => $event->id]) }}" 
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    Create
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">Survey Ratings</td>
+                            <td class="px-6 py-4 font-semibold}">
+                                create
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ route('feedback.create', ['id' => $event->id]) }}" 
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    Create
+                                </a>
+                            </td>
+                        </tr>
                     
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">Adviser</td>

@@ -1,4 +1,4 @@
-<x-layout>
+<x-ufmo-layout>
     <div class="pt-28 pb-32 px-6 max-w-4xl mx-auto leading-relaxed font-serif">
 
         {{-- Back & Print Buttons --}}
@@ -23,7 +23,7 @@
             <div class="text-center mb-6">
                 <p class="text-lg font-bold">University of Makati</p>
                 <p class="font-medium">{{ auth()->user()->org }}</p>
-                <p class="mt-2">Request for Adviser Approval</p>
+                <p class="mt-2">Request for Csoa Approval</p>
             </div>
 
             {{-- Letter Body --}}
@@ -90,4 +90,4 @@
             location.reload();
         }
     </script>
-</x-layout>
+</x-ufmo-layout>

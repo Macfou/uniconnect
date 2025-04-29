@@ -16,7 +16,7 @@ class BringInController extends Controller
     public function approved()
     {
         $requests = BringIn::with('user')->where('status', 'Approved')->get();
-        return view('bringin.approved_requests', compact('requests'));
+        return view('bringin.approve_requests', compact('requests'));
     }
 
     public function rejected()

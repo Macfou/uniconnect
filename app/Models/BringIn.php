@@ -21,14 +21,16 @@ class BringIn extends Model
         'listings_id',
         'rejection_reason',
         'status',
-        'images',
+        'image',
+        'date_in',
+        'date_out',
     ];
 
     // Cast attributes to array if storing as JSON
     protected $casts = [
         'equipment' => 'array',
         'quantity' => 'array',
-        'images' => 'array', // Ensure this is an array if you're storing multiple images
+         // Ensure this is an array if you're storing multiple images
     ];
 
     // Define relationships

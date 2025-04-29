@@ -161,10 +161,15 @@
                 <div>
                     <label class="block text-sm font-medium">Classification</label>
                     <div class="relative">
+                        
                         <button type="button" id="classificationDropdownButton" class="w-full border border-slate-300 rounded-lg p-2 bg-white text-left">
                             Select Classification
                         </button>
                         <div id="classificationDropdown" class="absolute hidden bg-white border border-slate-300 rounded-lg w-full mt-1 shadow-lg p-2 z-10">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="classification[]" value="University Event" class="classification-checkbox">
+                                <span>University Event</span>
+                            </label>
                             <label class="flex items-center space-x-2">
                                 <input type="checkbox" name="classification[]" value="Class Events" class="classification-checkbox">
                                 <span>Class Events</span>

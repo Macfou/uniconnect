@@ -1,4 +1,4 @@
-<x-layout>
+<x-ufmo-layout>
     <div class="pt-28 pb-32 px-6 max-w-4xl mx-auto leading-relaxed font-serif">
 
         {{-- Back & Print Buttons --}}
@@ -90,4 +90,4 @@
             location.reload();
         }
     </script>
-</x-layout>
+</x-ufmo-layout>

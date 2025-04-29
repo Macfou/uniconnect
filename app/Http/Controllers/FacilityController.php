@@ -27,7 +27,7 @@ class FacilityController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'sitting_capacity' => 'required|integer',
             'classification' => 'required|array', // Fix: Allow multiple selections
-            'classification.*' => 'in:Class Events,College Events,Organization Events,Sports Events', // Fix: Validate each selected item
+            'classification.*' => 'in:University Event, Class Events,College Events,Organization Events,Sports Events', // Fix: Validate each selected item
             'status' => 'required|in:Available,Unavailable',
         ]);
     

@@ -1,4 +1,4 @@
-<x-layout>
+<x-ufmo-layout>
     <div class="pt-28 pb-32 px-6 max-w-4xl mx-auto">
 
         {{-- Back Button --}}
@@ -90,5 +90,5 @@
         </div>
     </div>
 
-    @include('partials._footer')
-</x-layout>
+    
+</x-ufmo-layout>

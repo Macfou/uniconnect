@@ -1,20 +1,54 @@
-<x-ufmo-layout>
+<x-layout>
+    @include('partials._myevents')
+
     <div class="pt-10">
         <div class="max-w-4xl mx-auto bg-white p-6 shadow-lg rounded-lg">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-gray-800">Calendar</h2>
 
-                <!-- Year, Month & Facility Select -->
+                <!-- Year, Month & Classification Select -->
                 <form method="GET" id="calendarForm" class="flex space-x-2">
-                    <!-- Facility Dropdown (No longer filtered by classification) -->
-                    <select id="facilitySelector" name="facility" class="text-md border rounded-md">
+                    <select id="classification" name="classification" class="text-md border rounded-md">
+                        <option value="">Select Classification</option>
+                        <option value="Class Events">Class Events</option>
+                        <option value="College Events">College Events</option>
+                        <option value="Organization Events">Organization Events</option>
+                        <option value="Sports Events">Sports Events</option>
+                    </select>
+
+                    <!-- Facility Dropdown -->
+                    <select id="facilitySelector" class="text-md border rounded-md">
                         <option value="">Select Facility</option>
                         @foreach ($facilities as $facility)
-                            <option value="{{ $facility->facility_name }}">
+                            <option value="{{ $facility->facility_name }}" 
+                                data-classification="{{ json_encode($facility->classification) }}">
                                 {{ $facility->facility_name }}
                             </option>
                         @endforeach
                     </select>
+
+                    <script>
+    document.getElementById("classification").addEventListener("change", function() {
+        let selectedClass = this.value; // Get selected classification
+        let facilitySelector = document.getElementById("facilitySelector"); // Facility dropdown
+        
+        // Loop through each facility option
+        Array.from(facilitySelector.options).forEach(option => {
+            if (option.value === "") {
+                option.hidden = false; // Keep "Select Facility" option visible
+            } else {
+                let facilityClass = JSON.parse(option.getAttribute("data-classification")); // Convert JSON string to array
+                
+                // Show if classification array contains the selected value
+                option.hidden = !facilityClass.includes(selectedClass);
+            }
+        });
+
+        // Reset facility selection after filtering
+        facilitySelector.value = "";
+    });
+</script>
+
 
                     <!-- Year Selection -->
                     <select name="year" class="border rounded p-2" onchange="this.form.submit()">
@@ -101,6 +135,7 @@
         <div class="bg-white p-6 rounded shadow-lg w-1/3">
             <h3 class="text-lg font-semibold">Select Date: <span id="selectedDate"></span></h3>
             <h3 id="selectedTimeRange" class="text-lg font-semibold"></h3>
+            <h3 class="text-lg font-semibold">Classification: <span id="selectedClassification"></span></h3>
             <h3 class="text-lg font-semibold">Facility: <span id="selectedFacility"></span></h3>
 
             @php
@@ -123,30 +158,34 @@
                 '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM',
                 '7:00 PM', '8:00 PM', '9:00 PM'
             ];
-            @endphp
+        @endphp
         
-            <div id="timeSlots" class="grid grid-cols-4 gap-2 mt-4">
-                @foreach ($timeSlots as $time)
-                    @php
-                        $isBooked = in_array($time, $bookedTimes);
-                    @endphp
-                    <button 
-                        class="time-btn p-2 border rounded {{ $isBooked ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-700' }}" 
-                        data-time="{{ $time }}" 
-                        data-value="{{ $loop->index + 1 }}" 
-                        onclick="{{ $isBooked ? 'return false;' : 'selectTime(this)' }}" 
-                        {{ $isBooked ? 'disabled' : '' }}>
-                        {{ $time }}
-                    </button>
-                @endforeach
-            </div>
+        <div id="timeSlots" class="grid grid-cols-4 gap-2 mt-4">
+            @foreach ($timeSlots as $time)
+                @php
+                    $isBooked = in_array($time, $bookedTimes);
+                @endphp
+                <button 
+                    class="time-btn p-2 border rounded {{ $isBooked ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-700' }}" 
+                    data-time="{{ $time }}" 
+                    data-value="{{ $loop->index + 1 }}" 
+                    onclick="{{ $isBooked ? 'return false;' : 'selectTime(this)' }}" 
+                    {{ $isBooked ? 'disabled' : '' }}>
+                    {{ $time }}
+                </button>
+            @endforeach
+        </div>
+        
+
 
             <div class="mt-4 flex justify-end space-x-2">
                 <button onclick="closeModal()" class="px-4 py-2 bg-red-500 text-white rounded">Close</button>
                 <a id="saveProceedBtn" href="#" onclick="redirectToCreate()"
                 class="px-4 py-2 bg-blue-500 text-white rounded">
                 Save & Proceed
-                </a>
+            </a>
+            
+                
             </div>
         </div>
     </div>
@@ -156,6 +195,7 @@
 
         function openModal(date) {
             document.getElementById('selectedDate').innerText = date;
+            document.getElementById('selectedClassification').innerText = document.getElementById("classification").value || "None";
             document.getElementById('selectedFacility').innerText = document.getElementById("facilitySelector").value || "None";
             document.getElementById('modal').classList.remove('hidden');
             resetTimeSelection();
@@ -188,75 +228,63 @@
         function updateSelectedTime() {
             document.getElementById('selectedTimeRange').innerText = selectedTimes.length ? `Selected Time: ${selectedTimes[0]} - ${selectedTimes[selectedTimes.length - 1]}` : "None";
         }
-
-        function resetTimeSelection() {
-            selectedTimes = [];
-            startTime = null;
-            endTime = null;
-            document.querySelectorAll('.time-btn').forEach(btn => {
-                if (!btn.disabled) {
-                    btn.classList.remove('bg-green-500');
-                    btn.classList.add('bg-blue-500');
-                }
-            });
-            updateSelectedTime();
-        }
-
         function redirectToCreate() {
-            let date = document.getElementById('selectedDate').innerText;
-            let facility = document.getElementById('selectedFacility').innerText;
-            let time = selectedTimes.length ? `${selectedTimes[0]} - ${selectedTimes[selectedTimes.length - 1]}` : "None";
+    let date = document.getElementById('selectedDate').innerText;
+    let classification = document.getElementById('selectedClassification').innerText;
+    let facility = document.getElementById('selectedFacility').innerText;
+    let time = selectedTimes.length ? `${selectedTimes[0]} - ${selectedTimes[selectedTimes.length - 1]}` : "None";
 
-            let url = `/event-admin/create?date=${encodeURIComponent(date)}&facility=${encodeURIComponent(facility)}&time=${encodeURIComponent(time)}`;
-            
-            window.location.href = url; // Redirect to /event-admin/create with parameters
-        }
+    let url = `/listings/create?date=${encodeURIComponent(date)}&classification=${encodeURIComponent(classification)}&facility=${encodeURIComponent(facility)}&time=${encodeURIComponent(time)}`;
+    
+    window.location.href = url; // Redirect to /listings/create with parameters
+}
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const selectedDateEl = document.getElementById("selectedDate");
-            const selectedFacilityEl = document.getElementById("selectedFacility");
-            const timeSlotsContainer = document.getElementById("timeSlots");
+document.addEventListener("DOMContentLoaded", function () {
+    const selectedDateEl = document.getElementById("selectedDate");
+    const selectedFacilityEl = document.getElementById("selectedFacility");
+    const timeSlotsContainer = document.getElementById("timeSlots");
 
-            function fetchBookedSlots() {
-                let selectedDate = selectedDateEl.innerText.trim();
-                let selectedFacility = selectedFacilityEl.innerText.trim();
+    function fetchBookedSlots() {
+        let selectedDate = selectedDateEl.innerText.trim();
+        let selectedFacility = selectedFacilityEl.innerText.trim();
 
-                if (!selectedDate || !selectedFacility || selectedFacility === "None") return;
+        if (!selectedDate || !selectedFacility) return;
 
-                fetch(`/get-booked-slots?venue=${selectedFacility}&event_date=${selectedDate}`)
-                    .then(response => response.json())
-                    .then(bookedSlots => {
-                        let bookedTimes = [];
+        fetch(`/get-booked-slots?venue=${selectedFacility}&event_date=${selectedDate}`)
+            .then(response => response.json())
+            .then(bookedSlots => {
+                let bookedTimes = [];
 
-                        bookedSlots.forEach(slot => {
-                            let timeRange = slot.split(" - ");
-                            let startTime = new Date("1970-01-01 " + timeRange[0]);
-                            let endTime = new Date("1970-01-01 " + timeRange[1]);
+                bookedSlots.forEach(slot => {
+                    let timeRange = slot.split(" - ");
+                    let startTime = new Date("1970-01-01 " + timeRange[0]);
+                    let endTime = new Date("1970-01-01 " + timeRange[1]);
 
-                            while (startTime <= endTime) {
-                                bookedTimes.push(startTime.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true }));
-                                startTime.setHours(startTime.getHours() + 1);
-                            }
-                        });
+                    while (startTime <= endTime) {
+                        bookedTimes.push(startTime.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true }));
+                        startTime.setHours(startTime.getHours() + 1);
+                    }
+                });
 
-                        document.querySelectorAll(".time-btn").forEach(button => {
-                            let time = button.getAttribute("data-time");
-                            if (bookedTimes.includes(time)) {
-                                button.classList.add("bg-gray-400", "cursor-not-allowed");
-                                button.classList.remove("bg-blue-500", "hover:bg-blue-700");
-                                button.disabled = true;
-                            } else {
-                                button.classList.remove("bg-gray-400", "cursor-not-allowed");
-                                button.classList.add("bg-blue-500", "hover:bg-blue-700");
-                                button.disabled = false;
-                            }
-                        });
-                    })
-                    .catch(error => console.error("Error fetching booked slots:", error));
-            }
+                document.querySelectorAll(".time-btn").forEach(button => {
+                    let time = button.getAttribute("data-time");
+                    if (bookedTimes.includes(time)) {
+                        button.classList.add("bg-gray-400", "cursor-not-allowed");
+                        button.classList.remove("bg-blue-500", "hover:bg-blue-700");
+                        button.disabled = true;
+                    } else {
+                        button.classList.remove("bg-gray-400", "cursor-not-allowed");
+                        button.classList.add("bg-blue-500", "hover:bg-blue-700");
+                        button.disabled = false;
+                    }
+                });
+            })
+            .catch(error => console.error("Error fetching booked slots:", error));
+    }
 
-            // Call function when the modal opens
-            document.getElementById("modal").addEventListener("click", fetchBookedSlots);
-        });
+    // Call function when the modal opens (or when venue/date changes)
+    document.getElementById("modal").addEventListener("click", fetchBookedSlots);
+});
+
     </script>
-</x-ufmo-layout>
+</x-layout>

@@ -37,47 +37,52 @@ class SpmoBorrowController extends Controller
 }
 
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'listing_id' => 'required|exists:listings,id',
-            'equipment_id' => 'required|exists:spmocategory,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-    
-        // Fetch the equipment
-        $equipment = SpmoCategory::findOrFail($request->equipment_id);
-    
-        // Calculate current available quantity
-        $borrowedQuantity = SpmoBorrowRequest::where('equipment_id', $equipment->id)
-            ->whereIn('status', ['Pending', 'Approved'])
-            ->sum('quantity');
-    
-        $returnedQuantity = SpmoBorrowRequest::where('equipment_id', $equipment->id)
-            ->where('status', 'Returned')
-            ->sum('quantity');
-    
-        $availableQuantity = max(0, ($equipment->quantity - $borrowedQuantity) + $returnedQuantity);
-    
-        // Check if enough quantity is available
-        if ($availableQuantity < $request->quantity) {
-            return redirect()->back()->with('error', 'Not enough equipment available.');
-        }
-    
-        // Create the borrow request (don't decrease equipment quantity here)
-        SpmoBorrowRequest::create([
-            'listing_id' => $request->listing_id,
-            'equipment_id' => $request->equipment_id,
-            'quantity' => $request->quantity,
-            'status' => 'Pending', // Initial status
-            'user_id' => auth()->id(),
-        ]);
-    
-        return redirect()->route('listing.spmo_borrow', ['listing_id' => $request->listing_id])
-        ->with('success', 'Borrow request submitted. Status: Pending, waiting for approval from SPMO.');
-    
+public function store(Request $request)
+{
+    $request->validate([
+        'listing_id' => 'required|exists:listings,id',
+        'equipment_id' => 'required|exists:spmocategory,id',
+        'quantity' => 'required|integer|min:1',
+        'date_of_transfer' => 'required|date',
+        'from' => 'required|string|max:255',
+        'to' => 'required|string|max:255',
+        'date_of_return' => 'required|date|after_or_equal:date_of_transfer',
+        'remarks' => 'nullable|string',
+    ]);
 
+    $equipment = SpmoCategory::findOrFail($request->equipment_id);
+
+    $borrowedQuantity = SpmoBorrowRequest::where('equipment_id', $equipment->id)
+        ->whereIn('status', ['Pending', 'Approved'])
+        ->sum('quantity');
+
+    $returnedQuantity = SpmoBorrowRequest::where('equipment_id', $equipment->id)
+        ->where('status', 'Returned')
+        ->sum('quantity');
+
+    $availableQuantity = max(0, ($equipment->quantity - $borrowedQuantity) + $returnedQuantity);
+
+    if ($availableQuantity < $request->quantity) {
+        return redirect()->back()->with('error', 'Not enough equipment available.');
     }
+
+    SpmoBorrowRequest::create([
+        'listing_id' => $request->listing_id,
+        'equipment_id' => $request->equipment_id,
+        'quantity' => $request->quantity,
+        'date_of_transfer' => $request->date_of_transfer,
+        'from' => $request->from,
+        'to' => $request->to,
+        'date_of_return' => $request->date_of_return,
+        'remarks' => $request->remarks,
+        'status' => 'Pending',
+        'user_id' => auth()->id(),
+    ]);
+
+    return redirect()->route('listing.spmo_borrow', ['listing_id' => $request->listing_id])
+        ->with('success', 'Borrow request submitted. Status: Pending, waiting for approval from SPMO.');
+}
+
     
 
 // pending
@@ -130,16 +135,13 @@ public function reject($id)
 
 public function requestView($id)
 {
-    if (auth()->user()->is_admin) {
-        $requests = SpmoBorrowRequest::with('equipment')->where('listing_id', $id)->get();
-    } else {
-        $requests = SpmoBorrowRequest::where('user_id', auth()->id())
-                                 ->where('listing_id', $id)
-                                 ->with('equipment')
-                                 ->get();
-    }
+    
 
-    return view('pages.spmo_requests', compact('requests'));
+    $event = Listing::findOrFail($id);
+    
+    $requests = SpmoBorrowRequest::where('listing_id', $id)->get();
+
+    return view('pages.spmo_requests', compact('event', 'requests'));
 }
 
 

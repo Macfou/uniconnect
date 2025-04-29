@@ -6,10 +6,12 @@ use App\Models\BringIn;
 use App\Models\Listing;
 use App\Models\UscApproval;
 use App\Models\DeanApproval;
+use App\Models\SpmoCategory;
 use Illuminate\Http\Request;
+use App\Models\BorrowRequest;
 use App\Models\PermitTransfer;
 use App\Models\AdviserApproval;
-use App\Models\SpmoCategory;
+use App\Models\SpmoBorrowRequest;
 
 class ViewRequestsController extends Controller
 {
@@ -38,6 +40,8 @@ class ViewRequestsController extends Controller
     return view('pages.view_usc', compact('event', 'requests'));
 }
 
+
+
 public function requestsbringin($id)
 {
     $event = Listing::findOrFail($id);
@@ -59,7 +63,7 @@ public function spmoborrow($id)
 {
     $event = Listing::findOrFail($id);
     
-    $requests = SpmoCategory::where('listings_id', $id)->get();
+    $requests = SpmoBorrowRequest::where('listings_id', $id)->get();
 
     return view('pages.view_transfer', compact('event', 'spmoborrow'));
 }

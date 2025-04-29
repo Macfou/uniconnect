@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BringIn;
 use App\Models\Listing;
+use App\Models\UscApproval;
+use App\Models\DeanApproval;
 use Illuminate\Http\Request;
+use App\Models\BorrowRequest;
+use App\Models\PermitTransfer;
+use App\Models\AdviserApproval;
+use App\Models\SpmoBorrowRequest;
 use Illuminate\Support\Facades\DB;
 
 class UfmoPagesController extends Controller
@@ -33,19 +40,29 @@ class UfmoPagesController extends Controller
 
 public function approval($id)
 {
-    // Get the Listing based on the listing_id
+    // Get the Listing based on the ID
     $listing = Listing::findOrFail($id);
 
-    // Get the related AdviserApproval and DeanApproval, including their status and loading adviser/dean if available
-    $adviserApproval = $listing->adviserapproval ? $listing->adviserapproval->load('adviser') : null;  
-    $deanApproval = $listing->deanapproval ? $listing->deanapproval->load('dean') : null;  
+    // Load related approval models with user relationships if applicable
+    $adviserApproval = AdviserApproval::with('adviser')->where('listings_id', $id)->first();
+    $deanApproval = DeanApproval::with('dean')->where('listings_id', $id)->first();
+    $uscRequest = UscApproval::where('listings_id', $id)->first();
+    $bringInRequest = BringIn::where('listings_id', $id)->first();
+    $transferRequest = PermitTransfer::where('listings_id', $id)->first();
+    $permitBorrow = BorrowRequest::where('listing_id', $id)->first();
+    $spmoBorrowRequest = SpmoBorrowRequest::where('listing_id', $id)->first();
 
-    // Get the status of both approvals
-    $adviserStatus = $adviserApproval ? $adviserApproval->status : null;
-    $deanStatus = $deanApproval ? $deanApproval->status : null;
-
-    // Return the view with all the data, including the status and the names of adviser and dean
-    return view('ufmo.ufmo_pages.ufmo_approval', compact('listing', 'adviserApproval', 'deanApproval', 'adviserStatus', 'deanStatus'));
+    // Return all data to the view
+    return view('ufmo.ufmo_pages.ufmo_approval', compact(
+        'listing',
+        'adviserApproval',
+        'deanApproval',
+        'uscRequest',
+        'bringInRequest',
+        'transferRequest',
+        'permitBorrow',
+        'spmoBorrowRequest'
+    ));
 }
 
 
@@ -76,13 +93,70 @@ public function approval($id)
         return view('ufmo.ufmo_pages.ufmo_cancelled', compact('rejectedEvents'));
     }
 
-    public function ufmocalendar() {
-        return view('ufmo.ufmo_pages.ufmo_calendar');
+   
+    public function requestsadviser($id)
+    {
+        $event = Listing::findOrFail($id); // Get the event
+        $requests = AdviserApproval::with('adviser')->where('listings_id', $id)->get(); // Get adviser requests for this event
+        
+    
+        return view('ufmo.ufmo_pages.ufmo_adviser', compact('event', 'requests'));
+    }
+ 
+    public function requestsdean($id)
+    {
+        $event = Listing::findOrFail($id); // Get the event
+        $requests = DeanApproval::with('dean')->where('listings_id', $id)->get(); // Get adviser requests for this event
+    
+        return view('ufmo.ufmo_pages.ufmo_dean', compact('event', 'requests'));
+    }
+    
+    public function requestsusc($id)
+    {
+        $event = Listing::findOrFail($id);
+        $requests = UscApproval::where('listings_id', $id)->get();
+    
+        return view('ufmo.ufmo_pages.ufmo_usc', compact('event', 'requests'));
     }
 
- 
-    
-    
+    public function requestgso($id)
+{
+    if (auth()->user()->is_admin) {
+        $requests = BorrowRequest::with('equipment')->where('listing_id', $id)->get();
+    } else {
+        $requests = BorrowRequest::where('user_id', auth()->id())
+                                 ->where('listing_id', $id)
+                                 ->with('equipment')
+                                 ->get();
+    }
 
+    return view('ufmo.ufmo_pages.ufmo_gso', compact('requests'));
+}
+
+public function spmoborrow($id)
+{
+    $event = Listing::findOrFail($id);
     
+    $requests = SpmoBorrowRequest::where('listing_id', $id)->get();
+
+    return view('ufmo.ufmo_pages.ufmo_spmo', compact('event', 'requests'));
+}
+
+public function requestsbringin($id)
+{
+    $event = Listing::findOrFail($id);
+    $requests = BringIn::where('listings_id', $id)->get();
+
+    return view('ufmo.ufmo_pages.ufmo_bringin', compact('event', 'requests'));
+}
+
+public function requeststransfer($id)
+{
+    $event = Listing::findOrFail($id);
+    
+    $requests = PermitTransfer::where('listings_id', $id)->get();
+
+    return view('ufmo.ufmo_pages.ufmo_transfer', compact('event', 'requests'));
+}
+
 }

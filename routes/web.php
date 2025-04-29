@@ -58,6 +58,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SavedSectionController;
 
 use App\Http\Controllers\SpmoCategoryController;
+use App\Http\Controllers\UfmoCalendarController;
 use App\Http\Controllers\ViewRequestsController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventFeedbackController;
@@ -392,13 +393,15 @@ Route::get('/ufmo/ufmo_pages/ufmo_rejected', [UfmoPagesController::class,'ufmore
     Route::get('/ufmo/ufmo_pages/ufmo_approved', [UfmoPagesController::class, 'ufmoapproved'])
     ->name('ufmo.ufmo_pages.ufmo_approved');
 
+    
+
     Route::get('ufmo/ufmo_pages/ufmo_approval/{id}', [UfmoPagesController::class, 'approval'])->name('ufmo.approval');
 
 
 
 
 Route::get('/ufmo/ufmo_pages/ufmo_cancelled', [UfmoPagesController::class,'ufmocancelled'])->name('ufmo.ufmo_pages.ufmo_cancelled');
-Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoPagesController::class, 'ufmocalendar'])->name('ufmo.ufmo_pages.ufmo_calendar');
+
 
 //about us age
 
@@ -753,6 +756,7 @@ Route::get('/listings/permit_transfer/{id}', [PermitTransferController::class, '
     ->name('listings.permit_transfer');
 
 Route::post('/permit-transfer', [PermitTransferController::class, 'store'])->name('permit.transfer.store');
+Route::get('/permit-transfer/approved', [PermitTransferController::class, 'approved'])->name('permit.approved');
 
 //requests
 Route::get('/pages/requests', [RequestController::class, 'index'])->name('pages.requests');
@@ -792,6 +796,8 @@ Route::get('/usc/rejected-requests', [UscApprovalController::class, 'showRejecte
     Route::get('/spmo_approved', [BringInController::class, 'approved'])->name('bringin.approved');
     Route::get('/spmo_rejected', [BringInController::class, 'rejected'])->name('bringin.rejected');
     Route::post('/update-status/{id}', [BringInController::class, 'updateStatus'])->name('bringin.updateStatus');
+    Route::get('/pending_spmo/bringin/{id}', [BringInController::class, 'viewpending'])
+    ->name('view_bringin.pending');
 
 //transfer
     Route::get('/pending', [PermitTransferController::class, 'pending'])->name('permit.pending');
@@ -815,6 +821,30 @@ Route::get('/pages/usc/{id}', [ViewRequestsController::class, 'requestsusc'])
 
 Route::get('/pages/bringin/{id}', [ViewRequestsController::class, 'requestsbringin'])
     ->name('view_bringin');
+
+// view
+Route::get('/pages/adviser_ufmo/{id}', [UfmoPagesController::class, 'requestsadviser'])
+    ->name('view_adviser_ufmo');
+
+    Route::get('/pages/dean_ufmo/{id}', [UfmoPagesController::class, 'requestsdean'])
+    ->name('view_dean_ufmo');
+
+    Route::get('/pages/usc_ufmo/{id}', [UfmoPagesController::class, 'requestsusc'])
+    ->name('view_usc_ufmo');
+
+    Route::get('/pages/gso_ufmo/{id}', [UfmoPagesController::class, 'requestgso'])
+    ->name('view_gso_ufmo');
+
+    Route::get('/pages/spmo_ufmo/{id}', [UfmoPagesController::class, 'spmoborrow'])
+    ->name('view_spmo_ufmo');
+
+    Route::get('/pages/bringin_ufmo/{id}', [UfmoPagesController::class, 'requestsbringin'])
+    ->name('view_bringin_ufmo');
+
+    Route::get('/pages/transfer_ufmo/{id}', [UfmoPagesController::class, 'requeststransfer'])
+    ->name('view_transfer_ufmo');
+
+    
 
 Route::get('/pages/transfer/{id}', [ViewRequestsController::class, 'requeststransfer'])
     ->name('view_transfer');
@@ -869,6 +899,9 @@ Route::get('/end-event/{listing_id}', [EndEventController::class, 'endEvent'])->
 Route::get('/certificate-designer', [CertificateDesignerController::class, 'create']);
 Route::post('/certificate-designer/upload', [CertificateDesignerController::class, 'upload']);
 Route::post('/certificate-designer/save', [CertificateDesignerController::class, 'save']);
+
+// ufmocalendar
+Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoCalendarController::class, 'ufmocalendar'])->name('ufmo.ufmo_pages.ufmo_calendar');
 
 
 

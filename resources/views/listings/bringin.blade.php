@@ -46,10 +46,18 @@
                     + Add Another Equipment
                 </button>
 
+               
+
                 <div class="mb-4">
-                    <label class="block font-medium mb-2">Upload Images</label>
-                    <input type="file" name="images[]" multiple class="border rounded px-3 py-2 w-full">
+                    <label for="date_in" class="block font-medium mb-2">Date In</label>
+                    <input type="date" name="date_in" id="date_in" class="border rounded px-3 py-2 w-full" required>
                 </div>
+                
+                <div class="mb-4">
+                    <label for="date_out" class="block font-medium mb-2">Date Out</label>
+                    <input type="date" name="date_out" id="date_out" class="border rounded px-3 py-2 w-full" required>
+                </div>
+                
 
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">
                     Submit Request

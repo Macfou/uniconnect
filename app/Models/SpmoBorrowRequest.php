@@ -12,7 +12,7 @@ class SpmoBorrowRequest extends Model
     protected $table = 'spmoborrow';
 
     protected $fillable = [
-        'listing_id', 'equipment_id', 'quantity', 'status', 'user_id',
+        'listing_id', 'equipment_id', 'quantity', 'status', 'user_id', 'from', 'to', 'date_of_transfer','date_of_return'
     ];
 
     // Relationship with Listing (Event)

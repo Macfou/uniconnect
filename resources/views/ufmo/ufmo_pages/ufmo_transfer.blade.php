@@ -1,4 +1,4 @@
-<x-layout>
+<x-ufmo-layout>
 
     @php
         $firstRequest = $requests->first();
@@ -118,4 +118,4 @@
         }
     </script>
     
-</x-layout>
+</x-ufmo-layout>

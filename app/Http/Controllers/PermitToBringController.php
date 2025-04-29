@@ -27,17 +27,28 @@ class PermitToBringController extends Controller
             'equipment' => 'required|array', // Validate that it's an array
             'quantity' => 'required|array',  // Validate that it's an array
             'images' => 'nullable|array',    // Validate that it's an array
-            'images.*' => 'nullable|image',  // Validate each image (if applicable)
+            'image' => 'nullable|image', // Validate each image (if applicable)
+            'date_in' => 'required|date',
+            'date_out' => 'required|date|after_or_equal:date_in',
         ]);
+
+        // Process uploaded images
+        $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('uploads', 'public');
+    }
 
         // Store the equipment data
         BringIn::create([
             'user_id' => $request->user_id,
             'listings_id' => $request->listings_id,
-            'equipment' => $request->equipment, // Store the array as JSON
-            'quantity' => $request->quantity,   // Store the array as JSON
-            'images' => $request->images,       // Store the array as JSON
+            'equipment' => $request->equipment,
+            'quantity' => $request->quantity,
+            'image' => $imagePath, // now proper array of paths
+            'date_in' => $request->date_in,
+            'date_out' => $request->date_out,
         ]);
+        
 
         return redirect()->back()->with('success', 'Equipment request submitted successfully!');
     }

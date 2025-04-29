@@ -16,7 +16,9 @@ class Listing extends Model
     protected $fillable = [
          'rejection_reason',
          'tags',
-         'event_date'
+         'event_date',
+         'event_time',
+         'venue'
     ];
 
 

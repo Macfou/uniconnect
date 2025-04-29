@@ -18,6 +18,8 @@ protected $fillable = [
     'to',
     'gso_id',
     'status',
+    'date_transfer',
+    'remarks',
 ];
 
 public function user()

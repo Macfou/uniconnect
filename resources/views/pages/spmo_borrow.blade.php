@@ -51,6 +51,33 @@
                     <input type="number" name="quantity" class="w-full p-2 border rounded-lg" required>
                 </div>
 
+                <div class="mb-4">
+                    <label class="block text-gray-700">Date of Transfer</label>
+                    <input type="date" name="date_of_transfer" class="w-full p-2 border rounded-lg" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700">Date of Return</label>
+                    <input type="date" name="date_of_return" class="w-full p-2 border rounded-lg" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700">From</label>
+                    <input type="text" name="from" class="w-full p-2 border rounded-lg" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700">To</label>
+                    <input type="text" name="to" class="w-full p-2 border rounded-lg" required>
+                </div>
+                
+               
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700">Remarks</label>
+                    <textarea name="remarks" class="w-full p-2 border rounded-lg" rows="3" placeholder="Optional remarks..."></textarea>
+                </div>
+                
+
                 <button type="submit" class="bg-laravel text-white px-4 py-2 rounded hover:bg-blue-700">
                     Submit Request
                 </button>

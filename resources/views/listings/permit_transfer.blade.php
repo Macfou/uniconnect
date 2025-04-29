@@ -63,6 +63,20 @@
                 <input type="text" name="to" id="to" class="mt-1 block w-full px-4 py-2 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 
+            <div>
+                <label for="date_transfer" class="block text-sm font-medium">Date of Transfer</label>
+                <input type="date" name="date_transfer" id="date_transfer"
+                    class="mt-1 block w-full px-4 py-2 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    required>
+            </div>
+            
+            <div>
+                <label for="remarks" class="block text-sm font-medium">Remarks</label>
+                <input type="text" name="remarks" id="remarks"
+                    class="mt-1 block w-full px-4 py-2 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            
+
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow">Submit</button>
             </div>

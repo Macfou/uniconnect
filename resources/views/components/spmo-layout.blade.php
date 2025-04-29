@@ -214,7 +214,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/approved" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                            <a href="/permit-transfer/approved" class="block p-2 hover:bg-gray-700 flex items-center text-white">
                                 
                                 Approved Requests
                             </a>
@@ -223,7 +223,7 @@
                         <li>
                             <a href="/rejected" class="block p-2 hover:bg-gray-700 flex items-center text-white">
                                 
-                                Cancelled Requests
+                                Rejected Requests
                             </a>
                         </li>
                     </ul>

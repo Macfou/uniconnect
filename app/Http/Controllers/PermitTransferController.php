@@ -20,7 +20,6 @@ class PermitTransferController extends Controller
 
     public function store(Request $request)
     {
-       
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'listings_id' => 'required|exists:listings,id',
@@ -29,26 +28,31 @@ class PermitTransferController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'from' => 'required|string',
             'to' => 'required|string',
+            'date_transfer' => 'required|date',
+            'remarks' => 'nullable|string',
         ]);
-
+    
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('permit_images', 'public');
         }
-
+    
         PermitTransfer::create([
-            'user_id' => $request->user_id, 
-           'listings_id' => $request->listings_id,
+            'user_id' => $request->user_id,
+            'listings_id' => $request->listings_id,
             'equipment' => json_encode(explode(',', $request->equipment)),
             'quantity' => json_encode(explode(',', $request->quantity)),
             'image' => $imagePath,
             'from' => $request->from,
             'to' => $request->to,
-            'gso_id' => null,  // replace with dynamic if applicable
+            'date_transfer' => $request->date_transfer,
+            'remarks' => $request->remarks,
+            'gso_id' => null,  // optional
         ]);
-
+    
         return redirect()->back()->with('success', 'Permit transfer submitted!');
     }
+    
 
     
     public function pending()
@@ -60,7 +64,7 @@ class PermitTransferController extends Controller
     public function approved()
     {
         $requests = PermitTransfer::with('user')->where('status', 'Approved')->get();
-        return view('transfer.approved', compact('requests'));
+        return view('transfer.approve', compact('requests'));
     }
 
     public function rejected()

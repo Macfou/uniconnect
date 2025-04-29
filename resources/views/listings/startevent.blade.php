@@ -48,7 +48,11 @@
                 <p>For:  <x-listing-organizations :organizationsCsv="$listing->organization" /> </p> 
                 <h1 class="font-bold text-lg text-gray-600"></h1>
                 <h1 class="text-lg text-gray-600 text-justify pt-2">{{$listing->description}}</h1>
+
+
             </div>
+
+          
 
             <!-- Flex container to align left and right divs -->
             <div class="flex mt-6 space-x-4">
@@ -66,14 +70,16 @@
                             </button> 
                             
                            
-                            <a href="{{ route('attendance.show', $listing->id) }}" class="pt-1 pb-1 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">
+                            <a href="{{ route('attendance.show', $listing->id) }}" class="pt-2 pb-2 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">
                                Show Attendance
                             </a>
-                            
-                           
 
-                            
                         </div>
+
+                        <a href="{{ route('end.event', $listing->id) }}" 
+                            class="pt-2 pb-2 pl-4 pr-4 text-white text-center font-medium bg-laravel rounded-lg hover:underline">
+                            End Event
+                         </a>
 
                 <!--------------modal q scanner-------------->
                 <div id="qrModalscanner" class="fixed z-10 inset-0 flex items-center justify-center p-4 overflow-y-auto hidden">

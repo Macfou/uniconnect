@@ -47,7 +47,7 @@
                     <td class="p-4 border-b">{{ $borrowRequest->equipment->name }}</td>
                     <td class="p-4 border-b">{{ $borrowRequest->quantity }}</td>
                     <td class="p-4 border-b">
-                        <a href="{{ route('borrow.markAsReturned', $borrowRequest->id) }}" 
+                        <a href="{{ route('return.spmo', $borrowRequest->id) }}" 
                             class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                              Return
                          </a>

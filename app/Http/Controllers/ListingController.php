@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Listing;
+use App\Models\EndEvent;
 use App\Models\Facility;
 use Endroid\QrCode\QrCode;
 use App\Models\EventTiming;
@@ -20,49 +21,46 @@ use Endroid\QrCode\Writer\PngWriter;
 class ListingController extends Controller
 {
     public function index()
-    {
-        // Fetch all listings for the authenticated user
-        $events = Listing::all();
+{
+    $today = Carbon::today();
 
-        // Get today's date
-        $today = Carbon::today();
-
-        /////////////try
-
-        
-        
-        
-        //////////////////////
-        $events = DB::table('listings')
+    $events = DB::table('listings')
         ->join('uscapproval', 'listings.id', '=', 'uscapproval.listings_id')
         ->where('uscapproval.status', 'Approve')
-        ->select('listings.*') // Get only listing columns
+        ->select('listings.*')
         ->get();
 
-        // Initialize arrays to hold categorized events
-        $upcomingEvents = [];
-        $todaysEvents = [];
-        $previousEvents = [];
+    $upcomingEvents = [];
+    $todaysEvents = [];
+    $previousEvents = [];
 
-        // Categorize events based on event_date
-        foreach ($events as $event) {
-            if ($event->event_date > $today) {
-                $upcomingEvents[] = $event;
-            } elseif ($event->event_date == $today) {
-                $todaysEvents[] = $event;
-            } else {
-                $previousEvents[] = $event;
-            }
+    foreach ($events as $event) {
+        $ended = EndEvent::where('listings_id', $event->id)
+                         ->where('end_event', 1)
+                         ->exists();
+
+        if ($ended) {
+            $previousEvents[] = $event;
+            continue;
         }
 
-        // Return views with categorized events
-        return view('listings.index', [
-            'upcomingEvents' => $upcomingEvents,
-            'todaysEvents' => $todaysEvents,
-            'previousEvents' => $previousEvents,
-           
-        ]);
+        $eventDate = Carbon::parse($event->event_date)->startOfDay();
+
+        if ($eventDate->greaterThan($today)) {
+            $upcomingEvents[] = $event;
+        } elseif ($eventDate->equalTo($today)) {
+            $todaysEvents[] = $event;
+        } else {
+            $previousEvents[] = $event;
+        }
     }
+
+    return view('listings.index', [
+        'upcomingEvents' => $upcomingEvents,
+        'todaysEvents' => $todaysEvents,
+        'previousEvents' => $previousEvents,
+    ]);
+}
 
     // Show single listing
     public function show(Listing $listing) {
@@ -255,17 +253,28 @@ class ListingController extends Controller
         // Fetch all listings for the authenticated user
         $events = auth()->user()->listings()->get();
     
-        // Get today's date as Carbon object (only date, no time)
+        // Get today's date as Carbon object
         $today = Carbon::today();
     
-        // Initialize arrays to hold categorized events
+        // Initialize arrays
         $upcomingEvents = [];
         $todaysEvents = [];
         $previousEvents = [];
     
-        // Categorize events based on event_date
+        // Loop through each event
         foreach ($events as $event) {
-            // Convert event_date to Carbon instance for accurate comparison
+            // Check if this event is already ended by this user
+            $ended = EndEvent::where('listings_id', $event->id)
+                             ->where('users_id', auth()->id())
+                             ->where('end_event', 1)
+                             ->exists();
+    
+            if ($ended) {
+                $previousEvents[] = $event;
+                continue; // Skip date checks
+            }
+    
+            // Normal date checks
             $eventDate = Carbon::parse($event->event_date)->startOfDay();
     
             if ($eventDate->greaterThan($today)) {
@@ -277,14 +286,15 @@ class ListingController extends Controller
             }
         }
     
-        // Return view with categorized events
+        // Return view
         return view('listings.manage_all', [
             'upcomingEvents' => $upcomingEvents,
             'todaysEvents' => $todaysEvents,
             'previousEvents' => $previousEvents,
-            'events' => $events, // Pass all events for use in the view
+            'events' => $events,
         ]);
     }
+    
 
     
 // organization involve

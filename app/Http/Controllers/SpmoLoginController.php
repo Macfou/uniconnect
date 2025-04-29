@@ -26,6 +26,6 @@ class SpmoLoginController extends Controller
     public function logout()
     {
         Auth::guard('spmo')->logout();
-        return redirect('/spmo/spmo_pages/spmologin');
+        return redirect('spmologin');
     }
 }

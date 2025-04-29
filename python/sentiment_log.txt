@@ -243,3 +243,178 @@ Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'h
 Raw feedback: hindi ko ito gusto pangit
 Cleaned feedback: hindi ko ito gusto pangit
 Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience ']
+Raw feedback: Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience 
+Cleaned feedback: maganda ang pagkakaorganize ng event mabilis ang pila may mga staff na tumutulong agad maayos din ang venue kumpleto sa gamit ontime nagsimula ang program kaya hindi kami nainip sulit ang pagpunta sobrang saya ng experience
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sobrang disorganized ng event. Walang clear signage kaya ang daming naligaw at naguluhan. Ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions. Nakakainis kasi parang hindi pinaghandaan nang maayos. Sayang talaga ang oras at pamasahe namin para sa ganitong klaseng experience.']
+Raw feedback: Sobrang disorganized ng event. Walang clear signage kaya ang daming naligaw at naguluhan. Ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions. Nakakainis kasi parang hindi pinaghandaan nang maayos. Sayang talaga ang oras at pamasahe namin para sa ganitong klaseng experience.
+Cleaned feedback: sobrang disorganized ng event walang clear signage kaya ang daming naligaw naguluhan ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions nakakainis kasi parang hindi pinaghandaan nang maayos sayang talaga ang oras pamasahe namin para sa ganitong klaseng experience
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  ']
+Raw feedback: I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  
+Cleaned feedback: great time event everything wellorganized moment arrived registration process smooth staff welcoming really appreciated clear signs directions made easy find everything venue clean spacious perfect occasion program started right time every segment engaging fun food drinks also available reasonably priced could really tell organizers put lot effort planning overall enjoyable memorable experience definitely attend
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.']
+Raw feedback: The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.
+Cleaned feedback: event poorly organized start finish clear signs directions people know go lines incredibly long moved slowly staff members seemed unprepared offering real help honestly felt like waste time money
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience ']
+Raw feedback: Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience 
+Cleaned feedback: maganda ang pagkakaorganize ng event mabilis ang pila may mga staff na tumutulong agad maayos din ang venue kumpleto sa gamit ontime nagsimula ang program kaya hindi kami nainip sulit ang pagpunta sobrang saya ng experience
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  ']
+Raw feedback: I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  
+Cleaned feedback: great time event everything wellorganized moment arrived registration process smooth staff welcoming really appreciated clear signs directions made easy find everything venue clean spacious perfect occasion program started right time every segment engaging fun food drinks also available reasonably priced could really tell organizers put lot effort planning overall enjoyable memorable experience definitely attend
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sobrang disorganized ng event. Walang clear signage kaya ang daming naligaw at naguluhan. Ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions. Nakakainis kasi parang hindi pinaghandaan nang maayos. Sayang talaga ang oras at pamasahe namin para sa ganitong klaseng experience.']
+Raw feedback: Sobrang disorganized ng event. Walang clear signage kaya ang daming naligaw at naguluhan. Ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions. Nakakainis kasi parang hindi pinaghandaan nang maayos. Sayang talaga ang oras at pamasahe namin para sa ganitong klaseng experience.
+Cleaned feedback: sobrang disorganized ng event walang clear signage kaya ang daming naligaw naguluhan ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions nakakainis kasi parang hindi pinaghandaan nang maayos sayang talaga ang oras pamasahe namin para sa ganitong klaseng experience
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience ']
+Raw feedback: Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience 
+Cleaned feedback: maganda ang pagkakaorganize ng event mabilis ang pila may mga staff na tumutulong agad maayos din ang venue kumpleto sa gamit ontime nagsimula ang program kaya hindi kami nainip sulit ang pagpunta sobrang saya ng experience
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.']
+Raw feedback: The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.
+Cleaned feedback: event poorly organized start finish clear signs directions people know go lines incredibly long moved slowly staff members seemed unprepared offering real help honestly felt like waste time money
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  ']
+Raw feedback: I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  
+Cleaned feedback: great time event everything wellorganized moment arrived registration process smooth staff welcoming really appreciated clear signs directions made easy find everything venue clean spacious perfect occasion program started right time every segment engaging fun food drinks also available reasonably priced could really tell organizers put lot effort planning overall enjoyable memorable experience definitely attend
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience ']
+Raw feedback: Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience 
+Cleaned feedback: maganda ang pagkakaorganize ng event mabilis ang pila may mga staff na tumutulong agad maayos din ang venue kumpleto sa gamit ontime nagsimula ang program kaya hindi kami nainip sulit ang pagpunta sobrang saya ng experience
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending']
+Raw feedback: The event was well-organized and efficient. Lines moved quickly and the staff were friendly and helpful. The venue was clean and had everything we needed. The program started on time and everything ran smoothly. Overall, it was a great experience and definitely worth attending
+Cleaned feedback: event wellorganized efficient lines moved quickly staff friendly helpful venue clean everything needed program started time everything ran smoothly overall great experience definitely worth attending
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience ']
+Raw feedback: Maganda ang pagkaka-organize ng event. Mabilis ang pila at may mga staff na tumutulong agad. Maayos din ang venue at kumpleto sa gamit. On-time nagsimula ang program kaya hindi kami nainip. Sulit ang pagpunta at sobrang saya ng experience 
+Cleaned feedback: maganda ang pagkakaorganize ng event mabilis ang pila may mga staff na tumutulong agad maayos din ang venue kumpleto sa gamit ontime nagsimula ang program kaya hindi kami nainip sulit ang pagpunta sobrang saya ng experience
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Sobrang disorganized ng event. Walang clear signage kaya ang daming naligaw at naguluhan. Ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions. Nakakainis kasi parang hindi pinaghandaan nang maayos. Sayang talaga ang oras at pamasahe namin para sa ganitong klaseng experience.']
+Raw feedback: Sobrang disorganized ng event. Walang clear signage kaya ang daming naligaw at naguluhan. Ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions. Nakakainis kasi parang hindi pinaghandaan nang maayos. Sayang talaga ang oras at pamasahe namin para sa ganitong klaseng experience.
+Cleaned feedback: sobrang disorganized ng event walang clear signage kaya ang daming naligaw naguluhan ang tagal pa ng pila tapos walang staff na nagbibigay ng maayos na instructions nakakainis kasi parang hindi pinaghandaan nang maayos sayang talaga ang oras pamasahe namin para sa ganitong klaseng experience
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  ']
+Raw feedback: I had a great time at the event  Everything was so well-organized from the moment we arrived. The registration process was smooth and the staff were very welcoming. I really appreciated how clear the signs and directions were—it made it easy to find everything. The venue was clean, spacious, and perfect for the occasion. The program started right on time and every segment was engaging and fun. Food and drinks were also available and reasonably priced. You could really tell that the organizers put a lot of effort into planning. Overall, it was an enjoyable and memorable experience—I’d definitely attend again  
+Cleaned feedback: great time event everything wellorganized moment arrived registration process smooth staff welcoming really appreciated clear signs directions made easy find everything venue clean spacious perfect occasion program started right time every segment engaging fun food drinks also available reasonably priced could really tell organizers put lot effort planning overall enjoyable memorable experience definitely attend
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.']
+Raw feedback: The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.
+Cleaned feedback: event poorly organized start finish clear signs directions people know go lines incredibly long moved slowly staff members seemed unprepared offering real help honestly felt like waste time money
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event met my expectations, nothing more.']
+Raw feedback: The event met my expectations, nothing more.
+Cleaned feedback: event met expectations nothing
+Predicted sentiment: 0
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event met my expectations, nothing more.']
+Raw feedback: The event met my expectations, nothing more.
+Cleaned feedback: event met expectations nothing
+Predicted sentiment: 0
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event met my expectations, nothing more.']
+Raw feedback: The event met my expectations, nothing more.
+Cleaned feedback: event met expectations nothing
+Predicted sentiment: 0
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.']
+Raw feedback: The event was poorly organized from start to finish. There were no clear signs or directions, and most people didn’t know where to go. The lines were incredibly long and moved slowly. Staff members seemed unprepared and weren’t offering any real help. Honestly, it felt like a waste of time and money.
+Cleaned feedback: event poorly organized start finish clear signs directions people know go lines incredibly long moved slowly staff members seemed unprepared offering real help honestly felt like waste time money
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Highly recommend this event to others ']
+Raw feedback: Highly recommend this event to others 
+Cleaned feedback: highly recommend event others
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'maganda ang event na ito']
+Raw feedback: maganda ang event na ito
+Cleaned feedback: maganda ang event na ito
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Highly recommend this event to others ']
+Raw feedback: Highly recommend this event to others 
+Cleaned feedback: highly recommend event others
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Highly recommend this event to others ']
+Raw feedback: Highly recommend this event to others 
+Cleaned feedback: highly recommend event others
+Predicted sentiment: 1

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="images/favicon.icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -17,6 +18,8 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+
     <script>
         tailwind.config = {
     theme: {
@@ -50,9 +53,10 @@
           <div class="relative border-b border-white/20">
             <a class="flex items-center gap-4 py-6 px-8" href="#/">
              
-                  <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">
-                      SPMO
-                  </h6>
+              <h6 class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white">
+                Spmo <strong></strong>
+            </h6>
+            
              
           </a>
             <button class="middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-white hover:bg-white/10 active:bg-white/30 absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden" type="button">
@@ -126,7 +130,7 @@
 
                  
 
-                  <a  href="/spmo/spmo_pages/spmo_borrowed">
+                  <a  href="/spmo/spmo_borrowed">
                     <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
                         <path fill-rule="evenodd" d="M8 2h8a2 2 0 0 1 2 2v1h3v17H3V5h3V4a2 2 0 0 1 2-2zm0 2v1h8V4H8zm-2 5h12v2H6v-2zm0 4h12v2H6v-2zm0 4h8v2H6v-2z" clip-rule="evenodd"/>
@@ -136,7 +140,44 @@
                     </button>
                   </a>
 
-                  <a  href="/spmo/spmo_pages/spmo_returned">
+                  <ul class="w-64 bg-gray-900 rounded-md shadow-md">
+                    <!-- Dropdown Parent -->
+                    <li class="opcion-con-desplegable">
+                        <input type="checkbox" id="agendaTogglesd" class="peer hidden" />
+                        <label for="agendaTogglesd" class="middle  none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4">
+                            <div class="flex items-center  ">
+                                
+                                <span class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium  pr-20">Borrow</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-xs peer-checked:rotate-180 transition-transform"></i>
+                        </label>
+            
+                        <!-- Dropdown Menu -->
+                        <ul class="desplegable ml-4 hidden peer-checked:block">
+                            <li>
+                                <a href="/borrow_pending" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                    
+                                    Pending Requests
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/spmo_approved/requests" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                    
+                                    Approved Requests
+                                </a>
+                            </li>
+    
+                            <li>
+                                <a href="/rejected" class="block p-2 hover:bg-gray-700 flex items-center text-white">
+                                    
+                                    Cancelled Requests
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                  <a  href="/spmo/spmo_returned">
                     <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5 text-inherit">
                         <path fill-rule="evenodd" d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-2.34-5.66L15 10h7V3l-2.69 2.69A9.97 9.97 0 0 0 12 2zm1 5h-2v6l5 3 .91-1.63-3.91-2.37V7z" clip-rule="evenodd"/>
@@ -201,7 +242,7 @@
                 <p class="block antialiased font-sans text-sm leading-normal text-white font-black uppercase opacity-75">auth pages</p>
               </li>
 
-              <a  href="">
+              <a  href="/spmo/spmo_adduser">
                 <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-inherit">
                     <path fill-rule="evenodd" d="M12 2a5 5 0 1 1-5 5 5 5 0 0 1 5-5zm0 2a3 3 0 1 0 3 3 3 3 0 0 0-3-3zm-7 16a7 7 0 0 1 14 0v2H5v-2zm2 0a5 5 0 0 1 10 0H7z" clip-rule="evenodd"/>
@@ -210,7 +251,7 @@
                 </button>
               </a>
 
-              <a href="">
+              <a href="/spmo/spmo_profile">
                 <button class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 w-full flex items-center gap-4 px-4 " type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-inherit">
                         <path fill-rule="evenodd" d="M15 14a5 5 0 1 0-6 0 7 7 0 0 0-6 7h2a5 5 0 0 1 10 0h2a7 7 0 0 0-6-7zm-3-2a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm10-1h-2v-2h-2v2h-2v2h2v2h2v-2h2z" clip-rule="evenodd"/>

@@ -12,7 +12,7 @@
     
         <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
             <h2 class="text-2xl font-semibold mb-6 text-center">Event Feedback Form</h2>
-            <form action="{{ route('event.comments', ['listings_id' => $event_id]) }}" method="POST">
+            <form action="{{ route('submit.feedback', ['listings_id' => $event_id]) }}" method="POST">
             @csrf
 
             <input type="hidden" name="listings_id" value="{{ $event_id }}">

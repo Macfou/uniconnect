@@ -118,97 +118,70 @@
           </div>
     </section>
 
-    <div class="flex items-center justify-center py-8 px-4">
-      <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
-      
-                  <div class="w-11/12 lg:w-2/3">
-                      <div class="flex flex-col justify-between h-full">
-                          <div>
-                              <div class="lg:flex w-full justify-between">
-                                  <h3 class="text-gray-600 dark:text-gray-400 leading-5 text-base md:text-xl font-bold">Event Rate</h3>
-                                  <div class="flex items-center justify-between lg:justify-start mt-2 md:mt-4 lg:mt-0">
-                                      
-                                      <div class="lg:ml-14">
-                                          <div class="bg-gray-100 dark:bg-gray-700 ease-in duration-150 hover:bg-gray-200 pb-2 pt-1 px-3 rounded-sm">
-                                              <select aria-label="select year"  class="text-xs text-gray-600 dark:text-gray-400 bg-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 rounded">
-                                                  <option class="leading-1">Year</option>
-                                                  <option class="leading-1">2021</option>
-                                                  <option class="leading-1">2022</option>
-                                                  <option class="leading-1">2023</option>
-                                                  <option class="leading-1">2024</option>
-                                                  <option class="leading-1">2025</option>
-                                                  <option class="leading-1">2026</option>
-                                              </select>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="flex items-end mt-6">
-                                  <h3 class="text-indigo-500 leading-5 text-lg md:text-2xl">120 events</h3>
-                                  <div class="flex items-center md:ml-4 ml-1 text-green-700">
-                                      <p class="text-green-700 text-xs md:text-base">94%</p>
-                                      <svg role="img" class="text-green-700" aria-label="increase. upward arrow icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                          <path d="M6 2.5V9.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"></path>
-                                          <path d="M8 4.5L6 2.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"></path>
-                                          <path d="M4 4.5L6 2.5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round"></path>
-                                      </svg>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="mt-6">
-                              <canvas id="myChart" width="1025" height="400" role="img" aria-label="line graph to show selling overview in terms of months and numbers" ></canvas>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-              <script>
-              const chart = new Chart(document.getElementById("myChart"), {
-                type: "line",
-                data: {
-                  labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "Aug",
-                    "Sep",
-                    "Nov",
-                    "Dec"
+    <div class="mt-10 bg-white p-6 rounded-xl shadow-md">
+      <h2 class="text-lg font-semibold mb-4 text-gray-700">Dashboard Summary Chart</h2>
+      <canvas id="dashboardChart" height="120"></canvas>
+  </div>
+  
+  {{-- Chart.js Script --}}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+      const ctx = document.getElementById('dashboardChart').getContext('2d');
+      const dashboardChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: ['Events', 'Users', 'Admin User', 'Success Rate'],
+              datasets: [{
+                  label: 'Count',
+                  data: [
+                      {{ $eventCount }},
+                      {{ $userCount }},
+                      {{ $adminuserCount }},
+                      89 // Hardcoded as you displayed '89%' statically
                   ],
-                  datasets: [
-                    {
-                      label: "16 Mar 2018",
-                      borderColor: "#4A5568",
-                      data: [1500, 1300, 1600, 1300, 1200, 1200, 1000, 1400, 1500, 14000, 600, 1200],
-                      fill: false,
-                      pointBackgroundColor: "#4A5568",
-                      borderWidth: "3",
-                      pointBorderWidth: "4",
-                      pointHoverRadius: "6",
-                      pointHoverBorderWidth: "8",
-                      pointHoverBorderColor: "rgb(74,85,104,0.2)"
-                    }
-                  ]
-                },
-                options: {
-                  legend: {
-                    position: false
-                  },
-                  scales: {
-                    yAxes: [
-                      {
-                        gridLines: {
-                          display: false
-                        },
-                        display: false
+                  backgroundColor: [
+                      'rgba(59, 130, 246, 0.7)',    // blue
+                      'rgba(236, 72, 153, 0.7)',    // pink
+                      'rgba(34, 197, 94, 0.7)',     // green
+                      'rgba(251, 146, 60, 0.7)'     // orange
+                  ],
+                  borderColor: [
+                      'rgba(59, 130, 246, 1)',
+                      'rgba(236, 72, 153, 1)',
+                      'rgba(34, 197, 94, 1)',
+                      'rgba(251, 146, 60, 1)'
+                  ],
+                  borderWidth: 1,
+                  borderRadius: 10
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      ticks: {
+                          precision: 0
                       }
-                    ]
                   }
-                }
-              });
-              </script>
+              },
+              plugins: {
+                  legend: {
+                      display: false
+                  },
+                  tooltip: {
+                      callbacks: {
+                          label: function(context) {
+                              if (context.label === 'Success Rate') {
+                                  return '89%';
+                              }
+                              return context.raw;
+                          }
+                      }
+                  }
+              }
+          }
+      });
+  </script>
+  
 </x-admin-layout>

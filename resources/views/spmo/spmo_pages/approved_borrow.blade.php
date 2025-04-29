@@ -9,7 +9,7 @@
                     <span class="text-gray-500 text-sm font-sans font-normal leading-normal mx-2 pointer-events-none select-none">/</span>
                 </li>
                 <li class="flex items-center text-blue-900 font-sans text-sm font-normal leading-normal cursor-pointer transition-colors duration-300 hover:text-blue-500">
-                    <h6 class="block font-sans text-base font-semibold leading-relaxed text-gray-900">Approved Requests</h6>
+                    <h6 class="block font-sans text-base font-semibold leading-relaxed text-gray-900">Approved Borrow</h6>
                 </li>
             </ol>
         </nav>
@@ -42,7 +42,7 @@
                     <td class="p-4 border-b">{{ $request->equipment->name }}</td>
                     <td class="p-4 border-b">{{ $request->quantity }}</td>
                     <td class="p-4 border-b">
-                        <a href="{{ route('spmo.borrowed', $request->id) }}" 
+                        <a href="{{ route('borrow.markAsBorrowed', $request->id) }}" 
                             class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                              Pick Up
                          </a>

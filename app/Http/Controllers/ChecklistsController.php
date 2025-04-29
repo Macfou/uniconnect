@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\BorrowRequest;
 use App\Models\PermitTransfer;
 use App\Models\AdviserApproval;
+use App\Models\SpmoBorrowRequest;
 
 class ChecklistsController extends Controller
 {
@@ -24,6 +25,7 @@ class ChecklistsController extends Controller
         $bringInRequest = BringIn::where('listings_id', $id)->first();
         $transferRequest = PermitTransfer::where('listings_id', $id)->first();
         $permitBorrow = BorrowRequest::where('listing_id', $id)->first();
+        $spmoBorrowRequest = SpmoBorrowRequest::where('listing_id', $id)->first();
     
         // Pass these to the view
         return view('listings.checklists', compact(
@@ -33,7 +35,8 @@ class ChecklistsController extends Controller
             'uscRequest',
             'bringInRequest',
             'transferRequest',
-            'permitBorrow'
+            'permitBorrow',
+            'spmoBorrowRequest'
         ));
     }
     

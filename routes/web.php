@@ -25,6 +25,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\EndEventController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GsoLoginController;
@@ -55,8 +56,8 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SavedSectionController;
-use App\Http\Controllers\SpmoCategoryController;
 
+use App\Http\Controllers\SpmoCategoryController;
 use App\Http\Controllers\ViewRequestsController;
 use App\Http\Controllers\EventattendedController;
 use App\Http\Controllers\EventFeedbackController;
@@ -71,6 +72,7 @@ use App\Http\Controllers\OtpVerificationController;
 use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\FeedbackQuestionsController;
 use App\Http\Controllers\StudentAttendanceController;
+use App\Http\Controllers\CertificateDesignerController;
 
 //home
 
@@ -482,6 +484,21 @@ Route::get('/pages/borrow/{listing_id}', [BorrowEquipmentController::class, 'bor
  Route::get('/pages/requestview/{id}', [BorrowEquipmentController::class, 'requestView'])->name('pages.requestview');
  Route::delete('/pages/requestview/{id}', [BorrowEquipmentController::class, 'cancelRequest'])->name('pages.requestview.cancel');
 
+ //
+
+ Route::get('/borrow_pending', [SpmoBorrowController::class, 'pendingRequests'])->name('spmo.spmo_pages.spmo_pending');
+
+ Route::patch('spmo_approved/{id}', [SpmoBorrowController::class, 'approve'])
+    ->name('spmo_approved');
+
+    Route::get('spmo_approved/requests', [SpmoBorrowController::class, 'approvedRequests'])->name('spmo.spmo_pages.spmo_approved');
+
+Route::patch('/spmo/reject/{id}', [SpmoBorrowController::class, 'reject'])->name('spmo.reject');
+
+ //
+ Route::get('/pages/spmo_requests/{id}', [SpmoBorrowController::class, 'requestView'])->name('pages.spmo_requests');
+ Route::delete('/pages/spmo_cancel/{id}', [SpmoBorrowController::class, 'cancelRequest'])->name('pages.spmo_request.cancel');
+
 // Route to mark an approved request as "Borrowed"
 Route::get('/gso/gso_pages/gso_borrowed/{id}', [BorrowEquipmentController::class, 'markAsBorrowed'])
     ->name('borrow.markAsBorrowed');
@@ -493,8 +510,42 @@ Route::get('/gso/gso_pages/gso_borrowed', [BorrowEquipmentController::class, 'sh
 Route::get('/gso/gso_pages/gso_returned/{id}', [BorrowEquipmentController::class, 'markAsReturned'])
     ->name('borrow.markAsReturned');
 
-Route::get('/gso/gso_pages/gso_returned', [BorrowEquipmentController::class, 'showReturnedRequests'])
+Route::get('/gso/gso_pages/gso_returned', [SpmoBorrowController::class, 'showReturnedRequests'])
     ->name('gso.returned');
+
+// spmo
+Route::get('listings/{listing_id}/borrow', [SpmoBorrowController::class, 'borrow'])->name('listing.spmo_borrow');
+Route::post('spmo_borrow/store', [SpmoBorrowController::class, 'store'])->name('spmo.store');
+
+// Pending Requests
+Route::get('spmo/pending', [SpmoBorrowController::class, 'pendingRequests'])->name('spmo.pending');
+
+// Approved Requests
+Route::get('spmo/approved', [SpmoBorrowController::class, 'approvedRequests'])->name('spmo.approved');
+Route::post('spmo/approve/{id}', [SpmoBorrowController::class, 'approve'])->name('spmo.approve');
+
+// Rejected Requests
+Route::post('spmo/reject/{id}', [SpmoBorrowController::class, 'reject'])->name('spmo.reject');
+
+// View Request
+Route::get('spmo/request-view/{id}', [SpmoBorrowController::class, 'requestView'])->name('spmo.requestView');
+
+// Cancel Borrow Request
+Route::post('spmo/cancel/{id}', [SpmoBorrowController::class, 'cancelRequest'])->name('spmo.cancelRequest');
+
+Route::get('/spmo_borrowed/{id}', [SpmoBorrowController::class, 'markAsBorrowed'])
+    ->name('borrow.spmo');
+
+Route::get('/spmo/spmo_borrowed', [SpmoBorrowController::class, 'showBorrowedRequests'])
+    ->name('spmo.spmo_borrowed');
+
+Route::get('/spmo_returned/{id}', [SpmoBorrowController::class, 'markAsReturned'])
+    ->name('return.spmo');
+
+Route::get('/spmo/spmo_returned', [SpmoBorrowController::class, 'showReturnedRequests'])
+    ->name('spmo.returned');
+
+
 
 
 
@@ -507,6 +558,15 @@ Route::get('/gso/gso_pages/gso_adduser', [GsoController::class, 'create'])->name
 Route::post('/gso/gso_pages/gso_adduser', [GsoController::class, 'store'])->name('gso.adduser.store');
 
 Route::get('/gso/gso_pages/gso_dashboard', [GsoController::class, 'dashboard'])->name('gso.dashboard');
+
+Route::get('/spmo/spmo_adduser', [SpmoController::class, 'create'])->name('spmo.adduser.create');
+Route::post('/spmo/spmo_adduser', [SpmoController::class, 'store'])->name('spmo.adduser.store');
+
+Route::get('/spmo/spmo_profile', [SpmoController::class, 'profile'])->name('spmo.profile');
+Route::post('/spmo/spmo_profile/update-password', [SpmoController::class, 'updatePassword'])->name('spmo.updatePassword');
+// routes/web.php
+
+
 
 //ufmo
 Route::get('/ufmologin', function () {
@@ -531,6 +591,8 @@ Route::get('/spmo/spmo_pages/spmo_category', [SpmoPagesController::class, 'spmoc
 Route::get('/spmo/spmo_pages/spmo_category', [SpmoCategoryController::class, 'index'])->name('spmo.spmo_pages.spmo_category');
 Route::post('/spmo.spmo_pages.spmo_category', [SpmoCategoryController::class, 'store'])->name('spmo.spmo_pages.spmo_category.store');
 Route::get('/spmo/spmo_pages/spmo_inventory', [SpmoCategoryController::class, 'showInventory'])->name('spmo.spmo_pages.spmo_inventory');
+Route::put('/spmo/category/update/{id}', [SpmoCategoryController::class, 'update'])->name('spmo.spmo_pages.spmo_category.update');
+Route::delete('/spmo/category/delete/{id}', [SpmoCategoryController::class, 'destroy'])->name('spmo.spmo_pages.spmo_category.destroy');
 
 
 Route::get('/spmo/spmo_pages/spmo_borrowed', [SpmoPagesController::class, 'spmoborrowed'])->name('spmo.spmo_pages.spmo_borrowed');
@@ -763,7 +825,11 @@ Route::get('/pages/transfer/{id}', [ViewRequestsController::class, 'requeststran
 //feedback
 Route::get('/feedbacks/submit/{listings_id}', [EventFeedbackController::class, 'showForm'])->name('submit.feedbacks');
 Route::post('/submit-feedback', [EventFeedbackController::class, 'submitFeedback'])->name('submit.feedback');
-Route::post('/submit-comment/{listings_id}', [EventFeedbackController::class, 'showForm_comment'])->name('event.comments');
+Route::get('/event-comments/{listings_id}', [EventFeedbackController::class, 'showForm_comment'])->name('event.comments');
+Route::post('/feedback', [EventattendedController::class, 'submitFeedback'])->name('feedback.submit');
+
+
+
 
 //Route::get('/feedbacks/comment/{listings_id}', [EventFeedbackController::class, 'showForm_comment'])->name('submit.feedbacks.comments');
 
@@ -786,10 +852,23 @@ Route::post('/update-rating/{id}', [FeedbackQuestionsController::class, 'update'
 
 //
 Route::get('/viewfeedback/{listing_id}', [FeedbackController::class, 'viewFeedback'])->name('view.feedback');
+//
+// Borrowed Requests
+Route::get('spmo/borrowed', [SpmoBorrowController::class, 'showBorrowedRequests'])->name('spmo.borrowedshow');
+Route::post('spmo/mark-borrowed/{id}', [SpmoBorrowController::class, 'markAsBorrowed'])->name('spmo.borrowed');
+
+// Returned Requests
+Route::get('spmo/returned', [SpmoBorrowController::class, 'showReturnedRequests'])->name('spmo.returned');
+Route::post('spmo/mark-returned/{id}', [SpmoBorrowController::class, 'markAsReturned'])->name('spmo.borrow.return');
 
 
+// end
+Route::get('/end-event/{listing_id}', [EndEventController::class, 'endEvent'])->name('end.event');
 
-
+//certificate
+Route::get('/certificate-designer', [CertificateDesignerController::class, 'create']);
+Route::post('/certificate-designer/upload', [CertificateDesignerController::class, 'upload']);
+Route::post('/certificate-designer/save', [CertificateDesignerController::class, 'save']);
 
 
 

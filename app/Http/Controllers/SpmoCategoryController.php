@@ -39,4 +39,20 @@ class SpmoCategoryController extends Controller
     return view('spmo.spmo_pages.spmo_inventory', ['categories' => $categories]);
 }
 
+public function update(Request $request, $id)
+{
+    $category = SpmoCategory::findOrFail($id);
+    $category->update($request->only('name', 'quantity'));
+
+    return back()->with('success', 'Supply updated successfully!');
+}
+
+public function destroy($id)
+{
+    $category = SpmoCategory::findOrFail($id);
+    $category->delete();
+
+    return back()->with('success', 'Supply deleted successfully!');
+}
+
 }

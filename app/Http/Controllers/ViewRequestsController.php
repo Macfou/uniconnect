@@ -9,6 +9,7 @@ use App\Models\DeanApproval;
 use Illuminate\Http\Request;
 use App\Models\PermitTransfer;
 use App\Models\AdviserApproval;
+use App\Models\SpmoCategory;
 
 class ViewRequestsController extends Controller
 {
@@ -54,6 +55,14 @@ public function requeststransfer($id)
     return view('pages.view_transfer', compact('event', 'requests'));
 }
     
+public function spmoborrow($id)
+{
+    $event = Listing::findOrFail($id);
+    
+    $requests = SpmoCategory::where('listings_id', $id)->get();
+
+    return view('pages.view_transfer', compact('event', 'spmoborrow'));
+}
 
    
 }

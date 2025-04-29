@@ -16,6 +16,18 @@ class SpmoController extends Controller
         return view('admin.admin_users.spmouser', compact('spmoUsers'));
     }
 
+    public function show()
+    {
+        $spmoUser = Spmo::all();
+        if (!$spmoUser) {
+            return redirect()->route('login'); // or any other fallback logic
+        }
+    
+        return view('components.spmo-layout', compact('spmoUser'));
+    }
+    
+
+
     // Store a new spmo officer
     public function store(Request $request)
     {
@@ -104,5 +116,7 @@ class SpmoController extends Controller
 
     return view('spmo.spmo_pages.spmo_dashboard', compact('pendingRequests', 'approvedRequests', 'cancelledRequests'));
 }
+
+
 
 }

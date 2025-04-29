@@ -19,6 +19,7 @@ public function showForm_comment($listings_id)
 {
     return view('pages.event_comments', ['event_id' => $listings_id]);
 }
+
     
 
 
@@ -39,55 +40,64 @@ public function submitFeedback(Request $request)
 
     Log::info('Validation passed.');
 
-    $questions = [
-        // Section A: Event
-        'Overall quality of the event',
-        'Engagement of the event from start to finish',
-        'Satisfaction with the event\'s organization',
-        'Relevance of the event content to your interests',
-        'Likelihood of attending a similar event in the future',
+    // Merge all questions
+    $questions = array_merge(
+        [
+            // Section A: Event
+            'Overall quality of the event',
+            'Engagement of the event from start to finish',
+            'Satisfaction with the event\'s organization',
+            'Relevance of the event content to your interests',
+            'Likelihood of attending a similar event in the future',
+        ],
+        [
+            // Section B: Venue
+            'Comfort of the seating and space',
+            'Accessibility of the venue location',
+            'Suitability of the venue for the event',
+            'Cleanliness and maintenance of the venue',
+            'Audio/Visual setup of the venue',
+        ],
+        [
+            // Section C: Presentation
+            'Clarity and understandability of presenters',
+            'Effectiveness of visual aids (slides, videos)',
+            'Organization of the presentations',
+            'Speaker knowledge and expertise',
+            'Engagement and interactivity of the presentations',
+        ],
+        [
+            // Section D: Time Management
+            'Timeliness of event start and end',
+            'Pacing of each session or activity',
+            'Reasonableness of break durations',
+            'Efficiency of time allocation per speaker/topic',
+            'Management of the overall event schedule',
+        ]
+    );
 
-        // Section B: Venue
-        'Comfort of the seating and space',
-        'Accessibility of the venue location',
-        'Suitability of the venue for the event',
-        'Cleanliness and maintenance of the venue',
-        'Audio/Visual setup of the venue',
-
-        // Section C: Presentation
-        'Clarity and understandability of presenters',
-        'Effectiveness of visual aids (slides, videos)',
-        'Organization of the presentations',
-        'Speaker knowledge and expertise',
-        'Engagement and interactivity of the presentations',
-
-        // Section D: Time Management
-        'Timeliness of event start and end',
-        'Pacing of each session or activity',
-        'Reasonableness of break durations',
-        'Efficiency of time allocation per speaker/topic',
-        'Management of the overall event schedule',
-    ];
-
+    // Merge all ratings
     $ratings = array_merge(
-        $request->event_rating,
-        $request->venue_rating,
-        $request->presentation_rating,
-        $request->time_rating
+        $request->event_rating ?? [],
+        $request->venue_rating ?? [],
+        $request->presentation_rating ?? [],
+        $request->time_rating ?? []
     );
 
     Log::info('Merged ratings:', $ratings);
 
+    // Prepare data to store
     $ratingData = [
         'listings_id' => $request->listings_id,
         'users_id' => Auth::id(),
     ];
 
-    for ($i = 0; $i < 20; $i++) {
-        $questionKey = 'q_' . $this->numToWord($i + 1);
-        $ratingKey = 'r_' . $this->numToWord($i + 1);
-        $ratingData[$questionKey] = $questions[$i];
-        $ratingData[$ratingKey] = $ratings[$i];
+    foreach ($questions as $index => $question) {
+        $questionKey = 'q_' . $this->numToWord($index + 1);
+        $ratingKey = 'r_' . $this->numToWord($index + 1);
+
+        $ratingData[$questionKey] = $question;
+        $ratingData[$ratingKey] = $ratings[$index] ?? null; // Use null if rating is missing
     }
 
     Log::info('Final data to be stored in Rating:', $ratingData);
@@ -100,12 +110,11 @@ public function submitFeedback(Request $request)
     ]);
     Log::info('Received listings_id:', ['listings_id' => $request->listings_id]);
 
-    return redirect()->route('submit.comments', ['listings_id' => $request->listings_id])
+    return redirect()->route('event.comments', ['listings_id' => $request->listings_id])
         ->with('success', 'Thank you for your feedback!');
 }
 
 
-// Helper function to convert numbers to words
 private function numToWord($num)
 {
     $map = [

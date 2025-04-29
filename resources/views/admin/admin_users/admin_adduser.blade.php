@@ -1,5 +1,3 @@
-
-
 <x-admin-layout>
     <!-- component -->
     <div class="max-w-[720px] mx-auto">
@@ -125,6 +123,27 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <script>
+                                    // Open the delete confirmation modal
+document.querySelectorAll('.openDeleteModal').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var modal = document.getElementById('deleteModal-' + this.getAttribute('data-user-id'));
+        modal.classList.remove('hidden');
+        modal.classList.add('block');
+    });
+});
+
+// Close the delete confirmation modal
+document.querySelectorAll('.closeDeleteModalBtn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var modal = this.closest('.fixed');
+        modal.classList.remove('block');
+        modal.classList.add('hidden');
+    });
+});
+
+                                </script>
                            
                             
             
@@ -250,23 +269,6 @@ function saveUserToDatabase(userData) {
     .catch(error => console.error('Error saving user to database:', error));
 }
 
-// Open the delete confirmation modal
-document.querySelectorAll('.openDeleteModal').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var modal = document.getElementById('deleteModal-' + this.getAttribute('data-user-id'));
-        modal.classList.remove('hidden');
-        modal.classList.add('block');
-    });
-});
-
-// Close the delete confirmation modal
-document.querySelectorAll('.closeDeleteModalBtn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var modal = this.closest('.fixed');
-        modal.classList.remove('block');
-        modal.classList.add('hidden');
-    });
-});
 
         </script>
         

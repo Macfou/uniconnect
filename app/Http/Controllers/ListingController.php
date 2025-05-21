@@ -14,7 +14,9 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Endroid\QrCode\Writer\PngWriter;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -196,38 +198,40 @@ class ListingController extends Controller
     
 
        
-    public function update(Request $request, Listing $listing)
-    {
-        dd($request->all);
-        if ($listing->user_id != auth()->id()) {
-            abort(403, 'Unauthorized Action');
-        }
-    
-        // Validate input fields
-        $formFields = $request->validate([
-            'tags' => 'required|string',
-            'organization' => 'required|string',
-            'description' => 'required',
-            'image' => 'nullable|image',
-            
-        ]);
-    
-        // Ensure read-only fields remain unchanged
-        $formFields['venue'] = $listing->venue;
-        $formFields['event_date'] = $listing->event_date;
-        $formFields['event_time'] = $listing->event_time;
-    
-        // Handle image upload if a new file is provided
-        if ($request->hasFile('image')) {
-            $formFields['image'] = $request->file('image')->store('images', 'public');
-        }
-    
-        // Update the listing
-        $listing->update($formFields);
-    
-        return redirect()->route('listings.draft')->with('message', 'Draft updated successfully!');
+   public function update(Request $request, Listing $listing)
+{
+    // Check authorization
+    if ($listing->user_id != auth()->id()) {
+        abort(403, 'Unauthorized Action');
     }
-    
+
+    // Validate input fields
+    $formFields = $request->validate([
+        'tags' => 'required|string',
+        'organization' => 'required|string',
+        'description' => 'required',
+        'image' => 'nullable|image',
+    ]);
+
+    // Ensure read-only fields remain unchanged
+    $formFields['venue'] = $listing->venue;
+    $formFields['event_date'] = $listing->event_date;
+    $formFields['event_time'] = $listing->event_time;
+
+    // Handle image upload if a new file is provided
+    if ($request->hasFile('image')) {
+        // Delete old image if exists
+        if ($listing->image && Storage::disk('public')->exists($listing->image)) {
+            Storage::disk('public')->delete($listing->image);
+        }
+        $formFields['image'] = $request->file('image')->store('images', 'public');
+    }
+
+    // Update the listing
+    $listing->update($formFields);
+
+    return redirect()->route('listings.draft')->with('message', 'Draft updated successfully!');
+}
 
     // Delete listing
     public function destroy(Listing $listing) {
@@ -248,19 +252,18 @@ class ListingController extends Controller
     ////////////////////triall
 
 
-   public function manageEvents() {
+  public function manageEvents() {
     // Fetch all listings for the authenticated user
-    $events = auth()->user()->listings()->get();
+    $events = auth()->user()->listings()->where('is_draft', '!=', 1)->get();
 
-    // Get today's date as Carbon object
-    $today = Carbon::today();
+    // Get today's date in Y-m-d format
+    $today = Carbon::today()->toDateString();
 
     // Initialize arrays
     $upcomingEvents = [];
     $todaysEvents = [];
     $previousEvents = [];
 
-    // Loop through each event
     foreach ($events as $event) {
         // Check if this event is already ended by this user
         $ended = EndEvent::where('listings_id', $event->id)
@@ -273,16 +276,16 @@ class ListingController extends Controller
             continue; // Skip date checks
         }
 
-        // Fix: Ensure the event_date is properly formatted and parsed
-        $eventDate = Carbon::parse($event->event_date)->startOfDay();
-        
-        // Debug: Log the dates to verify comparison
-        \Log::info("Event ID: {$event->id}, Event Date: {$eventDate}, Today: {$today}");
+        // Parse the event date
+        $eventDate = Carbon::parse($event->event_date)->toDateString();
 
-        // Compare dates properly
-        if ($eventDate->isAfter($today)) {
+        // Debug logging
+        Log::info("Event ID: {$event->id}, Event Date: {$eventDate}, Today: {$today}");
+
+        // Compare only date strings
+        if ($eventDate > $today) {
             $upcomingEvents[] = $event;
-        } elseif ($eventDate->isSameDay($today)) {
+        } elseif ($eventDate == $today) {
             $todaysEvents[] = $event;
         } else {
             $previousEvents[] = $event;
@@ -296,6 +299,20 @@ class ListingController extends Controller
         'previousEvents' => $previousEvents,
         'events' => $events,
     ]);
+}
+
+public function publish(Listing $listing)
+{
+    // Check if the current user is authorized to publish this listing
+    if($listing->user_id !== auth()->id()) {
+        return redirect()->back()->with('error', 'You are not authorized to publish this listing.');
+    }
+    
+    // Update the is_draft value to 0
+    $listing->is_draft = 0;
+    $listing->save();
+    
+    return redirect()->back()->with('success', 'Listing has been published successfully!');
 }
 
     

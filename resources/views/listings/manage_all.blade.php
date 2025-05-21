@@ -82,7 +82,7 @@
                              @forelse($upcomingEvents as $event)
                                  <tr>
                                      <td class="p-4 border-b border-slate-200">{{ $event->tags }}</td>
-                                     <td class="p-4 border-b border-slate-200">{{ $event->venue }}</td>
+                                 <td class="p-4 border-b border-slate-200">{{ $event->venue }}</td>
                                      <td class="p-4 border-b border-slate-200">
                                         {{ \Carbon\Carbon::parse($event->event_date)->format('F d, Y') }}
                                     </td>

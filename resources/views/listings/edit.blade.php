@@ -13,7 +13,7 @@
 
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2">Title</label>
-                    <input type="text" name="title" value="{{ $listing->tags   }}" required
+                    <input type="text" name="tags" value="{{ $listing->tags }}" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
@@ -23,31 +23,29 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
-               <!-- Venue (Read-Only) -->
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2">Venue</label>
-    <input type="text" value="{{ $listing->venue }}" readonly 
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-200 cursor-not-allowed">
-    <input type="hidden" name="venue" value="{{ $listing->venue }}"> <!-- Hidden input -->
-</div>
+                <!-- Venue (Read-Only) -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Venue</label>
+                    <input type="text" value="{{ $listing->venue }}" readonly 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-200 cursor-not-allowed">
+                    <input type="hidden" name="venue" value="{{ $listing->venue }}"> <!-- Hidden input -->
+                </div>
 
-<!-- Event Date (Read-Only) -->
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2">Event Date</label>
-    <input type="text" value="{{ \Carbon\Carbon::parse($listing->event_date)->format('Y-m-d') }}" readonly 
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-200 cursor-not-allowed">
-   <input type="hidden" name="event_date" value="{{ \Carbon\Carbon::parse($listing->event_date)->format('Y-m-d') }}"> <!-- Hidden input -->
-</div>
+                <!-- Event Date (Read-Only) -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Event Date</label>
+                    <input type="text" value="{{ \Carbon\Carbon::parse($listing->event_date)->format('Y-m-d') }}" readonly 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-200 cursor-not-allowed">
+                    <input type="hidden" name="event_date" value="{{ \Carbon\Carbon::parse($listing->event_date)->format('Y-m-d') }}"> <!-- Hidden input -->
+                </div>
 
-<!-- Event Time (Read-Only) -->
-<div class="mb-4">
-    <label class="block text-gray-700 font-bold mb-2">Event Time</label>
-    <input type="text" value="{{ $listing->event_time }}" readonly 
-        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-200 cursor-not-allowed">
-    <input type="hidden" name="event_time" value="{{ $listing->event_time }}"> <!-- Hidden input -->
-</div>
-
-                
+                <!-- Event Time (Read-Only) -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2">Event Time</label>
+                    <input type="text" value="{{ $listing->event_time }}" readonly 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-200 cursor-not-allowed">
+                    <input type="hidden" name="event_time" value="{{ $listing->event_time }}"> <!-- Hidden input -->
+                </div>
 
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2">Description</label>

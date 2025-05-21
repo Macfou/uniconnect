@@ -23,7 +23,7 @@ return [
    
     
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'Asia/Manila',
 
     
 

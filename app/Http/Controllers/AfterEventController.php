@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -56,6 +57,23 @@ class AfterEventController extends Controller
         $positiveTimePercentage = $totalAttendees > 0 ? ($positiveTimeFeedback / $totalAttendees) * 100 : 0;
         $neutralTimePercentage = $totalAttendees > 0 ? ($neutralTimeFeedback / $totalAttendees) * 100 : 0;
         $negativeTimePercentage = $totalAttendees > 0 ? ($negativeTimeFeedback / $totalAttendees) * 100 : 0;
+
+           $ratings = Rating::where('listings_id', $id)->get();
+    $total = $ratings->count();
+
+    $fields = [
+        'r_one', 'r_two', 'r_three', 'r_four', 'r_five',
+        'r_six', 'r_seven', 'r_eight', 'r_nine', 'r_ten',
+        'r_eleven', 'r_twelve', 'r_thirteen', 'r_fourteen', 'r_fifteen',
+        'r_sixteen', 'r_seventeen', 'r_eighteen', 'r_nineteen', 'r_twenty',
+    ];
+
+    $percentages = [];
+
+    foreach ($fields as $field) {
+        $acceptable = $ratings->whereIn($field, [1, 2])->count();
+        $percentages[$field] = $total > 0 ? round(($acceptable / $total) * 100) : 0;
+    }
     
         // Return the view with the calculated data
         return view('pages.afterevent', compact(
@@ -72,7 +90,9 @@ class AfterEventController extends Controller
             'negativeSpeakerPercentage',
             'positiveTimePercentage',
             'neutralTimePercentage',
-            'negativeTimePercentage'
+            'negativeTimePercentage',
+            'ratings',
+            'percentages'
         ));
     }
     

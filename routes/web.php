@@ -53,10 +53,11 @@ use App\Http\Controllers\RequestDeanController;
 use App\Http\Controllers\UfmoRequestController;
 use App\Http\Controllers\UscApprovalController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\EditCalendarController;
 use App\Http\Controllers\GsoInventoryController;
 use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\SavedSectionController;
 
+use App\Http\Controllers\SavedSectionController;
 use App\Http\Controllers\SpmoCategoryController;
 use App\Http\Controllers\UfmoCalendarController;
 use App\Http\Controllers\ViewRequestsController;
@@ -109,7 +110,7 @@ Route::get('/listings/create', [ListingController::class, 'create'])->middleware
 //store listing events
 Route::post('/listings', [ListingController::class, 'store']);
 
-
+Route::patch('/listings/{listing}/publish', [ListingController::class, 'publish'])->name('listings.publish');
 
 
 Route::post('/listings', [ListingController::class, 'store'])->name('listings.store');
@@ -417,6 +418,7 @@ Route::get('/pages/calendar', [PagesController::class, 'calendar'])->name('pages
 
 //caledar
 Route::get('/pages/calendar', [CalendarController::class, 'calendarPage'])->name('pages.calendar');
+Route::get('/pages/editcalendar', [EditCalendarController::class, 'editcalendarPage'])->name('pages.editcalendar');
 
 //gso
 Route::get('/gso/gso_pages/gso_category', [GsoCategoryController::class, 'index'])->name('gso.gso_pages.gso_category');
@@ -435,6 +437,7 @@ Route::post('/pages/post_announcements/store', [AnnouncementController::class, '
 
 //
 Route::get('/listings/getBookedTimes', [CalendarController::class, 'getBookedTimes']);
+Route::get('/listings/editgetBookedTimes', [EditCalendarController::class, 'editgetBookedTimes']);
 
 // ufmo pending approved
 

@@ -443,3 +443,23 @@ Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 't
 Raw feedback: this is awful
 Cleaned feedback: awful
 Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Highly recommend this event to others ']
+Raw feedback: Highly recommend this event to others 
+Cleaned feedback: highly recommend event others
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Magulo ang event, sobrang disappointing.']
+Raw feedback: Magulo ang event, sobrang disappointing.
+Cleaned feedback: magulo ang event sobrang disappointing
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'Highly recommend this event to others ']
+Raw feedback: Highly recommend this event to others 
+Cleaned feedback: highly recommend event others
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'The event was okay pero sana mas interactive.']
+Raw feedback: The event was okay pero sana mas interactive.
+Cleaned feedback: event okay pero sana mas interactive
+Predicted sentiment: 0

@@ -47,28 +47,12 @@
 				</li>
 				
 				{{------------ttry-----------------}}
-				<li>
-					<a href="/officers"
-						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
-						<svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-             d="M10 2a1 1 0 011 1v2.586l1.293 1.293a1 1 0 001.414 0l1.293-1.293V3a1 1 0 112 0v2.586l1.293 1.293a1 1 0 001.414 0l1.293-1.293V3a1 1 0 012 0v5a1 1 0 01-.293.707l-2.293 2.293a1 1 0 01-1.414 0l-1.293-1.293V11a1 1 0 01-.707.293H7.707A1 1 0 017 11V8.414L5.707 9.707a1 1 0 01-1.414 0L2 7.414V3a1 1 0 112 0v2.586l1.293 1.293a1 1 0 001.414 0L7 5.586V3a1 1 0 011-1z"
-              clip-rule="evenodd" />
-            <path
-        d="M10 12a1 1 0 01.874.514l2 4a1 1 0 11-1.748.972l-.626-1.252H8.5l-.626 1.252a1 1 0 01-1.748-.972l2-4A1 1 0 0110 12z" />
-         </svg>
-
-						
-						<span class="flex-1 ml-3 whitespace-nowrap text-laravel font-bold">Officers</span>
-						
-					</a>
-				</li>
+			
 
 				{{---Certificate----------}}
 
 				<li>
-					<a href="/certificate-designer"
+					<a href="/certificate"
 						class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-300">
 						<svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 							fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +60,7 @@
 								d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
 							</path>
 						</svg>
-						<span class="flex-1 ml-3 whitespace-nowrap text-laravel font-bold">Send Certificate</span>
+						<span class="flex-1 ml-3 whitespace-nowrap text-laravel font-bold">Send eeCertificate</span>
 						
 					</a>
 				</li>

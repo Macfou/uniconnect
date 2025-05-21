@@ -17,27 +17,34 @@ class CertificateController extends Controller
 {
    
 
-    public function showFeedback(Request $request)
-    {
-        $events = Listing::all();
-        $feedbacks = [];
+   public function showFeedback(Request $request)
+{
+    // Get current date
+    $today = now()->format('Y-m-d');
     
-        if ($request->has('listing_id')) {
-            $feedbacks = Feedback::where('listing_id', $request->listing_id)->with('user')->get();
-
+    // Get only events where event_date is less than or equal to today
+    $events = Listing::where('event_date', '<=', $today)
+                    ->orderBy('event_date', 'desc')
+                    ->get();
     
-            // Check which users already have certificates sent
-            foreach ($feedbacks as $feedback) {
-                $feedback->certificate_sent = SentCertificate::where('user_id', $feedback->user->id)
-    ->where('listing_id', $request->listing_id)
-    ->exists();
+    $feedbacks = [];
+    
+    if ($request->has('listing_id')) {
+        $feedbacks = Feedback::where('listing_id', $request->listing_id)
+                            ->with('user')
+                            ->get();
 
-            }
+        // Check which users already have certificates sent
+        foreach ($feedbacks as $feedback) {
+            $feedback->certificate_sent = SentCertificate::where('user_id', $feedback->user->id)
+                ->where('listing_id', $request->listing_id)
+                ->exists();
         }
-    
-        return view('pages.certificate', compact('events', 'feedbacks'));
     }
     
+    return view('pages.certificate', compact('events', 'feedbacks'));
+}
+
     public function storeSentCertificate(Request $request)
 {
     $request->validate([

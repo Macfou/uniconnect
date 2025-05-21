@@ -14,17 +14,24 @@ class AdviserRequestController extends Controller
         // Retrieve the event by its ID
         $event = Listing::findOrFail($id); // Make sure to replace Event with the actual model name if it's different
 
+         $approval = AdviserApproval::where('user_id', auth()->id())
+        ->where('listings_id', $id)
+        ->first();
+
+    $uploadedFilePath = $approval ? $approval->pdf_file : null;
         // Pass the event data to the view
-        return view('listings.request_adviser', compact('event'));
+        return view('listings.request_adviser', compact('event', 'uploadedFilePath'));
     }
     
+  
+
     public function searchUser(Request $request)
 {
     $user = User::where('email', $request->email)->first();
 
     if ($user) {
         return response()->json([
-            'id' => $user->id,          // <- make sure this is here
+            'id' => $user->id,          // <- make sure this is her
             'fname' => $user->fname,
             'lname' => $user->lname,
             'org' => $user->org,
@@ -37,31 +44,36 @@ class AdviserRequestController extends Controller
 
 public function store(Request $request)
 {
-    // Validation
+    // Validate the request to ensure it's a PDF
     $request->validate([
-        'adviser_id' => 'required|exists:users,id',
         'user_id' => 'required|exists:users,id',
         'listings_id' => 'required|exists:listings,id',
+        'pdf_file' => 'required|mimes:pdf|max:10240', // max 10MB
     ]);
 
-    // Check if the adviser was already assigned for this user & event
+    // Check if the approval already exists
     $exists = AdviserApproval::where('user_id', $request->user_id)
                 ->where('listings_id', $request->listings_id)
                 ->exists();
 
     if ($exists) {
-        return redirect()->back()->with('error', 'You have already assigned an adviser for this event.');
+        return redirect()->back()->with('error', 'You have already submitted approval for this event.');
     }
 
-    // Store the adviser approval
+    // Store PDF
+    $pdfPath = $request->file('pdf_file')->store('adviser_approvals', 'public');
+
+    // Save to DB
     AdviserApproval::create([
-        'adviser_id' => $request->adviser_id,
         'user_id' => $request->user_id,
         'listings_id' => $request->listings_id,
+        'pdf_file' => $pdfPath,
     ]);
 
-    return redirect()->back()->with('success', 'Adviser successfully assigned!');
+    return redirect()->back()->with('success', 'PDF successfully uploaded!');
 }
+
+
 
 
     

@@ -53,5 +53,4 @@ public function viewFeedback($listing_id)
         return view('pages.viewfeedback', compact('listing', 'feedbacks', 'ratings'));
     }
 
-
 }

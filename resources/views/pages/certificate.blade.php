@@ -8,11 +8,11 @@
             <div class="mb-4">
                 <form method="GET" action="{{ route('certificate.feedback') }}" class="flex items-center space-x-2">
                     <select name="listing_id" id="listing_id" class="border p-2 rounded w-full text-sm">
-                        @foreach($events as $event)
-                            <option value="{{ $event->id }}" {{ request('listing_id') == $event->id ? 'selected' : '' }}>
-                                {{ $event->tags }}
-                            </option>
-                        @endforeach
+                       @foreach($events as $event)
+    <option value="{{ $event->id }}" {{ request('listing_id') == $event->id ? 'selected' : '' }}>
+        {{ $event->tags }} ({{ \Carbon\Carbon::parse($event->event_date)->format('M d, Y') }})
+    </option>
+@endforeach
                     </select>
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition duration-200">
                         View

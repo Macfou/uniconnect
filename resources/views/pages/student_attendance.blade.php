@@ -1,5 +1,15 @@
 <x-layout>
     <div class="max-w-4xl mx-auto px-4 pt-28 py-6">
+
+         <div class="mb-6">
+        <a href="javascript:history.back()" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-500 transition">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Back
+        </a>
+    </div>
         <!-- Filters -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-4 space-y-4 md:space-y-0 md:space-x-4">
             <form method="GET" action="{{ route('pages.student_attendance') }}" class="flex flex-wrap gap-3 items-center w-full md:w-auto">

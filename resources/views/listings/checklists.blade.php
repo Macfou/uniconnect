@@ -68,28 +68,28 @@
 
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">Adviser</td>
-                            <td class="px-6 py-4 font-semibold {{ $adviserRequest ? ($adviserRequest->status == 'Pending' ? 'bg-yellow-200' : ($adviserRequest->status == 'Rejected' ? 'bg-red-200' : 'bg-green-200')) : 'bg-gray-200' }}">
-                                {{ $adviserRequest ? ($adviserRequest->status == 'Pending' ? 'Pending' : ($adviserRequest->status == 'Rejected' ? 'Rejected' : 'Approved')) : 'No requests' }}
+                            <td class="px-6 py-4 font-semibold ">
+                               
                             </td>
                             <td class="px-6 py-4">
                                 
                                     <a href="{{ route('request.adviser', ['id' => $event->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
-                                        Request
+                                        Submit
                                     </a>
-                               
+                            
                             </td>
                         </tr>
 
                         {{-- Dean --}}
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">Dean</td>
-                            <td class="px-6 py-4 font-semibold {{ $deanRequest ? ($deanRequest->status == 'Pending' ? 'bg-yellow-200' : ($deanRequest->status == 'Rejected' ? 'bg-red-200' : 'bg-green-200')) : 'bg-gray-200' }}">
-                                {{ $deanRequest ? ($deanRequest->status == 'Pending' ? 'Pending' : ($deanRequest->status == 'Rejected' ? 'Rejected' : 'Approved')) : 'No requests' }}
+                            <td class="px-6 py-4 font-semibold">
+                                
                             </td>
                             <td class="px-6 py-4">
                              
                                     <a href="{{ route('request.dean', ['id' => $event->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
-                                        Request
+                                        Submit
                                     </a>
                                 
                             </td>
@@ -172,7 +172,7 @@
 
                         {{-- View Venue --}}
                         <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4">View</td>
+                            <td class="px-6 py-4">Ufmo</td>
                             <td class="px-6 py-4 font-semibold {{ $event->status == 'Pending' ? 'bg-yellow-200' : ($event->status == 'Rejected' ? 'bg-red-200' : 'bg-green-200') }}">
                                {{ $event->status == 'Pending' ? 'Pending' : ($event->status == 'Rejected' ? 'Rejected' : 'Approved') }}
                             </td>

@@ -1,16 +1,53 @@
 <x-layout>
     @include('partials._myevents')
 
-    <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+    <!-- Sliding Background -->
+    <div class="fixed inset-0 z-0 overflow-hidden">
+        <div class="sliding-background">
+            <div style="background-image: url('/api/placeholder/1200/800');"></div>
+            <div style="background-image: url('/api/placeholder/1200/800');"></div>
+            <div style="background-image: url('/api/placeholder/1200/800');"></div>
+            <div style="background-image: url('/api/placeholder/1200/800');"></div>
+        </div>
+        <div class="fixed inset-0 bg-black bg-opacity-40 z-0"></div>
+    </div>
+    
+    <!-- CSS for sliding animation -->
+    <style>
+        @keyframes slideBackground {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .sliding-background {
+            width: 200%;
+            height: 100%;
+            display: flex;
+            animation: slideBackground 60s linear infinite;
+        }
+        
+        .sliding-background div {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
+            filter: blur(3px);
+        }
+    </style>
+
+    <div class="min-h-screen p-6 flex items-center justify-center relative z-10">
         <div class="max-w-full mx-auto pt-20 pl-6 pr-2 pl-2 lg:pl-32 lg:max-w-[1000px]">
             <div>
                 <!-- Form Start -->
                 <form action="{{ route('pages.post_announcements.store') }}" method="POST">
                     @csrf
-                    <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+                    <div class="min-h-screen p-6 flex items-center justify-center">
                         <div class="container max-w-full sm:max-w-screen-lg mx-auto">
                             <div>
-                                <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+                                <div class="bg-white bg-opacity-90 rounded shadow-lg p-4 px-4 md:p-8 mb-6">
                                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                                         <div class="text-gray-600">
                                             <p class="font-bold text-black text-lg">Announcement Details</p>
@@ -33,8 +70,8 @@
 
                                                 <!-- End Date -->
                                                 <div class="md:col-span-5">
-                                                    <label for="date">End Date</label>
-                                                    <input type="date" name="date" id="date" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" required />
+                                                    <label for="end_date">End Date</label>
+                                                    <input type="date" name="end_date" id="date" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" required />
                                                 </div>
 
                                                 <!-- Organizations Involved -->

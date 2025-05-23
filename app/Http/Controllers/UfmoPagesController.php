@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BringIn;
 use App\Models\Listing;
+use App\Models\Facility;
 use App\Models\UscApproval;
 use App\Models\DeanApproval;
 use Illuminate\Http\Request;
@@ -19,24 +20,27 @@ class UfmoPagesController extends Controller
         $pendingCount = Listing::where('status', 'pending')->count();
         $approvedCount = Listing::where('status', 'approved')->count();
         $rejectedCount = Listing::where('status', 'rejected')->count();
+         $facilities = Facility::all(); 
 
         $feedbacks = DB::table('feedback')
         ->select('feedback_venue', 'sentiment_venue')
         ->get();
 
-        return view('ufmo.ufmo_pages.ufmo_dashboard', compact('pendingCount', 'approvedCount', 'rejectedCount', 'feedbacks'));
+        return view('ufmo.ufmo_pages.ufmo_dashboard', compact('pendingCount', 'approvedCount', 'rejectedCount', 'feedbacks', 'facilities'));
     }
 
-   public function ufmopending() {
+public function ufmopending() {
     $pendingEvents = Listing::with([
         'adviserapproval.adviser', 
         'deanapproval.dean'
     ])
     ->where('status', 'Pending')
+    ->whereNotNull('user_id') // Exclude entries with null user_i
     ->get();
 
     return view('ufmo.ufmo_pages.ufmo_pending', compact('pendingEvents'));
 }
+
 
 public function approval($id)
 {

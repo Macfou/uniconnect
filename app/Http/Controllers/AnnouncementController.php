@@ -17,7 +17,7 @@ class AnnouncementController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'org' => 'required|string|max:255',
-            'date' => 'required|date|after:today',
+            'end_date' => 'required|date|after:today',
             'description' => 'required|string',
             'organization' => 'nullable|array',
         ]);
@@ -25,7 +25,7 @@ class AnnouncementController extends Controller
         Announcement::create([
             'title' => $validated['title'],
             'org' => $validated['org'],
-            'end_date' => $validated['date'],
+            'end_date' => $validated['end_date'],
             'organizations_involved' => json_encode($validated['organization'] ?? []),
             'description' => $validated['description'],
             'user_id' => auth()->id(),

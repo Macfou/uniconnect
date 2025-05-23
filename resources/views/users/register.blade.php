@@ -99,7 +99,7 @@
     <select id="org" name="org" class="border border-gray-200 rounded p-2 w-full bg-laravel opacity-80 text-white">
         <option value="" disabled selected>Select College</option>
         @foreach($organizations as $organization)
-            <option value="{{ $organization->id }}">{{ strtoupper($organization->orgNameAbbv) }}</option>
+            <option value="{{ $organization->orgNameAbbv }}">{{ strtoupper($organization->orgNameAbbv) }}</option>
         @endforeach
     </select>
 </div>

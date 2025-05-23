@@ -75,6 +75,8 @@ use App\Http\Controllers\FeedbackQuestionsController;
 use App\Http\Controllers\StudentAttendanceController;
 use App\Http\Controllers\CertificateDesignerController;
 
+
+
 //home
 
 Route::get('home', [PagesController::class, 'home']);
@@ -844,7 +846,12 @@ Route::get('/pages/adviser_ufmo/{id}', [UfmoPagesController::class, 'requestsadv
     Route::get('/pages/transfer_ufmo/{id}', [UfmoPagesController::class, 'requeststransfer'])
     ->name('view_transfer_ufmo');
 
+//
+Route::get('/pages/bringin_spmo/{id}', [BringInController::class, 'spmobringinrequest'])
+->name('view_bringin_spmo');
     
+Route::get('/pages/spmo_borrowview/{id}', [SpmoBorrowController::class, 'spmoborrowview'])
+->name('view_spmo_borrowview');
 
 Route::get('/pages/transfer/{id}', [ViewRequestsController::class, 'requeststransfer'])
     ->name('view_transfer');
@@ -878,7 +885,7 @@ Route::post('/survey/update/{id}', [SurveyController::class, 'update'])->name('s
 Route::get('/create-rating/{id}', [FeedbackQuestionsController::class, 'create'])->name('feedback.create');
 Route::post('/store-rating', [FeedbackQuestionsController::class, 'store'])->name('feedback.store');
 Route::get('/edit-rating/{id}', [FeedbackQuestionsController::class, 'edit'])->name('feedback.edit');
-Route::post('/update-rating/{id}', [FeedbackQuestionsController::class, 'update'])->name('feedback.update');
+Route::put('/update-rating/{id}', [FeedbackQuestionsController::class, 'update'])->name('feedback.update');
 
 //
 Route::get('/viewfeedback/{listing_id}', [FeedbackController::class, 'viewFeedback'])->name('view.feedback');
@@ -902,6 +909,12 @@ Route::post('/certificate-designer/save', [CertificateDesignerController::class,
 
 // ufmocalendar
 Route::get('ufmo/ufmo_pages/ufmo_calendar', [UfmoCalendarController::class, 'ufmocalendar'])->name('ufmo.ufmo_pages.ufmo_calendar');
+
+//
+Route::get('/certificates', [CertificateDesignerController::class, 'index'])->name('certificates.index');
+Route::post('/certificates/upload', [CertificateDesignerController::class, 'upload'])->name('certificates.upload');
+Route::post('/certificates/generate', [CertificateDesignerController::class, 'generate'])->name('certificates.generate');
+Route::get('/certificates/{certificate}', [CertificateDesignerController::class, 'show'])->name('certificates.show');
 
 
 

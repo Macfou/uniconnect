@@ -418,3 +418,28 @@ Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'H
 Raw feedback: Highly recommend this event to others 
 Cleaned feedback: highly recommend event others
 Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'ang event na ito ay napaka ganda']
+Raw feedback: ang event na ito ay napaka ganda
+Cleaned feedback: ang event na ito ay napaka ganda
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'ang event na ito ay napaka ganda']
+Raw feedback: ang event na ito ay napaka ganda
+Cleaned feedback: ang event na ito ay napaka ganda
+Predicted sentiment: -1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'amazing i want to go back again']
+Raw feedback: amazing i want to go back again
+Cleaned feedback: amazing want go back
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'nope this is awfulpangin ang expereinc']
+Raw feedback: nope this is awfulpangin ang expereinc
+Cleaned feedback: nope awfulpangin ang expereinc
+Predicted sentiment: 1
+Script started
+Arguments: ['C:\\xampp\\htdocs\\dashboard\\umak_event\\python\\sentiment.py', 'this is awful']
+Raw feedback: this is awful
+Cleaned feedback: awful
+Predicted sentiment: -1

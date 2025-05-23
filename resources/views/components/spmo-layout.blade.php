@@ -120,12 +120,12 @@
                             <li>
                                 <a href="/spmo_rejected" class="block p-2 hover:bg-gray-700 flex items-center text-white">
                                     
-                                    Cancelled Requests
+                                    Rejected Requests
                                 </a>
                             </li>
                         </ul>
                     </li>
-                </ul>
+                </ul>  
   
 
                  
@@ -170,7 +170,7 @@
                             <li>
                                 <a href="/rejected" class="block p-2 hover:bg-gray-700 flex items-center text-white">
                                     
-                                    Cancelled Requests
+                                    Rejected Requests
                                 </a>
                             </li>
                         </ul>

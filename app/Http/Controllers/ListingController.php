@@ -248,53 +248,55 @@ class ListingController extends Controller
     ////////////////////triall
 
 
-    public function manageEvents()
-    {
-        // Fetch all listings for the authenticated user
-        $events = auth()->user()->listings()->get();
-    
-        // Get today's date as Carbon object
-        $today = Carbon::today();
-    
-        // Initialize arrays
-        $upcomingEvents = [];
-        $todaysEvents = [];
-        $previousEvents = [];
-    
-        // Loop through each event
-        foreach ($events as $event) {
-            // Check if this event is already ended by this user
-            $ended = EndEvent::where('listings_id', $event->id)
-                             ->where('users_id', auth()->id())
-                             ->where('end_event', 1)
-                             ->exists();
-    
-            if ($ended) {
-                $previousEvents[] = $event;
-                continue; // Skip date checks
-            }
-    
-            // Normal date checks
-            $eventDate = Carbon::parse($event->event_date)->startOfDay();
-    
-            if ($eventDate->greaterThan($today)) {
-                $upcomingEvents[] = $event;
-            } elseif ($eventDate->equalTo($today)) {
-                $todaysEvents[] = $event;
-            } else {
-                $previousEvents[] = $event;
-            }
+   public function manageEvents() {
+    // Fetch all listings for the authenticated user
+    $events = auth()->user()->listings()->get();
+
+    // Get today's date as Carbon object
+    $today = Carbon::today();
+
+    // Initialize arrays
+    $upcomingEvents = [];
+    $todaysEvents = [];
+    $previousEvents = [];
+
+    // Loop through each event
+    foreach ($events as $event) {
+        // Check if this event is already ended by this user
+        $ended = EndEvent::where('listings_id', $event->id)
+                         ->where('users_id', auth()->id())
+                         ->where('end_event', 1)
+                         ->exists();
+
+        if ($ended) {
+            $previousEvents[] = $event;
+            continue; // Skip date checks
         }
-    
-        // Return view
-        return view('listings.manage_all', [
-            'upcomingEvents' => $upcomingEvents,
-            'todaysEvents' => $todaysEvents,
-            'previousEvents' => $previousEvents,
-            'events' => $events,
-        ]);
+
+        // Fix: Ensure the event_date is properly formatted and parsed
+        $eventDate = Carbon::parse($event->event_date)->startOfDay();
+        
+        // Debug: Log the dates to verify comparison
+        \Log::info("Event ID: {$event->id}, Event Date: {$eventDate}, Today: {$today}");
+
+        // Compare dates properly
+        if ($eventDate->isAfter($today)) {
+            $upcomingEvents[] = $event;
+        } elseif ($eventDate->isSameDay($today)) {
+            $todaysEvents[] = $event;
+        } else {
+            $previousEvents[] = $event;
+        }
     }
-    
+
+    // Return view
+    return view('listings.manage_all', [
+        'upcomingEvents' => $upcomingEvents,
+        'todaysEvents' => $todaysEvents,
+        'previousEvents' => $previousEvents,
+        'events' => $events,
+    ]);
+}
 
     
 // organization involve

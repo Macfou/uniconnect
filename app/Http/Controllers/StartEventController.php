@@ -92,6 +92,7 @@ public function showTimes($id)
                     'fname' => $student->fname,
                     'lname' => $student->lname,
                     'org' => $student->org,
+                    'photo' => $student->photo,
                     
                 ]
             ]);

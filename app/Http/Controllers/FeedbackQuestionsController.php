@@ -2,59 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Listing;
+use Illuminate\Http\Request;
 use App\Models\FeedbackQuestion;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class FeedbackQuestionsController extends Controller
 {
+   
     public function create($id)
     {
+        // Get the event/listing
         $event = Listing::findOrFail($id);
-        return view('listings.create_rating', compact('event'));
+        
+        // Check if feedback questions already exist for this listing and user
+        $existingFeedback = FeedbackQuestion::where('listings_id', $id)
+            ->where('users_id', Auth::id())
+            ->first();
+        
+        // Return view with event and existing feedback (if any)
+        return view('listings.create_rating', compact('event', 'existingFeedback'));
     }
 
     public function store(Request $request)
-{
-    // Validate the incoming data
-    $validated = $request->validate([
-        'listings_id' => 'required|exists:listings,id',
-        'q_one' => 'required|string',
-        'q_two' => 'required|string',
-        'q_three' => 'required|string',
-        'q_four' => 'required|string',
-        'q_five' => 'required|string',
-        'q_six' => 'required|string',
-        'q_seven' => 'required|string',
-        'q_eight' => 'required|string',
-        'q_nine' => 'required|string',
-        'q_ten' => 'required|string',
-        'q_eleven' => 'required|string',
-        'q_twelve' => 'required|string',
-        'q_thirteen' => 'required|string',
-        'q_fourteen' => 'required|string',
-        'q_fifteen' => 'required|string',
-        'q_sixteen' => 'required|string',
-        'q_seventeen' => 'required|string',
-        'q_eighteen' => 'required|string',
-        'q_nineteen' => 'required|string',
-        'q_twenty' => 'required|string',
-    ]);
+    {
+        // Validate the incoming data
+        $validated = $request->validate([
+            'listings_id' => 'required|exists:listings,id',
+            'q_one' => 'required|string|max:255',
+            'q_two' => 'required|string|max:255',
+            'q_three' => 'required|string|max:255',
+            'q_four' => 'required|string|max:255',
+            'q_five' => 'required|string|max:255',
+            'q_six' => 'required|string|max:255',
+            'q_seven' => 'required|string|max:255',
+            'q_eight' => 'required|string|max:255',
+            'q_nine' => 'required|string|max:255',
+            'q_ten' => 'required|string|max:255',
+            'q_eleven' => 'required|string|max:255',
+            'q_twelve' => 'required|string|max:255',
+            'q_thirteen' => 'required|string|max:255',
+            'q_fourteen' => 'required|string|max:255',
+            'q_fifteen' => 'required|string|max:255',
+            'q_sixteen' => 'required|string|max:255',
+            'q_seventeen' => 'required|string|max:255',
+            'q_eighteen' => 'required|string|max:255',
+            'q_nineteen' => 'required|string|max:255',
+            'q_twenty' => 'required|string|max:255',
+        ]);
 
-    // Gather the data from the request
-    $data = $request->except('_token');
-    $data['users_id'] = Auth::id();  // Ensure the user ID is attached to the data
+        try {
+            // Add the user ID to the validated data
+            $validated['users_id'] = Auth::id();
 
-    // Create a new FeedbackQuestion record
-    FeedbackQuestion::create($data);
+            // Create a new FeedbackQuestion record
+            $feedbackQuestion = FeedbackQuestion::create($validated);
 
-    // Redirect back with a success message
-    return back()->with('success', 'Feedback questions created successfully.');
-}
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Feedback questions created successfully.');
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Failed to create feedback questions: ' . $e->getMessage());
+            
+            // Return with error message
+            return redirect()->back()->with('error', 'Failed to create feedback questions. Please try again.');
+        }
+    }
 
-
-    public function edit($id)
+       public function edit($id)
     {
         $feedback = FeedbackQuestion::where('listings_id', $id)
             ->where('users_id', Auth::id())
@@ -69,8 +85,57 @@ class FeedbackQuestionsController extends Controller
     {
         $feedback = FeedbackQuestion::findOrFail($id);
 
-        $feedback->update($request->except('_token'));
+        // Check if the current user owns this feedback
+        if ($feedback->users_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'You are not authorized to update these feedback questions.');
+        }
 
-        return back()->with('success', 'Feedback questions updated successfully.');
+        // Validate the update data
+        $validated = $request->validate([
+            'q_one' => 'required|string|max:255',
+            'q_two' => 'required|string|max:255',
+            'q_three' => 'required|string|max:255',
+            'q_four' => 'required|string|max:255',
+            'q_five' => 'required|string|max:255',
+            'q_six' => 'required|string|max:255',
+            'q_seven' => 'required|string|max:255',
+            'q_eight' => 'required|string|max:255',
+            'q_nine' => 'required|string|max:255',
+            'q_ten' => 'required|string|max:255',
+            'q_eleven' => 'required|string|max:255',
+            'q_twelve' => 'required|string|max:255',
+            'q_thirteen' => 'required|string|max:255',
+            'q_fourteen' => 'required|string|max:255',
+            'q_fifteen' => 'required|string|max:255',
+            'q_sixteen' => 'required|string|max:255',
+            'q_seventeen' => 'required|string|max:255',
+            'q_eighteen' => 'required|string|max:255',
+            'q_nineteen' => 'required|string|max:255',
+            'q_twenty' => 'required|string|max:255',
+        ]);
+
+        try {
+            $feedback->update($validated);
+            return redirect()->back()->with('success', 'Feedback questions updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Failed to update feedback questions: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update feedback questions. Please try again.');
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $feedback = FeedbackQuestion::where('listings_id', $id)
+                ->where('users_id', Auth::id())
+                ->firstOrFail();
+
+            $feedback->delete();
+
+            return redirect()->back()->with('success', 'Feedback questions deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Failed to delete feedback questions: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete feedback questions. Please try again.');
+        }
     }
 }

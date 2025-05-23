@@ -36,6 +36,15 @@ class SpmoBorrowController extends Controller
     return view('pages.spmo_borrow', compact('event', 'equipments'));
 }
 
+public function spmoborrowview($id)
+{
+    $event = Listing::findOrFail($id);
+    
+    $requests = SpmoBorrowRequest::where('listing_id', $id)->get();
+
+    return view('spmo.spmo_pages.spmo_borrowview', compact('event', 'requests'));
+}
+
 
 public function store(Request $request)
 {

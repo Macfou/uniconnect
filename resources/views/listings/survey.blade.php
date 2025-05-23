@@ -15,7 +15,7 @@
 
 
     <div class="max-w-4xl mx-auto mt-10 p-6 bg-white shadow rounded">
-    <h2 class="text-2xl font-semibold mb-4">Survey for: {{ $event->title }}</h2>
+    <h2 class="text-2xl font-semibold mb-4">Survey for: {{ $event->tags }}</h2>
 
     @if ($existingSurvey)
 
@@ -65,25 +65,15 @@
                 <input type="text" name="time" id="time" class="w-full border p-2 rounded" value="What can you say about the event Time Management?">
             </div>
 
-            <div class="mb-4">
-                <label class="block font-medium">Number of Speakers</label>
-                <select id="speaker-count" class="w-full border p-2 rounded">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3" selected>3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
+          
 
-            <div id="speakers-section">
-                @for ($i = 1; $i <= 5; $i++)
-                    <div class="mb-4 speaker-input" id="speaker-input-{{ $i }}">
-                        <label class="block font-medium">Speaker {{ $i }}</label>
-                        <input type="text" name="speaker{{ $i }}" id="speaker{{ $i }}" class="w-full border p-2 rounded" value="What can you say about the Presentation?">
-                    </div>
-                @endfor
-            </div>
+<div id="speakers-section">
+    <div class="mb-4 speaker-input" id="speaker-input-1">
+        <label class="block font-medium">Speaker 1</label>
+        <input type="text" name="speaker1" id="speaker1" class="w-full border p-2 rounded" value="What can you say about the Presentation?">
+    </div>
+</div>
+
 
             <button type="button" onclick="useDefault()" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Use Default Questions</button>
 

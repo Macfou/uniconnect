@@ -39,6 +39,33 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         {{-- Adviser --}}
+
+                         <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">Feedback Form</td>
+                            <td class="px-6 py-4 font-semibold">
+                                
+                            </td>
+                            <td class="px-6 py-4">
+                                
+                                   <a href="{{ route('create.survey', $event->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    Create
+                               </a>                      
+                            </td>
+                        </tr>
+
+                          <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4">Post Evaluation Form</td>
+                            <td class="px-6 py-4 font-semibold">
+                                
+                            </td>
+                            <td class="px-6 py-4">
+                                
+                                   <a href="{{ route('feedback.create', $event->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    Create
+                               </a>                      
+                            </td>
+                        </tr>
+
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">Adviser</td>
                             <td class="px-6 py-4 font-semibold {{ $adviserRequest ? ($adviserRequest->status == 'Pending' ? 'bg-yellow-200' : ($adviserRequest->status == 'Rejected' ? 'bg-red-200' : 'bg-green-200')) : 'bg-gray-200' }}">

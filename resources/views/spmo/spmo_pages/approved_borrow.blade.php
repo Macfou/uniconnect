@@ -25,8 +25,7 @@
                 <tr>
                     <th class="p-4 border-b border-slate-200">Name</th>
                     <th class="p-4 border-b border-slate-200">College</th>
-                    <th class="p-4 border-b border-slate-200">Event</th>
-                    <th class="p-4 border-b border-slate-200">Venue</th>
+                    
                     <th class="p-4 border-b border-slate-200">Equipment</th>
                     <th class="p-4 border-b border-slate-200">Quantity</th>
                     <th class="p-4 border-b border-slate-200">Status</th>
@@ -37,8 +36,7 @@
                 <tr class="hover:bg-slate-100">
                     <td class="p-4 border-b">{{ strtoupper($request->user->fname) }} {{ strtoupper($request->user->lname) }}</td>
                     <td class="p-4 border-b">{{ strtoupper($request->user->org) }}</td>
-                    <td class="p-4 border-b">{{ $request->listing->tags }}</td>
-                    <td class="p-4 border-b">{{ $request->listing->venue }}</td>
+                  
                     <td class="p-4 border-b">{{ $request->equipment->name }}</td>
                     <td class="p-4 border-b">{{ $request->quantity }}</td>
                     <td class="p-4 border-b">

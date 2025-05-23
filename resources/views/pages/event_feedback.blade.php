@@ -17,104 +17,171 @@
 
             <input type="hidden" name="listings_id" value="{{ $event_id }}">
 
-
             <p class="text-sm text-gray-600 mb-1">
-                <strong>Legend:</strong> 1 - Very Good, 2 - Good, 3 - Neutral, 4 - Bad, 5 - Very Bad
+                <strong>Legend:</strong> 1 - Agree, 2 - Stongly Agree, 3 - Neutral, 4 - Not Agree, 5 - Strongly Not Agree
             </p>
 
             {{-- Section A: Event --}}
-            <h3 class="text-xl font-bold mt-6 mb-2">A. What do you think about the event?</h3>
-            @foreach([
-                'Overall quality of the event',
-                'Engagement of the event from start to finish',
-                'Satisfaction with the event\'s organization',
-                'Relevance of the event content to your interests',
-                'Likelihood of attending a similar event in the future'
-            ] as $index => $question)
-                <div class="mb-4">
-                    <label class="block mb-1 font-medium">{{ $question }}</label>
-                    <div class="flex gap-4">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <label>
-                                <input type="radio" name="event_rating[{{ $index }}]" value="{{ $i }}" required>
-                                {{ $i }}
-                            </label>
-                        @endfor
+            <h3 class="text-xl font-bold mt-6 mb-2">A. What do you think Overall about the event?</h3>
+            @if(isset($eventQuestions) && $eventQuestions->count() > 0)
+                @foreach($eventQuestions as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question->question_text }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="event_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @else
+                {{-- Fallback to static questions if no dynamic questions are available --}}
+                @foreach([
+                    'Overall quality of the event',
+                    'Engagement of the event from start to finish',
+                    'Satisfaction with the event\'s organization',
+                    'Relevance of the event content to your interests',
+                    'Likelihood of attending a similar event in the future'
+                ] as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="event_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
+                    </div>
+                @endforeach
+            @endif
 
-            <div class="flex  px-6 py-4 border-t border-black">
-            </div>
+            <div class="flex px-6 py-4 border-t border-black"></div>
+            
             {{-- Section B: Venue --}}
             <h3 class="text-xl font-bold mt-6 mb-2">B. What can you say about the venue?</h3>
-            @foreach([
-                'Comfort of the seating and space',
-                'Accessibility of the venue location',
-                'Suitability of the venue for the event',
-                'Cleanliness and maintenance of the venue',
-                'Audio/Visual setup of the venue'
-            ] as $index => $question)
-                <div class="mb-4">
-                    <label class="block mb-1 font-medium">{{ $question }}</label>
-                    <div class="flex gap-4">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <label>
-                                <input type="radio" name="venue_rating[{{ $index }}]" value="{{ $i }}" required>
-                                {{ $i }}
-                            </label>
-                        @endfor
+            @if(isset($venueQuestions) && $venueQuestions->count() > 0)
+                @foreach($venueQuestions as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question->question_text }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="venue_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @else
+                {{-- Fallback to static questions if no dynamic questions are available --}}
+                @foreach([
+                    'Comfort of the seating and space',
+                    'Accessibility of the venue location',
+                    'Suitability of the venue for the event',
+                    'Cleanliness and maintenance of the venue',
+                    'Audio/Visual setup of the venue'
+                ] as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="venue_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
+                    </div>
+                @endforeach
+            @endif
 
-            <div class="flex  px-6 py-4 border-t border-black">
-            </div>
-            {{-- Section C: Presentation --}}
-            <h3 class="text-xl font-bold mt-6 mb-2">C. What can you say about the Presentation?</h3>
-            @foreach([
-                'Clarity and understandability of presenters',
-                'Effectiveness of visual aids (slides, videos)',
-                'Organization of the presentations',
-                'Speaker knowledge and expertise',
-                'Engagement and interactivity of the presentations'
-            ] as $index => $question)
-                <div class="mb-4">
-                    <label class="block mb-1 font-medium">{{ $question }}</label>
-                    <div class="flex gap-4">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <label>
-                                <input type="radio" name="presentation_rating[{{ $index }}]" value="{{ $i }}" required>
-                                {{ $i }}
-                            </label>
-                        @endfor
+            <div class="flex px-6 py-4 border-t border-black"></div>
+            
+            {{-- Section C: Time Management --}}
+            <h3 class="text-xl font-bold mt-6 mb-2">C. What can you say about the Time Management?</h3>
+            @if(isset($timeQuestions) && $timeQuestions->count() > 0)
+                @foreach($timeQuestions as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question->question_text }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="time_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @else
+                {{-- Fallback to static questions if no dynamic questions are available --}}
+                @foreach([
+                    'Timeliness of event start and end',
+                    'Pacing of each session or activity',
+                    'Reasonableness of break durations',
+                    'Efficiency of time allocation per speaker/topic',
+                    'Management of the overall event schedule'
+                ] as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="time_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
+                    </div>
+                @endforeach
+            @endif
 
-            <div class="flex  px-6 py-4 border-t border-black">
-            </div>
-            {{-- Section D: Time Management --}}
-            <h3 class="text-xl font-bold mt-6 mb-2">D. What can you say about the event Time Management?</h3>
-            @foreach([
-                'Timeliness of event start and end',
-                'Pacing of each session or activity',
-                'Reasonableness of break durations',
-                'Efficiency of time allocation per speaker/topic',
-                'Management of the overall event schedule'
-            ] as $index => $question)
-                <div class="mb-4">
-                    <label class="block mb-1 font-medium">{{ $question }}</label>
-                    <div class="flex gap-4">
-                        @for ($i = 1; $i <= 5; $i++)
-                            <label>
-                                <input type="radio" name="time_rating[{{ $index }}]" value="{{ $i }}" required>
-                                {{ $i }}
-                            </label>
-                        @endfor
+            <div class="flex px-6 py-4 border-t border-black"></div>
+            
+            {{-- Section D: Presentation --}}
+            <h3 class="text-xl font-bold mt-6 mb-2">D. What can you say about the event Presentation?</h3>
+            @if(isset($presentationQuestions) && $presentationQuestions->count() > 0)
+                @foreach($presentationQuestions as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question->question_text }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="presentation_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @else
+                {{-- Fallback to static questions if no dynamic questions are available --}}
+                @foreach([
+                    'Clarity and understandability of presenters',
+                    'Effectiveness of visual aids (slides, videos)',
+                    'Organization of the presentations',
+                    'Speaker knowledge and expertise',
+                    'Engagement and interactivity of the presentations'
+                ] as $index => $question)
+                    <div class="mb-4">
+                        <label class="block mb-1 font-medium">{{ $question }}</label>
+                        <div class="flex gap-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <label>
+                                    <input type="radio" name="presentation_rating[{{ $index }}]" value="{{ $i }}" required>
+                                    {{ $i }}
+                                </label>
+                            @endfor
+                        </div>
+                    </div>
+                @endforeach
+            @endif
 
             {{-- Submit Button --}}
             <div class="mt-8 text-center">
@@ -125,5 +192,4 @@
         </form>
         </div>
     </div>
-    </x-layout>
-    
+</x-layout>

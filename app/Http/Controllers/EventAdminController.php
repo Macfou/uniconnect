@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Listing;
 use App\Models\EventAdmin;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EventAdminController extends Controller
 {
@@ -15,19 +17,19 @@ class EventAdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'tags' => ['required', Rule::unique('listings', 'tags')],
             'description' => 'nullable|string',
-            'venue' => 'required|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required',
+            'venue' => 'required', 
+            'event_date' => 'required',
+            'event_time' => 'required',
         ]);
     
-        EventAdmin::create([
-            'title' => $request->title,
+        Listing::create([
+            'tags' => $request->tags,
             'description' => $request->description,
             'venue' => $request->venue,
-            'date' => $request->date,
-            'time' => $request->time,
+            'event_date' => $request->event_date,
+            'event_time' => $request->event_time,
         ]);
     
         return redirect()->back()->with('success', 'Event created successfully!');

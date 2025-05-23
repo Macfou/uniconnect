@@ -31,10 +31,10 @@
                 <tr>
                     <th class="p-4 border-b border-slate-200"> Name</th>
                     <th class="p-4 border-b border-slate-200">College</th>
-                    <th class="p-4 border-b border-slate-200">Event</th>
-                    <th class="p-4 border-b border-slate-200">Venue</th>
-                    <th class="p-4 border-b border-slate-200">Equipment</th>
-                    <th class="p-4 border-b border-slate-200">Quantity</th>               
+                    
+                    
+                    <th class="p-4 border-b border-slate-200">Requests</th>
+                                  
                     <th class="p-4 border-b border-slate-200">Action</th>
                 </tr>
             </thead>
@@ -47,10 +47,14 @@
                             {{ $request->user->lname ?? '' }}
                         </td>
                         <td class="p-4 border-b uppercase">{{ $request->user->org ?? 'N/A' }}</td>
-                        <td class="p-4 border-b">{{ $request->listing->tags ?? 'No Event' }}</td>
-                        <td class="p-4 border-b">{{ $request->listing->venue ?? 'No Venue' }}</td>
-                        <td class="p-4 border-b">{{ $request->equipment->name ?? 'No Equipment' }}</td>
-                        <td class="p-4 border-b">{{ $request->quantity }}</td>
+                        
+                        
+                        <td class="px-6 py-4">
+                            <a href="{{ route('view_spmo_borrowview', $request->listing_id) }}" 
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                View Requests
+                             </a>
+                        </td>
                         <td class="p-4 border-b">
                             <!-- Approve Form -->
                             <form action="{{ route('spmo_approved', ['id' => $request->id]) }}" method="POST">

@@ -10,6 +10,7 @@
                 <form method="GET" id="calendarForm" class="flex space-x-2">
                     <select id="classification" name="classification" class="text-md border rounded-md">
                         <option value="">Select Classification</option>
+                        <option value="University Events">University Event</option>
                         <option value="Class Events">Class Events</option>
                         <option value="College Events">College Events</option>
                         <option value="Organization Events">Organization Events</option>
@@ -18,14 +19,17 @@
 
                     <!-- Facility Dropdown -->
                     <select id="facilitySelector" class="text-md border rounded-md">
-                        <option value="">Select Facility</option>
-                        @foreach ($facilities as $facility)
-                            <option value="{{ $facility->facility_name }}" 
-                                data-classification="{{ json_encode($facility->classification) }}">
-                                {{ $facility->facility_name }}
-                            </option>
-                        @endforeach
-                    </select>
+    <option value="">Select Facility</option>
+    @foreach ($facilities as $facility)
+        <option value="{{ $facility->facility_name }}"
+            data-classification="{{ json_encode($facility->classification) }}"
+            @if ($facility->status === 'Unavailable') disabled @endif>
+            {{ $facility->facility_name }}
+            @if ($facility->status === 'Unavailable') (Unavailable) @endif
+        </option>
+    @endforeach
+</select>
+
 
                     <script>
     document.getElementById("classification").addEventListener("change", function() {

@@ -7,9 +7,9 @@
                 <thead class="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
                     <tr>
                         <th class="px-6 py-3 text-left">User</th>
-                        <th class="px-6 py-3 text-left">Item</th>
-                        <th class="px-6 py-3 text-left">Quantity</th>
-                        <th class="px-6 py-3 text-left">Purpose</th>
+                        <th class="px-6 py-3 text-left">College</th>
+                        
+                        <th class="px-6 py-3 text-left">View</th>
                         <th class="px-6 py-3 text-left">Status</th>
                         
                     </tr>
@@ -21,21 +21,15 @@
                                 {{ $request->user->lname ?? 'N/A' }} {{ $request->user->fname ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4">
-                                @if(is_array($request->equipment))
-                                    {{ implode(', ', $request->equipment) }}
-                                @else
-                                    {{ $request->equipment }}
-                                @endif
+                                {{ $request->user->org ?? 'N/A' }}
                             </td>
+                           
                             <td class="px-6 py-4">
-                                @php
-                                    $quantities = is_array($request->quantity)
-                                        ? $request->quantity
-                                        : json_decode($request->quantity, true);
-                                @endphp
-                                {{ is_array($quantities) ? implode(', ', $quantities) : ($quantities ?? 'N/A') }}
+                                <a href="{{ route('view_bringin_spmo', $request->listings_id) }}" 
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                                    View Requests
+                                 </a>
                             </td>
-                            <td class="px-6 py-4">For Event</td>
                             <td class="px-6 py-4">
                                 <span class="inline-block px-3 py-1 text-sm rounded-full
                                     {{ $request->status === 'Approved' ? 'bg-green-100 text-green-800' : ($request->status === 'Rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">

@@ -19,7 +19,6 @@ class FeedbackQuestion extends Model
         'q_eleven', 'q_twelve', 'q_thirteen', 'q_fourteen', 'q_fifteen',
         'q_sixteen', 'q_seventeen', 'q_eighteen', 'q_nineteen', 'q_twenty',
     ];
-    
 
     public function listing()
     {

@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\BringIn;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 
 class BringInController extends Controller
 {
+    public function spmobringinrequest($id)
+{
+    $event = Listing::findOrFail($id);
+    $requests = BringIn::where('listings_id', $id)->get();
+
+    return view('spmo.spmo_pages.spmo_bringin', compact('event', 'requests'));
+}
+
+
     public function pending()
     {
         $requests = BringIn::with('user')->where('status', 'Pending')->get();
